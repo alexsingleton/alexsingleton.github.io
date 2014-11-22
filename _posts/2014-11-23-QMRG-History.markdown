@@ -10,7 +10,7 @@ Quite long time ago I spent considerable hours trawling through QMRG reports tha
 
 These files have sat on my machine for years, however, I thought they would make a nice addition to the new combined QMRG and GIScRG website - [Quantile](http://quantile.info). As such, I have generate a D3 timeline of the committee membership - the code is also on github here.
 
-<a href="/qmrg.html" target="_blank">![node.js](/public/images/qmrg.png)</a>
+<a href="/qmrg.html" target="_blank">![node.js](/public/images/QMRG.png)</a>
 
 
 
