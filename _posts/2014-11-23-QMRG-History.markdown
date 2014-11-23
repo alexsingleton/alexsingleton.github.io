@@ -14,4 +14,4 @@ I would not claim that this is comprehensive, and only features those entries ga
 
 [**View the timeline here**](/qmrg.html)
 
-<a href="/qmrg.html" target="_blank">![node.js](/public/images/QMRG.png)</a> 
+<a href="/qmrg.html" target="_blank">![node.js](/public/images/QMRG.png)</a>
