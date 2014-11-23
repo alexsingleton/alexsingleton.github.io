@@ -12,6 +12,8 @@ These files have sat on my machine for years, however, I thought they would make
 
 I would not claim that this is comprehensive, and only features those entries gathered from the reports. If you were involved in the committee and are missing, or the dates are not quite correct, then let me know.
 
+[**View the timeline here**](/qmrg.html)
+
 <a href="/qmrg.html" target="_blank">![node.js](/public/images/QMRG.png)</a>
 
 
