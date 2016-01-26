@@ -8,8 +8,18 @@ For a full list of my publications, please see my [CV](/cv/).
 My Google Scholar Profile is also [here](http://scholar.google.co.uk/citations?hl=en&user=JDEfBE8AAAAJ); <img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg"></img>= Open Access
 
 ## Papers
-<img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Singleton, A. and Spielman, S. (2014). An Open Geodemographic Classification of the
-United States. Annals of the Association of American Geographers, In press.
+
+<img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Singleton, A., Spielman, S., and Brunsdon, C. (2016). Establishing a Framework for Open Geographic Information Science. International Journal Of Geographical Information Science, In Press.
+
+<img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Singleton, A., Longley, P., and Pavlis, M. (2016). The stability of geodemographic cluster assignments over an inter-censal period. Journal of Geographical Systems, In Press.
+
+<img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Singleton, A., Dolgea, L., Pavlis, M., and Longley, P. (2015). [Measuring the spatial vulnerability of retail centres to online consumption through a framework of e-resilience](http://dx.doi.org/10.1016/j.geoforum.2015.11.013). Geoforum, 69, 5–18.
+
+<img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Dolgea, L., Pavlis, M., and Singleton, A. (2015).[Estimating attractiveness, hierarchy and catchment area extents for a national set of retail centre agglomerations](http://dx.doi.org/10.1016/j.jretconser.2015.08.013). Journal of Retailing and Consumer Services, 28:78–90.
+
+<img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Singleton, A. and Longley, P. (2015). [The internal structure of Greater London: a comparison of national and regional geodemographic models](http://dx.doi.org/10.1002/geo2.7). Geo: Geography and Environment, 2(1), 69–87.
+
+<img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Spielman, S. and Singleton, A. (2015). [Studying Neighborhoods Using Uncertain Data from the American Community Survey: A Contextual Approach](http://dx.doi.org/10.1080/00045608.2015.1052335). Annals of the Association of American Geographers, 105(5), 1003-1025.
 
 <img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Bearman, N. and Singleton, A. (2014). [Modelling the potential impact on CO2 emissions of
 an increased uptake of active travel for the home to school commute using individual level
