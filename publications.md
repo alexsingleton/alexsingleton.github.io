@@ -9,7 +9,7 @@ My Google Scholar Profile is also [here](http://scholar.google.co.uk/citations?h
 
 ## Papers
 
-<img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Singleton, A., Spielman, S., and Brunsdon, C. (2016). Establishing a Framework for Open Geographic Information Science. International Journal Of Geographical Information Science, In Press.
+<img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Singleton, A., Spielman, S., and Brunsdon, C. (2016). [Establishing a Framework for Open Geographic Information Science](http://dx.doi.org/10.1080/13658816.2015.1137579). International Journal Of Geographical Information Science, In Press.
 
 <img class="img-openpaper" src="/public/images/iconmonstr-download-13-icon.svg">Singleton, A., Longley, P., and Pavlis, M. (2016). The stability of geodemographic cluster assignments over an inter-censal period. Journal of Geographical Systems, In Press.
 
