@@ -1,7 +1,7 @@
 ---
 author: Alex Singleton
 layout: post
-title: Our Town: How Socioeconomics Shape Functional Neighborhoods in American Cities
+title: How Socioeconomics Shape Functional Neighborhoods in American Cities
 categories:
 - Talk
 ---

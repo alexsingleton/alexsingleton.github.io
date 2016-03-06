@@ -1,9 +1,10 @@
 ---
 author: Alex Singleton
 layout: post
-title: ESRC KEO: e-Resilient Retail
+title: e-Resilient Retail ESRC KEO
 categories:
 - Talk
+- cdrc
 ---
 
 <script async class="speakerdeck-embed" data-id="0644e580334c0132573f121bd1ded631" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
