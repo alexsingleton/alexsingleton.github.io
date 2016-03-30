@@ -8,11 +8,11 @@ categories:
 
 <a href="/Transport-Map-Book/" target="_blank">![Transport Map Book](/public/images/transport_cover.png) </a>The Transport Map Books are available for each local authority district in England and present a series of maps related to commuting behaviour. The data are derived from multiple sources including: the 2011 Census, Department for Transport estimates and the results of a research project looking at carbon dioxide emissions linked to the school commute.
 
-**All the maps are available to download [HERE](http://www.alex-singleton.com/Transport-Map-Book/); and the R code used to create them and the emissions model is on [Github](https://github.com/alexsingleton/Transport-Map-Book).**
+All maps can be downloaded here: [https://data.cdrc.ac.uk/product/cdrc-2011-census-open-atlas](https://data.cdrc.ac.uk/product/cdrc-2011-census-open-atlas)
 
 ## Travel to work flows
 <a href="/Transport-Map-Book/" target="_blank">![Travel to work flows](/public/images/TTW.png) </a>
-These data relate to Middle Layer Super Output Area (MSOA) level estimates of travel to work flows by transport mode. The raw data are available from the [ONS](http://www.ons.gov.uk/ons/rel/census/2011-census/origin-destination-statistics-on-second-residences-and-workplace-for-merged-local-authorities-and-middle-layer-super-output-areas--msoas--in-england-and-wales/index.html). For the maps, the flows have been limited to those both originating and terminating within each local authority district. 
+These data relate to Middle Layer Super Output Area (MSOA) level estimates of travel to work flows by transport mode. The raw data are available from the [ONS](http://www.ons.gov.uk/ons/rel/census/2011-census/origin-destination-statistics-on-second-residences-and-workplace-for-merged-local-authorities-and-middle-layer-super-output-areas--msoas--in-england-and-wales/index.html). For the maps, the flows have been limited to those both originating and terminating within each local authority district.
 
 ##Accessibility to Services
 <a href="/Transport-Map-Book/" target="_blank">![Accessibility to Services](/public/images/ACC.png) </a>
@@ -26,7 +26,7 @@ Singleton, A. (2013) [A GIS Approach to Modelling CO2 Emissions Associated with 
 
 ##Car availability and travel to work mode choice
 <a href="/Transport-Map-Book/" target="_blank">![Car](/public/images/OA.png) </a>
-These attributes were extracted from the 2011 census data provided by [Nomis](https://www.nomisweb.co.uk/census/2011) at Output Area level. 
+These attributes were extracted from the 2011 census data provided by [Nomis](https://www.nomisweb.co.uk/census/2011) at Output Area level.
 
 ##Distance and mode of travel to work
 <a href="/Transport-Map-Book/" target="_blank">![Distance](/public/images/wz.png) </a>

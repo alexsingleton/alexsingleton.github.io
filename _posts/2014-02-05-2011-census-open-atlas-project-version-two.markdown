@@ -20,15 +20,11 @@ Some other changes in version two include:
 When the original project was picked up by the [Guardian](http://www.theguardian.com/news/datablog/2013/feb/08/census-data-mapped) I made an estimate of the actual number of maps created, however, for this run, I counted them. In total **134,567 maps were created**.
 
 ## Download the maps
-The maps can be [downloaded from github](http://www.alex-singleton.com/Open-Atlas/); and again, the code used to create the maps is [here](https://github.com/alexsingleton/Open-Atlas/tree/master/Code) (feel free to fix my code!). 
 
-* [E08000012 : Liverpool](http://data.alex-singleton.com/2011_ATLAS/E08000012_Liverpool.pdf)
-* [E08000035 : Leeds](http://data.alex-singleton.com/2011_ATLAS/E08000035_Leeds.pdf)
-* [E08000003 : Manchester](http://data.alex-singleton.com/2011_ATLAS/E08000003_Manchester.pdf)
-* All Maps are available [here](http://www.alex-singleton.com/Open-Atlas/).
+All maps can be downloaded here: [https://data.cdrc.ac.uk/product/cdrc-2011-census-open-atlas](https://data.cdrc.ac.uk/product/cdrc-2011-census-open-atlas)
 
 ## Automated Savings
-A manual map might typically take 5 minutes to create - thus:  
+A manual map might typically take 5 minutes to create - thus:
 
 * 5 minutes X 134,567 maps = 672,835 minutes
 * 672,835 minutes / 60 = 11,213.9 hours
