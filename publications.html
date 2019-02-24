@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -19,23 +19,25 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="site_libs/highlight/textmate.css"
-      type="text/css" />
-<script src="site_libs/highlight/highlight.js"></script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -91,8 +93,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,7 +116,6 @@ body {
   padding-top: 50px;
   margin-top: -50px;
 }
-
 .section h2 {
   padding-top: 50px;
   margin-top: -50px;
@@ -128,6 +135,43 @@ body {
 .section h6 {
   padding-top: 50px;
   margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -149,19 +193,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -187,7 +289,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="cv.html">
+  <a href="https://www.dropbox.com/s/s9z5pzioi4mth1p/Alex_Singleton.pdf?dl=0">
     <span class="fa fa-file  fa-2x"></span>
      
     CV
@@ -197,40 +299,8 @@ $(document).ready(function () {
   <a href="http://www.geographicdatascience.org">
     <span class="fa fa-thumbs-up fa-2x"></span>
      
-    GDSL Blog
+    GDSL Website
   </a>
-</li>
-<li>
-  <a href="https://speakerdeck.com/alexsingleton">
-    <span class="fa fa-slideshare fa-2x"></span>
-     
-    Presentations
-  </a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-video-camera fa-2x"></span>
-     
-    Videos
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="https://www.youtube.com/playlist?list=PL-UaqBHqfc-H0HfqgOeFFyP17KnkG-aSY">
-        <span class="fa fa-youtube  fa-2x"></span>
-         
-        YouTube
-      </a>
-    </li>
-    <li>
-      <a href="https://vimeo.com/album/4097174">
-        <span class="fa fa-vimeo  fa-2x"></span>
-         
-        Vimeo
-      </a>
-    </li>
-  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -268,85 +338,64 @@ $(document).ready(function () {
 
 <div id="books" class="section level1">
 <h1>Books</h1>
-<p>Longley, P, C. J.A and A. Singleton (2017). <em>Consumer Data Analytics</em>. UCL Press.</p>
-<p>Singleton, A, S. Spielman and D. Folch (2017). <em>Urban Analytics</em>. London: Sage.</p>
-<p>Ivan, I, A. Singleton, J. Horák and T. Inspektor (2016). <em>The Rise of Big Spatial Data</em>. Berlin: Springer.</p>
-<p>Brunsdon, C. and A. Singleton (2014). <em>Geocomputation, A Practical Primer</em>. London: Sage.</p>
-<p>Singleton, A. D. (2010). <em>Educational Opportunity: the Geography of Access to Higher Education</em>. Farham: Ashgate. ISBN: 9780754678670.</p>
-<p>Singleton, A, D. Unwin and K. Kemp (2010). <em>Instructor Manual: Geographic Information Systems and Science (3rd Edition)</em>. Chichester: Wiley.</p>
+<ul>
+<li>Longley P, Cheshire J, Singleton A (2018) <a href="https://www.ucl.ac.uk/ucl-press/browse-books/consumer-data-research">Consumer Data Analytics</a>. London: UCL Press.</li>
+<li>Singleton A, Spielman S, Folch D (2018) <a href="https://uk.sagepub.com/en-gb/eur/urban-analytics/book249267">Urban Analytics</a>. London: Sage.</li>
+<li>Ivan I, Singleton A, Horák J, Inspektor T (2016) <a href="https://link.springer.com/book/10.1007/978-3-319-45123-7">The Rise of Big Spatial Data</a>. Berlin: Springer. Brunsdon C, Singleton A (2014) <a href="https://uk.sagepub.com/en-gb/eur/geocomputation/book241023">Geocomputation, A Practical Primer</a>. London: Sage.</li>
+<li>Singleton A (2010) <a href="https://www.routledge.com/Educational-Opportunity-The-Geography-of-Access-to-Higher-Education-1st/Singleton/p/book/9780754678670">Educational Opportunity: The Geography of Access to Higher Education</a>. Farham: Ashgate.</li>
+</ul>
 </div>
-<div id="journal-articles" class="section level1">
-<h1>Journal Articles</h1>
-<div id="section" class="section level2">
-<h2>2017</h2>
-<p>Pavlis, M, L. Dolgea and A. Singleton (2017). “A Modified DBSCAN Clustering Method to Estimate Retail Center Extent”. In: <em>Geographical Analysis</em>.</p>
-</div>
-<div id="section-1" class="section level2">
-<h2>2016</h2>
-<p>Dolgea, L, M. Pavlis and A. Singleton (2016). “Estimating attractiveness, hierarchy and catchment area extents for a national set of retail centre agglomerations”. In: <em>Journal of Retailing and Consumer Services</em> 28, pp. 78-90. URL: <a href="http://dx.doi.org/10.1016/j.jretconser.2015.08.013" class="uri">http://dx.doi.org/10.1016/j.jretconser.2015.08.013</a>.</p>
-<p>Gale, C, A. Singleton and P. Longley (2016). “Creating the 2011 area classification for output areas (2011 OAC)”. In: <em>Journal of Spatial Information Science</em>, pp. 1-27. URL: <a href="http://dx.doi.org/10.5311/JOSIS.2016.12.232" class="uri">http://dx.doi.org/10.5311/JOSIS.2016.12.232</a>.</p>
-<p>Singleton, A, L. Dolgea, M. Pavlis and P. Longley (2016). “Measuring the spatial vulnerability of retail centres to online consumption through a framework of e-resilience”. In: <em>Geoforum</em> 69, pp. 5-18. URL: <a href="http://dx.doi.org/10.1016/j.geoforum.2015.11.013" class="uri">http://dx.doi.org/10.1016/j.geoforum.2015.11.013</a>.</p>
-<p>Singleton, A, P. Longley and M. Pavlis (2016). “The stability of geodemographic cluster assignments over an inter-censal period”. In: <em>Journal of Geographical Systems</em> 18.2, pp. 97-123. URL: <a href="http://dx.doi.org/10.1007/s10109-016-0226-x" class="uri">http://dx.doi.org/10.1007/s10109-016-0226-x</a>.</p>
-<p>Singleton, A, S. Spielman and C. Brunsdon (2016). “Establishing a Framework for Open Geographic Information Science”. In: <em>International Journal Of Geographical Information Science</em> 30.9, pp. 1507-1521. URL: <a href="http://dx.doi.org/10.1080/13658816.2015.1137579" class="uri">http://dx.doi.org/10.1080/13658816.2015.1137579</a>.</p>
-<p>Thiele, T, D. Pope, A. Singleton, D. Snape and D. Stanistreet (2016). “Experience of disadvantage: The influence of identity on engagement in working class students’ educational trajectories to an elite university”. In: <em>British Educational Research Journal</em> 43.1, pp. 49-67. URL: <a href="http://dx.doi.org/10.1002/berj.3251" class="uri">http://dx.doi.org/10.1002/berj.3251</a>.</p>
-<p>Thiele, T, D. Pope, A. Singleton and D. Stanistreet (2016). “Role of students’ context in predicting academic performance at a medical school: a retrospective cohort study”. In: <em>BMJ open</em> 6.3, p. e010169. URL: <a href="http://dx.doi.org/10.1136/bmjopen-2015-010169" class="uri">http://dx.doi.org/10.1136/bmjopen-2015-010169</a>.</p>
-</div>
-<div id="section-2" class="section level2">
-<h2>2015</h2>
-<p>Singleton, A. (2015). “Transport Mode Choice and the Commute to Work”. In: <em>Environment and Planning A</em> 47.7, pp. 1401-1403. URL: <a href="http://dx.doi.org/10.1177/0308518X15595752" class="uri">http://dx.doi.org/10.1177/0308518X15595752</a>.</p>
-<p>Singleton, A. and P. Longley (2015). “The internal structure of Greater London: a comparison of national and regional geodemographic models”. In: <em>Geo: Geography and Environment</em> 2.1, pp. 69-87. URL: <a href="http://dx.doi.org/10.1002/geo2.7" class="uri">http://dx.doi.org/10.1002/geo2.7</a>.</p>
-<p>Spielman, S. and A. Singleton (2015). “Studying Neighborhoods Using Uncertain Data from the American Community Survey: A Contextual Approach”. In: <em>Annals of the Association of American Geographers</em> 105.5, pp. 1003-1025. URL: <a href="http://dx.doi.org/10.1080/00045608.2015.1052335" class="uri">http://dx.doi.org/10.1080/00045608.2015.1052335</a>.</p>
-</div>
-<div id="section-3" class="section level2">
-<h2>2014</h2>
-<p>Bearman, N. and A. Singleton (2014). “Modelling the potential impact on <span class="math inline">\(CO_2\)</span> emissions of an increased uptake of active travel for the home to school commute using individual level data”. In: <em>Journal of Transport and Health</em> 1.4, pp. 295-304. URL: <a href="http://dx.doi.org/10.1016/j.jth.2014.09.009" class="uri">http://dx.doi.org/10.1016/j.jth.2014.09.009</a>.</p>
-<p>Harris, R, T. Nicholas, C. Souch, A. Singleton, S. Orford, C. Keylock, C. Jarvis and C. Brunsdon (2014). “Geographers Count: A Report on Quantitative Methods in Geography”. In: <em>Enhancing Learning in the Social Sciences</em> 6.2, pp. 43-58. URL: <a href="https://www.researchgate.net/publication/265334324_Geographers_Count_A_Report_on_Quantitative_Methods_in_Geography" class="uri">https://www.researchgate.net/publication/265334324_Geographers_Count_A_Report_on_Quantitative_Methods_in_Geography</a>.</p>
-<p>Riddlesden, D. and A. Singleton (2014). “Broadband speed equity: A new digital divide?” In: <em>Applied Geography</em> 52, pp. 25-33. URL: <a href="http://dx.doi.org/10.1016/j.apgeog.2014.04.008" class="uri">http://dx.doi.org/10.1016/j.apgeog.2014.04.008</a>.</p>
-<p>Singleton, A. and C. Brunsdon (2014). “Escaping the Pushpin Paradigm in Geographic Information Science: (Re)presenting National Crime Data”. In: <em>Area</em> 46.3, pp. 294-304. DOI: <a href="http://dx.doi.org/http://dx.doi.org/10.1111/area.12116">http://dx.doi.org/10.1111/area.12116</a>.</p>
-<p>Thiele, T, A. Singleton, D. Pope and D. Stanistreet (2014). “Predicting Students’ Academic Performance Based on School and Socio-Demographic Characteristics”. In: <em>Studies in Higher Education</em> In Press. URL: <a href="http://dx.doi.org/10.1080/03075079.2014.974528" class="uri">http://dx.doi.org/10.1080/03075079.2014.974528</a>.</p>
-</div>
-<div id="section-4" class="section level2">
-<h2>2013</h2>
-<p>Adnan, M, A. Singleton and P. Longley (2013). “OACoder: Postcode Coding Tool”. In: <em>Journal of Open Research Software</em> 1.1, p. e5. URL: <a href="http://dx.doi.org/10.5334/511ba2c94d661" class="uri">http://dx.doi.org/10.5334/511ba2c94d661</a>.</p>
-<p>Phillips, R, D. Frost and A. Singleton (2013). “Researching the Riots”. In: <em>The Geographical Journal</em> 179.1, pp. 3-10. URL: <a href="http://dx.doi.org/10.1111/j.1475-4959.2012.00463.x" class="uri">http://dx.doi.org/10.1111/j.1475-4959.2012.00463.x</a>.</p>
-<p>Singleton, A. (2013). “A GIS Approach to Modelling CO2 Emissions Associated with the Pupil-School Commute”. In: <em>International Journal of Geographical Information Science</em> 28.2, pp. 256-273. URL: <a href="http://dx.doi.org/10.1080/13658816.2013.832765" class="uri">http://dx.doi.org/10.1080/13658816.2013.832765</a>.</p>
-<p>Singleton, A. and S. Spielman (2013). “The Past, Present and Future of Geodemographic Research in the United States and United Kingdom”. In: <em>Professional Geographer</em> 66.4, pp. 558-567. URL: <a href="http://dx.doi.org/10.1080/00330124.2013.848764" class="uri">http://dx.doi.org/10.1080/00330124.2013.848764</a>.</p>
-</div>
-<div id="section-5" class="section level2">
-<h2>2012</h2>
-<p>Riddlesden, D, A. Singleton and T. B. Fischer (2012). “A Survey of the use of Geographic Information Systems in English Local Authority Impact Assessments”. In: <em>Journal of Environmental Assessment Policy and Management</em> 14.01, p. 1250006. URL: <a href="http://dx.doi.org/10.1142/S1464333212500068" class="uri">http://dx.doi.org/10.1142/S1464333212500068</a>.</p>
-<p>Singleton, A. (2012). “The Geodemographics of Access and Participation in Geography”. In: <em>The Geographical Journal</em> 178.3, pp. 216-229. URL: <a href="http://dx.doi.org/10.1111/j.1475-4959.2012.00467.x" class="uri">http://dx.doi.org/10.1111/j.1475-4959.2012.00467.x</a>.</p>
-<p>Singleton, A, A. G. Wilson and O. O’Brien (2012). “Geodemographics and Spatial Interaction: an Integrated Model for Higher Education”. In: <em>Journal of Geographical Systems</em> 14.2, pp. 223-241. URL: <a href="http://dx.doi.org/10.1007/s10109-010-0141-5" class="uri">http://dx.doi.org/10.1007/s10109-010-0141-5</a>.</p>
-</div>
-<div id="section-6" class="section level2">
-<h2>2011</h2>
-<p>Brunsdon, C, P. Longley, A. Singleton and D. Ashby (2011). “Predicting Participation in Higher Education: a Comparative Evaluation of the Performance of Geodemographic Classifications”. In: <em>Journal of the Royal Statistical Society: Series A (Statistics in Society)</em> 174.1, pp. 17-30. URL: <a href="http://dx.doi.org/10.1111/j.1467-985X.2010.00641.x" class="uri">http://dx.doi.org/10.1111/j.1467-985X.2010.00641.x</a>.</p>
-<p>Mateos, P, M. de Smith and A. Singleton (2011). “Developments in Quantitative Human Geography, Urban Modelling, and Geographic Information Science”. In: <em>Transactions in GIS</em> 15.3, pp. 249-252. URL: <a href="http://dx.doi.org/10.1111/j.1467-9671.2011.01258.x" class="uri">http://dx.doi.org/10.1111/j.1467-9671.2011.01258.x</a>.</p>
-<p>Singleton, A. and D. J. Lewis (2011). “Including Accident Information in Automatic Bicycle Route Planning for Urban Areas”. In: <em>Urban Studies Research</em> 2011, pp. 1-10. URL: <a href="http://dx.doi.org/10.1155/2011/362817" class="uri">http://dx.doi.org/10.1155/2011/362817</a>.</p>
-<p>Singleton, A, P. Longley, R. Allen and O. O’Brien (2011). “Estimating Secondary School Catchment Areas and the Spatial Equity of Access”. In: <em>Computers, Environment and Urban Systems</em> 35.3, pp. 241-249. URL: <a href="http://dx.doi.org/10.1016/j.compenvurbsys.2010.09.006" class="uri">http://dx.doi.org/10.1016/j.compenvurbsys.2010.09.006</a>.</p>
-</div>
-<div id="section-7" class="section level2">
-<h2>2010</h2>
-<p>Adnan, M, P. Longley, A. Singleton and C. Brunsdon (2010). “Towards Real-Time Geodemographics: Clustering Algorithm Performance for Large Multidimensional Spatial Databases”. In: <em>Transactions in GIS</em> 14.3, pp. 283-297. URL: <a href="http://dx.doi.org/10.1111/j.1467-9671.2010.01197.x" class="uri">http://dx.doi.org/10.1111/j.1467-9671.2010.01197.x</a>.</p>
-<p>Cheshire, J. A, P. A. Longley and A. Singleton (2010). “The Surname Regions of Great Britain”. In: <em>Journal of Maps</em> 6.1, pp. 401-409. URL: <a href="http://dx.doi.org/10.4113/jom.2010.1103" class="uri">http://dx.doi.org/10.4113/jom.2010.1103</a>.</p>
-<p>Harris, R, A. Singleton, D. Grose, C. Brunsdon and P. Longley (2010). “Grid-enabling Geographically Weighted Regression: A Case Study of Participation in Higher Education in England”. In: <em>Transactions in GIS</em> 14.1, pp. 43-61. URL: <a href="http://dx.doi.org/10.1111/j.1467-9671.2009.01181.x" class="uri">http://dx.doi.org/10.1111/j.1467-9671.2009.01181.x</a>.</p>
-<p>Longley, P. A, A. Singleton, K. Yano and T. Nakaya (2010). “Lost in Translation: Cross-Cultural Experiences in Teaching Geo-Genealogy”. In: <em>Journal of Geography in Higher Education</em> 34.1, pp. 21-38. URL: <a href="http://dx.doi.org/10.1080/03098260902982476" class="uri">http://dx.doi.org/10.1080/03098260902982476</a>.</p>
-<p>Singleton, A. (2010). “The Geodemographics of Educational Progression and their Implications for Widening Participation in Higher Education”. In: <em>Environment and Planning A</em> 42.11, pp. 2560-2580. URL: <a href="http://dx.doi.org/10.1068/a42394" class="uri">http://dx.doi.org/10.1068/a42394</a>.</p>
-</div>
-<div id="section-8" class="section level2">
-<h2>2009</h2>
-<p>Longley, P. and A. Singleton (2009a). “Classification Through Consultation: Public Views Of The Geography Of The E-Society.” In: <em>International Journal of Geographical Information Science</em> 23.6, pp. 737-763. URL: <a href="http://dx.doi.org/10.1080/13658810701704652" class="uri">http://dx.doi.org/10.1080/13658810701704652</a>.</p>
-<p>Longley, P. and A. Singleton (2009b). “Linking Social Deprivation and Digital Exclusion in England”. In: <em>Urban Studies</em> 46.7, pp. 1275-1298. URL: <a href="http://dx.doi.org/10.1177/0042098009104566" class="uri">http://dx.doi.org/10.1177/0042098009104566</a>.</p>
-<p>Mateos, P, A. Singleton and P. Longley (2009). “Uncertainty in the Analysis of Ethnicity Classifications: Issues of Extent and Aggregation of Ethnic Groups”. In: <em>Journal of Ethnic and Migration Studies</em> 35.9, pp. 1437-1460. URL: <a href="http://dx.doi.org/10.1080/13691830903125919" class="uri">http://dx.doi.org/10.1080/13691830903125919</a>.</p>
-<p>Singleton, A. (2009). “Data Mining Course Choice Sets and Behaviours for Target Marketing of Higher Education”. In: <em>Journal of Targeting, Measurement and Analysis for Marketing</em> 17.3, pp. 157-170. URL: <a href="http://dx.doi.org/10.1057/jt.2009.13" class="uri">http://dx.doi.org/10.1057/jt.2009.13</a>.</p>
-<p>Singleton, A. and P. Longley (2009a). “Creating Open Source Geodemographics - Refining a National Classification of Census Output Areas for Applications in Higher Education”. In: <em>Papers in Regional Science</em> 88.3, pp. 643-666. URL: <a href="http://dx.doi.org/10.1111/j.1435-5957.2008.00197.x" class="uri">http://dx.doi.org/10.1111/j.1435-5957.2008.00197.x</a>.</p>
-<p>Singleton, A. and P. A. Longley (2009b). “Geodemographics, Visualisation, and Social Networks in Applied Geography”. In: <em>Applied Geography</em> 29.3, pp. 289-298. URL: <a href="http://dx.doi.org/10.1016/j.apgeog.2008.10.006" class="uri">http://dx.doi.org/10.1016/j.apgeog.2008.10.006</a>.</p>
-</div>
-<div id="section-9" class="section level2">
-<h2>2008</h2>
-<p>Gibin, M, A. Singleton, R. Milton, P. Mateos and P. Longley (2008). “An Exploratory Cartographic Visualisation of London through the Google Maps API”. In: <em>Applied Spatial Analysis and Policy</em> 1.2, pp. 85-97. URL: <a href="http://dx.doi.org/10.1007/s12061-008-9005-5" class="uri">http://dx.doi.org/10.1007/s12061-008-9005-5</a>.</p>
-<p>Haklay, M, A. Singleton and C. Parker (2008). “Web Mapping 2.0: The Neogeography of the GeoWeb”. In: <em>Geography Compass</em> 2.6, pp. 2011-2039. URL: <a href="http://dx.doi.org/10.1111/j.1749-8198.2008.00167.x" class="uri">http://dx.doi.org/10.1111/j.1749-8198.2008.00167.x</a>.</p>
-</div>
+<div id="refereed-academic-journals" class="section level1">
+<h1>Refereed Academic Journals</h1>
+<ul>
+<li>Thiele T, Pope D, Singleton A, Stanistreet D (2018) Exploring the Use of Mixed Methods in Research and Evaluation of Widening Participation Interventions: Guidance for Practitioners. Widening Participation and Lifelong Learning 20(4) 7-38 <a href="https://doi.org/10.5456/WPLL.20A.7" class="uri">https://doi.org/10.5456/WPLL.20A.7</a></li>
+<li>Davies A, Green M, Singleton A (2018) Using Machine learning to investigate self-medication purchasing in England via high street retailer loyalty card data. PLoS ONE 13(11) e020752. <a href="https://doi.org/10.1371/journal.pone.0207523" class="uri">https://doi.org/10.1371/journal.pone.0207523</a></li>
+<li>Green M, Daras K, Davies A, Barr B, Singleton A (2018) Developing an Openly Accessible Multi-Dimensional Small Area Index of ‘Access to Healthy Assets and Hazards’ for Great Britain, 2016. Health &amp; Place 54 11-19 <a href="https://doi.org/10.1016/j.healthplace.2018.08.019" class="uri">https://doi.org/10.1016/j.healthplace.2018.08.019</a></li>
+<li>Chen M, Arribas-Bel D, Singleton, A (2018) Understanding the dynamics of urban areas of interest through volunteered geographic information. Journal of Geographical Systems <a href="https://doi.org/10.1007/s10109" class="uri">https://doi.org/10.1007/s10109</a></li>
+<li>Pavlis M, Dolgea L, Singleton A (2017) A Modified DBSCAN Clustering Method to Estimate Retail Center Extent. Geographical Analysis 50 (2) 141-161 <a href="http://dx.doi.org/10.1111/gean.12138" class="uri">http://dx.doi.org/10.1111/gean.12138</a></li>
+<li>Dolgea L, Pavlis M, Singleton A (2016) Estimating Attractiveness Hierarchy and Catchment Area Extents for a National set of Retail Centre Agglomerations. Journal of Retailing and Consumer Services 28 78-90 <a href="https://doi.org/10.1016/j.jretconser.2015.08.013" class="uri">https://doi.org/10.1016/j.jretconser.2015.08.013</a></li>
+<li>Gale C, Singleton A, Longley P (2016) Creating the 2011 Area Classification for Output Areas (2011 OAC). Journal of Spatial Information Science 12 1-27 <a href="https://doi.org/10.5311/JOSIS.2016.12.232" class="uri">https://doi.org/10.5311/JOSIS.2016.12.232</a></li>
+<li>Alexiou A, Singleton A, Longley P (2016) A Classification of Multidimensional Open Data of Urban Morphology. Built Environment 42(3) 382-395 <a href="https://doi.org/10.2148/benv.42.3.382" class="uri">https://doi.org/10.2148/benv.42.3.382</a></li>
+<li>Singleton A, Dolgea L, Pavlis M, Longley P (2016) Measuring the Spatial Vulnerability of Retail Centres to Online Consumption through a Framework of e-Resilience. Geoforum 69 5-18 <a href="https://doi.org/10.1016/j.geoforum.2015.11.013" class="uri">https://doi.org/10.1016/j.geoforum.2015.11.013</a></li>
+<li>Singleton A, Longley P, Pavlis M (2016) The Stability of Geodemographic Cluster Assignments over an Inter-censal period. Journal of Geographical Systems 18(2) 97-123 <a href="https://doi.org/10.1007/s10109-016-0226-x" class="uri">https://doi.org/10.1007/s10109-016-0226-x</a></li>
+<li>Singleton A, Spielman S, Brunsdon C (2016) Establishing a Framework for Open Geographic Information Science. International Journal Of Geographical Information Science 30(8) 1507-1521 <a href="https://doi.org/10.1080/13658816.2015.1137579" class="uri">https://doi.org/10.1080/13658816.2015.1137579</a></li>
+<li>Thiele T, Pope D, Singleton A, Snape D, Stanistreet D (2016) Experience of Disadvantage: The Influence of Identity on Engagement in Working Class Students’ Educational Trajectories to an Elite University. British Educational Research Journal 43(1) 49-67 <a href="https://doi.org/10.1002/berj.3251" class="uri">https://doi.org/10.1002/berj.3251</a></li>
+<li>Thiele T, Pope D, Singleton A, Stanistreet D (2016) Role of Students’ Context in Predicting Academic Performance at a Medical School: A Retrospective Cohort Study. BMJ Open 6(3) e010169 <a href="https://dx.doi.org/10.1136/bmjopen-2015-010169" class="uri">https://dx.doi.org/10.1136/bmjopen-2015-010169</a></li>
+<li>Singleton A (2015) Transport Mode Choice and the Commute to Work. Environment and Planning A 47(7) 1401-1403 <a href="http://dx.doi.org/10.1177/0308518X15595752" class="uri">http://dx.doi.org/10.1177/0308518X15595752</a></li>
+<li>Singleton A and P Longley (2015) The Internal Structure of Greater London: A Comparison of National and Regional Geodemographic Models. Geo: Geography and Environment 21 69-87 <a href="https://doi.org/10.1002/geo2.7" class="uri">https://doi.org/10.1002/geo2.7</a></li>
+<li>Spielman S, Singleton A (2015) Studying Neighborhoods Using Uncertain Data from the American Community Survey: A Contextual Approach. Annals of the Association of American Geographers 105(5) 1003-1025 <a href="https://doi.org/10.1080/00045608.2015.1052335" class="uri">https://doi.org/10.1080/00045608.2015.1052335</a></li>
+<li>Bearman N, Singleton A (2014) Modelling the Potential Impact on CO2 Emissions of an Increased Uptake of Active Travel for the Home to School Commute using Individual Level Data. Journal of Transport and Health 14 295-304 <a href="https://doi.org/10.1016/j.jth.2014.09.009" class="uri">https://doi.org/10.1016/j.jth.2014.09.009</a></li>
+<li>Harris R, Nicholas N, Souch C, Singleton A, Orford S, Keylock C, Jarvis C, Brunsdon C (2014) Geographers Count: A Report on Quantitative Methods in Geography. Enhancing Learning in the Social Sciences 6(2) 43-58 <a href="https://doi.org/10.11120/elss.2014.00035" class="uri">https://doi.org/10.11120/elss.2014.00035</a></li>
+<li>Riddlesden D, Singleton A (2014) Broadband Speed Equity: A new Digital Divide? Applied Geography 52 25-33 <a href="https://doi.org/10.1016/j.apgeog.2014.04.008" class="uri">https://doi.org/10.1016/j.apgeog.2014.04.008</a></li>
+<li>Singleton A, Brunsdon C (2014) Escaping the Pushpin Paradigm in Geographic Information Science: (Re)presenting National Crime Data. Area 46(3) 294-304 <a href="https://doi.org/10.1111/area.12116" class="uri">https://doi.org/10.1111/area.12116</a></li>
+<li>Thiele T, Singleton A, Pope D, Stanistreet D (2014) Predicting Students’ Academic Performance Based on School and Socio-Demographic Characteristics. Studies in Higher Education 41(8) 1424-1446 <a href="https://doi.org/10.1080/03075079.2014.974528" class="uri">https://doi.org/10.1080/03075079.2014.974528</a></li>
+<li>Adnan M, Singleton A, Longley P (2013) OACoder: Postcode Coding Tool. Journal of Open Research Software 11 p e5 <a href="https://doi.org/10.5334/511ba2c94d661" class="uri">https://doi.org/10.5334/511ba2c94d661</a></li>
+<li>Phillips R, Frost D, Singleton A (2013) Researching the Riots. The Geographical Journal 179(1) 3-10 <a href="https://doi.org/10.1111/j.1475-4959.2012.00463.x" class="uri">https://doi.org/10.1111/j.1475-4959.2012.00463.x</a></li>
+<li>Singleton A (2013) A GIS Approach to Modelling CO2 Emissions Associated with the Pupil-School Commute. International Journal of Geographical Information Science 28(2) 256-273 <a href="https://doi.org/10.1080/13658816.2013.832765" class="uri">https://doi.org/10.1080/13658816.2013.832765</a></li>
+<li>Singleton A, Spielman S (2013) The Past Present and Future of Geodemographic Research in the United States and United Kingdom. Professional Geographer 66(4) 558-567 <a href="https://doi.org/10.1080/00330124.2013.848764" class="uri">https://doi.org/10.1080/00330124.2013.848764</a></li>
+<li>Riddlesden D, Singleton A, Fischer T (2012) A Survey of the use of Geographic Information Systems in English Local Authority Impact Assessments. Journal of Environmental Assessment Policy and Management 14(01) <a href="https://doi.org/10.1142/S1464333212500068" class="uri">https://doi.org/10.1142/S1464333212500068</a><br />
+</li>
+<li>Singleton A (2012) The Geodemographics of Access and Participation in Geography. The Geographical Journal 178(3 )216-229 <a href="https://doi.org/10.1111/j.1475-4959.2012.00467.x" class="uri">https://doi.org/10.1111/j.1475-4959.2012.00467.x</a></li>
+<li>Singleton A, Wilson A, O’Brien O (2012) Geodemographics and Spatial Interaction: An Integrated Model for Higher Education. Journal of Geographical Systems 14(2) 223-241 <a href="https://doi.org/10.1007/s10109-010-0141-5" class="uri">https://doi.org/10.1007/s10109-010-0141-5</a></li>
+<li>Brunsdon C, Longley P, Singleton A, Ashby D (2011) Predicting Participation in Higher Education: a Comparative Evaluation of the Performance of Geodemographic Classifications. Journal of the Royal Statistical Society: Series A (Statistics in Society) 174(1) 17-30 <a href="https://doi.org/10.1111/j.1467-985X.2010.00641.x" class="uri">https://doi.org/10.1111/j.1467-985X.2010.00641.x</a></li>
+<li>Mateos P, de Smith M, Singleton A (2011) Developments in Quantitative Human Geography Urban Modelling and Geographic Information Science. Transactions in GIS 15(3) 249-252 <a href="https://doi.org/10.1111/j.1467-9671.2011.01258.x" class="uri">https://doi.org/10.1111/j.1467-9671.2011.01258.x</a></li>
+<li>Singleton A, Lewis D (2011) Including Accident Information in Automatic Bicycle Route Planning for Urban Areas. Urban Studies Research 1-10 <a href="http://dx.doi.org/10.1155/2011/362817" class="uri">http://dx.doi.org/10.1155/2011/362817</a></li>
+<li>Singleton A, Longley P, Allen R, O’Brien O (2011) Estimating Secondary School Catchment Areas and the Spatial Equity of Access. Computers Environment and Urban Systems 35(3) 241-249 <a href="https://doi.org/10.1016/j.compenvurbsys.2010.09.006" class="uri">https://doi.org/10.1016/j.compenvurbsys.2010.09.006</a></li>
+<li>Adnan M, Longley P, Singleton A, Brunsdon C (2010) Towards Real-Time Geodemographics: Clustering Algorithm Performance for Large Multidimensional Spatial Databases. Transactions in GIS 14(3) 283-297 <a href="https://doi.org/10.1111/j.1467-9671.2010.01197.x" class="uri">https://doi.org/10.1111/j.1467-9671.2010.01197.x</a></li>
+<li>Cheshire J, Longley P, Singleton A (2010) The Surname Regions of Great Britain. Journal of Maps 61 401-409 <a href="https://doi.org/10.4113/jom.2010.1103" class="uri">https://doi.org/10.4113/jom.2010.1103</a></li>
+<li>Harris R, Singleton A, Grose D, Brunsdon C, Longley P (2010) Grid-enabling Geographically Weighted Regression: A Case Study of Participation in Higher Education in England. Transactions in GIS 14(1)43-61 <a href="https://doi.org/10.1111/j.1467-9671.2009.01181.x" class="uri">https://doi.org/10.1111/j.1467-9671.2009.01181.x</a></li>
+<li>Longley P, Singleton A, Yano K, Nakaya T (2010) Lost in Translation: Cross-Cultural Experiences in Teaching Geo-Genealogy. Journal of Geography in Higher Education 34(1) 21-38 <a href="https://doi.org/10.1080/03098260902982476" class="uri">https://doi.org/10.1080/03098260902982476</a></li>
+<li>Singleton A (2010) The Geodemographics of Educational Progression and their Implications for Widening Participation in Higher Education. Environment and Planning A 42(11) 2560-2580 <a href="https://doi.org/10.1068/a42394" class="uri">https://doi.org/10.1068/a42394</a><br />
+</li>
+<li>Longley P Singleton A (2009) Classification Through Consultation: Public Views Of The Geography Of The E-Society. International Journal of Geographical Information Science 23(6) 737-763 <a href="https://doi.org/10.1080/13658810701704652" class="uri">https://doi.org/10.1080/13658810701704652</a></li>
+<li>Longley P, Singleton A (2009) Linking Social Deprivation and Digital Exclusion in England. Urban Studies 46(7) 1275-1298 <a href="https://doi.org/10.1177/0042098009104566" class="uri">https://doi.org/10.1177/0042098009104566</a></li>
+<li>Mateos P, Singleton A, Longley P (2009) Uncertainty in the Analysis of Ethnicity Classifications: Issues of Extent and Aggregation of Ethnic Groups. Journal of Ethnic and Migration Studies 35(9) 1437-1460 <a href="https://doi.org/10.1080/13691830903125919" class="uri">https://doi.org/10.1080/13691830903125919</a></li>
+<li>Singleton A (2009) Data Mining Course Choice Sets and Behaviours for Target Marketing of Higher Education Journal of Targeting Measurement and Analysis for Marketing. 17(3) 157-170 <a href="https://doi.org/10.1057/jt.2009.13" class="uri">https://doi.org/10.1057/jt.2009.13</a></li>
+<li>Singleton A, Longley P (2009) Creating Open Source Geodemographics - Refining a National Classification of Census Output Areas for Applications in Higher Education. Papers in Regional Science 88(3) 643-666 <a href="https://doi.org/10.1111/j.1435-5957.2008.00197.x" class="uri">https://doi.org/10.1111/j.1435-5957.2008.00197.x</a></li>
+<li>Singleton A, Longley P (2009) Geodemographics Visualisation and Social Networks in Applied Geography. Applied Geography 29(3) 89-298 <a href="https://doi.org/10.1016/j.apgeog.2008.10.006" class="uri">https://doi.org/10.1016/j.apgeog.2008.10.006</a></li>
+<li>Gibin M, Singleton A, Milton R, Mateos P, Longley P (2008) An Exploratory Cartographic Visualisation of London through the Google Maps API. Applied Spatial Analysis and Policy 12 85-97 <a href="https://doi.org/10.1007/s12061-008-9005-5" class="uri">https://doi.org/10.1007/s12061-008-9005-5</a></li>
+<li>Haklay M, Singleton A, Parker C (2008) Web Mapping 2.0: The Neogeography of the GeoWeb. Geography Compass 26 2011-2039 <a href="https://doi.org/10.1111/j.1749-8198.2008.00167.x" class="uri">https://doi.org/10.1111/j.1749-8198.2008.00167.x</a></li>
+</ul>
 </div>
 
 <hr>
@@ -368,8 +417,11 @@ $(document).ready(function () {
 <script>
 
 // add bootstrap table styles to pandoc tables
-$(document).ready(function () {
+function bootstrapStylePandocTables() {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
 });
 
 
@@ -380,7 +432,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

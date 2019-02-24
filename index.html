@@ -4,14 +4,14 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
 
 
 
-<title></title>
+<title>index.utf8</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,23 +19,25 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="site_libs/highlight/textmate.css"
-      type="text/css" />
-<script src="site_libs/highlight/highlight.js"></script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -91,8 +93,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,7 +116,6 @@ body {
   padding-top: 50px;
   margin-top: -50px;
 }
-
 .section h2 {
   padding-top: 50px;
   margin-top: -50px;
@@ -128,6 +135,43 @@ body {
 .section h6 {
   padding-top: 50px;
   margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -149,19 +193,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -187,7 +289,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="cv.html">
+  <a href="https://www.dropbox.com/s/s9z5pzioi4mth1p/Alex_Singleton.pdf?dl=0">
     <span class="fa fa-file  fa-2x"></span>
      
     CV
@@ -197,40 +299,8 @@ $(document).ready(function () {
   <a href="http://www.geographicdatascience.org">
     <span class="fa fa-thumbs-up fa-2x"></span>
      
-    GDSL Blog
+    GDSL Website
   </a>
-</li>
-<li>
-  <a href="https://speakerdeck.com/alexsingleton">
-    <span class="fa fa-slideshare fa-2x"></span>
-     
-    Presentations
-  </a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-video-camera fa-2x"></span>
-     
-    Videos
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="https://www.youtube.com/playlist?list=PL-UaqBHqfc-H0HfqgOeFFyP17KnkG-aSY">
-        <span class="fa fa-youtube  fa-2x"></span>
-         
-        YouTube
-      </a>
-    </li>
-    <li>
-      <a href="https://vimeo.com/album/4097174">
-        <span class="fa fa-vimeo  fa-2x"></span>
-         
-        Vimeo
-      </a>
-    </li>
-  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -279,7 +349,7 @@ $(document).ready(function () {
 <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">Alex Singleton</h1>
-      <p>Professor of Geographic Information Science at the University of Liverpool.  If you are interested in my blog posts, these can now be found at the <a href="">Geographic Data Science Lab</a>.</p>
+      <p>Professor of Geographic Information Science at the University of Liverpool.  If you are interested in my blog posts, these can now be found at the <a href="https://geographicdatascience.com/">Geographic Data Science Lab</a>.</p>
       <p><a class="btn btn-primary btn-lg" href="publications.html" role="button">My publications</a></p>
     </div>
  </div>
@@ -290,32 +360,28 @@ $(document).ready(function () {
         <div class="col-md-6">
           <h2>MSc Geographic Data Science</h2>
           <img src="images/MSCGDS.png" alt="GDSL" class="pull-left gap-right">
-          <p>We have an excellent MSc in the emerging area of Geographic Data Science and is accepting applications. We have an <a href ="https://spark.adobe.com/page/e6XbJ/">e-brochure</a>, and you can click <a href="https://www.liverpool.ac.uk/study/postgraduate/taught/geographic-data-science-msc/overview/">here</a> to get an overview of the course or find out how to apply.</p>
+          <p>University of Liverpool established the world's first MSc in Geographic Data Science, and is accepting applications. We have an <a href ="https://spark.adobe.com/page/e6XbJ/">e-brochure</a>, and you can click <a href="https://www.liverpool.ac.uk/study/postgraduate/taught/geographic-data-science-msc/overview/">here</a> to get an overview of the course or find out how to apply.</p>
         </div>
         <div class="col-md-6">
           <h2>Geographic Data Science Lab</h2>
           <img src="images/GDSL.png" alt="GDSL" class="pull-left gap-right">
-          <p><a href = "https://geographicdatascience.com/">GDSL</a> are a collective of researchers with interests in the fusion of Data Science, GIS and their appropriate use. You can find our blog <a href = "https://geographicdatascience.com/blog/">here</a>. We are always interested in hearing from new collaborators and welcome visitors.</p>
+          <p><a href = "https://geographicdatascience.com/">GDSL</a> are a collective of researchers with interests in the fusion of Data Science, GIS and their appropriate use. Our  website is <a href = "https://www.liverpool.ac.uk/geographic-data-science/">here</a>. We are always interested in hearing from new collaborators and welcome visitors.</p>
        </div>
       </div>
 
  <div class="row">
         <div class="col-md-8">
         	<h2>Biography</h2>
-          	<p> I am a Professor of Geographic Information Science at the University of Liverpool and Deputy Director of the <a href="http://www.cdrc.ac.uk">ESRC Consumer Data Research Centre</a> (CDRC). Prior to this I worked at University College London as a researcher and is also where I completed my PhD. In a general sense my research is concerned with how the complexities of individual behaviours manifest spatially and can be represented and understood though a framework of geographic data science.</p>
-			<p>In particular, this research has extended a tradition of area classification and I have developed a broad critique of the ways in which geodemographic methods can be refined through modern scientific approaches to data mining, geographic information science and quantitative human geography. I am an avid R user, and also advocate of <a href="http://dx.doi.org/10.1080/13658816.2015.1137579">Open Geographic Information Science</a>.</p>
+          	<p> I am a Professor of Geographic Information Science at the University of Liverpool, Deputy Director of the <a href="http://www.cdrc.ac.uk">ESRC Consumer Data Research Centre</a> (CDRC) and Director of the <a href="http://datacdt.org/
+" >ESRC Data Analytics & Society CDT</a>. In a general sense my research is concerned with how the complexities of individual behaviours, attitudes and contexts manifest spatially, and can be represented and understood though a framework of geographic data science.</p>
+			<p>I am particularly interested in applications of area classification to understand multidimensional socio-spatial structure, and I have developed a broad critique of the ways in which such geodemographic methods can be refined through modern scientific approaches of machine learning, geographic information science and quantitative human geography. I am an avid R user, and also advocate of <a href="http://dx.doi.org/10.1080/13658816.2015.1137579">Open Geographic Information Science</a>.</p>
         </div>
 
         <div class="col-md-4">
-        <h2>Impact</h2>
-			<p>Where appropriate I try to make my academic work accessible, with some examples of these activities including:</p>
-			<div class="list-group">
-				<a href="https://observatory.cartodb.com/editor/5de68840-16ef-11e6-bf4f-0ea31932ec1d/embed" class="list-group-item">USA Geodemographics</a>
-				<a href="https://data.cdrc.ac.uk/product/cdrc-2011-census-open-atlas" class="list-group-item">2011 Census Atlas</a>
-				<a href="https://data.cdrc.ac.uk/product/cdrc-2011-transport-map-book" class="list-group-item">Transportation Map Book</a>
-				<a href="http://www.educationalprofiler.org" class="list-group-item">Education Profiler</a>
-				<a href="http://www.policestreets.co.uk" class="list-group-item">Police Streets</a>
-			</div>
+        <h2>Urban Analytics</h2>
+        <p><img src="images/urban_analytics.jpg" alt="GDSL" class="pull-left gap-right"></p>
+			<p>For more information about my book Urban Analytics see the <a href="https://uk.sagepub.com/en-gb/eur/urban-analytics/book249267">publishers</a> page, or for supporting materials my <a href = "https://github.com/alexsingleton/urban_analytics
+">github</a>.</p>
 		</div>
 
 </div>
@@ -340,8 +406,11 @@ $(document).ready(function () {
 <script>
 
 // add bootstrap table styles to pandoc tables
-$(document).ready(function () {
+function bootstrapStylePandocTables() {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
 });
 
 
@@ -352,7 +421,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
