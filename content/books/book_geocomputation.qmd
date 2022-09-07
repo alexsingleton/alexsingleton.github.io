@@ -1,0 +1,35 @@
+---
+title: "Geocomputation"
+date: "2015"
+date-format: "YYYY"
+---
+
+::: column-margin
+![](../../img/gc.png)
+:::
+
+Geocomputation is the use of software and computing power to solve complex spatial problems. It is gaining increasing importance in the era of the \'big data\' revolution, of \'smart cities\', of crowdsourced data, and of associated applications for viewing and managing data geographically - like Google Maps. This student focused book:
+
+-   Provides a selection of practical examples of geocomputational techniques and \'hot topics\' written by world leading practitioners.
+
+-   Integrates supporting materials in each chapter, such as code and data, enabling readers to work through the examples themselves.
+
+Chapters provide highly applied and practical discussions of:
+
+-   Visualisation and exploratory spatial data analysis
+
+-   Space time modelling
+
+-   Spatial algorithms
+
+-   Spatial regression and statistics
+
+-   Enabling interactions through the use of neogeography
+
+All chapters are uniform in design and each includes an introduction, case studies, conclusions - drawing together the generalities of the introduction and specific findings from the case study application -- and guidance for further reading.
+
+This accessible text has been specifically designed for those readers who are new to Geocomputation as an area of research, showing how complex real-world problems can be solved through the integration of technology, data, and geocomputational methods. This is the applied primer for Geocomputation in the social sciences.
+
+-   [Sage Website](https://us.sagepub.com/en-us/nam/geocomputation/book241023)
+
+-   [Supporting Materials](https://us.sagepub.com/en-us/nam/geocomputation/book241023?_gl=1%2Anjbdou%2A_ga%2AMTE0OTQwNTAzNS4xNjYyNDM5MjQ0%2A_ga_60R758KFDG%2AMTY2MjUyMTA0Mi4zLjEuMTY2MjUyMjU4OS4wLjAuMA..%2A_ga_RK7MQ5ZZVZ%2AMTY2MjUyMTA0Mi4xLjEuMTY2MjUyMjU4OS4wLjAuMA..#preview)
