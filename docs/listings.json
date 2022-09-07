@@ -1,10 +1,18 @@
 [
   {
     "listing": "/blog.html",
-    "items": []
+    "items": [
+      "/content/blog/2022-09-07-test-post/index.html"
+    ]
   },
   {
     "listing": "/books.html",
-    "items": []
+    "items": [
+      "/content/books/book_consumer_data.html",
+      "/content/books/Big_Spatial_Data.html",
+      "/content/books/book_urban_analytics.html",
+      "/content/books/book_geocomputation.html",
+      "/content/books/educational_opportunities.html"
+    ]
   }
 ]

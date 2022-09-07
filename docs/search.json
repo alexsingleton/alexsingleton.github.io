@@ -4,7 +4,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\n\n\nR\n\n\nWindows\n\n\nRstudio\n\n\n\n\nSep 7, 2022\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "books.html",
@@ -12,6 +12,48 @@
     "title": "Books",
     "section": "",
     "text": "No matching items"
+  },
+  {
+    "objectID": "content/blog/2022-09-07-test-post/index.html",
+    "href": "content/blog/2022-09-07-test-post/index.html",
+    "title": "Getting Rstudio Running Under Windows 11 with WSL2",
+    "section": "",
+    "text": "Install WSL 2\nFrom the start menu right click PowerShell “Run as Administrator”. Type into the terminal that opens:\nwsl --install\nWait for the installation to complete; which also installs Ubuntu by default.\n\n\nSetup Docker\nDownload Docker Desktop for Windows. There is a prominent button on this linked page.\nWhen this has downloaded, double click to open and run the “Docker Desktop Installer.exe” file which should be found in your default web browser install location.\nThis will prompt you with a “Configuration” pop up. Make sure the option for “Use WSL 2 instead of Hyper-V (recommended)” is selected and click the “Ok” button. This will then install Docker.\nWhen this has completed, close the dialog box and restart Windows.\n\n\nPost Setup\nAfter the reboot, you will get a terminal popup that completes the Ubuntu install. This will ask you for a username. Use something memorable and type into the prompt in all lower case letters, then press enter. You will then be asked to setup a password for the installation too; choose something you will remember, type into the prompt and press enter. You can close the Ubuntu terminal window.\nYou should also see a Docker Desktop icon your Desktop or Start Menu. If you double click this and accept the T&C on the popup prompt, it will run Docker Desktop. This is the interface where you can see what images you have downloaded, and what containers you currently have setup, along with their current status .. ie if they are running or not. This will all be empty at the minute as you have not yet downloaded an image or started a container.\n\n\nSetup a Container for Rstudio\nThe next step is to download a docker image, which contains R, Rstudio and lots of useful packages. Before we do this, we will create a folder which you can use for your R projects - you can change this, but as an example we will create a new folder called “r_projects” in the root of your C: drive (e.g. “C:_projects”). You will be able to find the C: drive using the “File Explorer” from the start menu.\nNext, we will now run a Docker command that will:\n\nSetup a new instance called Test_R (you can change this name to whatever your project is).\nSetup a password for Rstudio - this is “secret”, but can be anything you like.\nAutomatically downloads an image - in this case we will use rocker/geospatial.\n\nopen PowerShell again from the start menu and run the following command:\ndocker run -e ROOT=true --name Test_R -v C:\\r_projects:/home/ -e PASSWORD=secret -p 8787:8787 rocker/geospatial\nYou might get a notification about Windows Defender Firewall - you will need to agree to this for Docker to run.\n\n\nRun Rstudio\nIn the Docker Desktop Application, under “Containers” you will now see that your “Test_R” container is running. This also lists the image that it is using as “rocker/geospatial”. You can have multiple containers running from the same image; so you might want to create one for each new project; although you typically only run one at a time. On the far right hand side you will also see a stop button which can be used to stop the container running.\nThere is also a square button with an arrow on it; which can be used to open Rstudio. Alternatively, you can type the following URL in a web browser: http://localhost:8787/.\nThis will open the Rstudio interface and ask for a username and password. These will be “rstudio” and whatever password you specified. As written above this was “secret”. You will then have a full Rstudio instance running in the web browser!"
+  },
+  {
+    "objectID": "content/books/Big_Spatial_Data.html",
+    "href": "content/books/Big_Spatial_Data.html",
+    "title": "The Rise of Big Spatial Data",
+    "section": "",
+    "text": "Presents papers summarizing the latest research findings in the area of big spatial data. Offers a multidisciplinary focus with papers analysing key problems related to big spatial data utilisation.Provides a combination of theoretical papers and applications.\n\nSpringer Website"
+  },
+  {
+    "objectID": "content/books/book_consumer_data.html",
+    "href": "content/books/book_consumer_data.html",
+    "title": "Consumer Data Research",
+    "section": "",
+    "text": "Big Data collected by customer-facing organisations – such as smartphone logs, store loyalty card transactions, smart travel tickets, social media posts, or smart energy meter readings – account for most of the data collected about citizens today. As a result, they are transforming the practice of social science. Consumer Big Data are distinct from conventional social science data not only in their volume, variety and velocity, but also in terms of their provenance and fitness for ever more research purposes. The contributors to this book, all from the Consumer Data Research Centre, provide a first consolidated statement of the enormous potential of consumer data research in the academic, commercial and government sectors – and a timely appraisal of the ways in which consumer data challenge scientific orthodoxies.\n\nUCL Press Website"
+  },
+  {
+    "objectID": "content/books/book_geocomputation.html",
+    "href": "content/books/book_geocomputation.html",
+    "title": "Geocomputation",
+    "section": "",
+    "text": "Geocomputation is the use of software and computing power to solve complex spatial problems. It is gaining increasing importance in the era of the 'big data' revolution, of 'smart cities', of crowdsourced data, and of associated applications for viewing and managing data geographically - like Google Maps. This student focused book:\n\nProvides a selection of practical examples of geocomputational techniques and 'hot topics' written by world leading practitioners.\nIntegrates supporting materials in each chapter, such as code and data, enabling readers to work through the examples themselves.\n\nChapters provide highly applied and practical discussions of:\n\nVisualisation and exploratory spatial data analysis\nSpace time modelling\nSpatial algorithms\nSpatial regression and statistics\nEnabling interactions through the use of neogeography\n\nAll chapters are uniform in design and each includes an introduction, case studies, conclusions - drawing together the generalities of the introduction and specific findings from the case study application – and guidance for further reading.\nThis accessible text has been specifically designed for those readers who are new to Geocomputation as an area of research, showing how complex real-world problems can be solved through the integration of technology, data, and geocomputational methods. This is the applied primer for Geocomputation in the social sciences.\n\nSage Website\nSupporting Materials"
+  },
+  {
+    "objectID": "content/books/book_urban_analytics.html",
+    "href": "content/books/book_urban_analytics.html",
+    "title": "Urban Analytics",
+    "section": "",
+    "text": "The economic and political situation of cities has shifted in recent years in light of rapid growth amidst infrastructure decline, the suburbanization of poverty and inner city revitalization. At the same time, the way that data are used to understand urban systems has changed dramatically.\nUrban Analytics offers a field-defining look at the challenges and opportunities of using new and emerging data to study contemporary and future cities through methods including GIS, Remote Sensing, Big Data and Geodemographics.\nWritten in an accessible style and packed with illustrations and interviews from key urban analysts, this is a groundbreaking new textbook for students of urban planning, urban design, geography, and the information sciences.\n\nSage Website\nGithub Supporting Materials"
+  },
+  {
+    "objectID": "content/books/educational_opportunities.html",
+    "href": "content/books/educational_opportunities.html",
+    "title": "Educational Opportunities",
+    "section": "",
+    "text": "While in recent years the burgeoning Higher Education (HE) sector has been set an agenda of widening participation, few HE institutions have strategies in place for reaching the full range of potential students most likely to benefit from (and successfully complete) their current subject and course offerings. Universities and colleges are often unsystematic in the ways in which they identify schools and colleges for outreach and widening participation initiatives, and sometimes uncoordinated in how they present the full institutional profile of subjects of study in these activities. Using innovative methodology, this book sets out some relevant aspects of the changing HE policy-setting arena and presents a systematic framework for broadening participation and extending access in an era of variable fees. In particular, the book illustrates how HE data and publicly available sources might enable institutions to move from piecemeal analysis of their intake to institution-wide strategic and geographical market area analysis for existing and potential subject and course offerings.\n\nRoutledge Website"
   },
   {
     "objectID": "index.html",
