@@ -1,0 +1,103 @@
+0:library(vitae)
+0:install.packages("vitae")
+0:edu <- do.call("rbind",
+0:rorcid::orcid_educations("0000-0001-6729-7695")$`0000-0001-6729-7695`$`affiliation-group`$summaries
+0:)
+0:install.packages("rorcid")
+0:edu <- do.call("rbind",
+0:rorcid::orcid_educations("0000-0001-6729-7695")$`0000-0001-6729-7695`$`affiliation-group`$summaries
+0:)
+0:edu <- do.call("rbind",
+0:rorcid::orcid_educations("0000-0001-6729-7695")$`0000-0002-2338-2334`$`affiliation-group`$summaries
+0:)
+0:orcid_auth()
+0:rorcid::orcid_auth()
+0:rorcid::orcid_auth()
+0:usethis::edit_r_environ()
+0:edu <- do.call("rbind",
+0:rorcid::orcid_educations("0000-0001-6729-7695")$`0000-0002-2338-2334`$`affiliation-group`$summaries)
+0:readRenviron("~/.Renviron")
+0:edu <- do.call("rbind",
+0:rorcid::orcid_educations("0000-0001-6729-7695")$`0000-0002-2338-2334`$`affiliation-group`$summaries)
+0:rorcid::orcid_educations("0000-0001-6729-7695")
+0:rorcid::identifiers.works("0000-0001-6729-7695")
+0:rorcid::fields
+0:rorcid::orcid_citations("0000-0001-6729-7695")
+0:rorcid::orcid_id("0000-0001-6729-7695")
+0:rorcid::orcid_works("0000-0001-6729-7695")
+0:rorcid::works("0000-0001-6729-7695")
+0:rorcid::browse("0000-0001-6729-7695")
+0:rorcid::orcid_works("0000-0002-2338-2334")
+0:detailed_entries
+0:orcid_works("0000-0002-2338-2334")
+0:library(rorcid)
+0:orcid_works("0000-0002-2338-2334")
+0:DF <- as_tibble() %>%
+0:orcid_works("0000-0002-2338-2334")
+0:library(magrittr)
+0:DF <- as_tibble() %>%
+0:orcid_works("0000-0002-2338-2334")
+0:library(tibble)
+0:library(tidyverse)
+0:DF <- as_tibble() %>%
+0:orcid_works("0000-0002-2338-2334")
+0:DF <- as_tibble(  orcid_works("0000-0002-2338-2334"))
+0:DF
+0:View(DF)
+0:DF <- orcid_works("0000-0002-2338-2334")
+0:unlist(DF)
+0:as.data.frame(DF)
+0:DF <- as.data.frame() %>%
+0:orcid_works("0000-0002-2338-2334")
+0:DF <- as.data.frame(orcid_works("0000-0002-2338-2334"))
+0:View(DF)
+0:DF <- as_tibble_row(orcid_works("0000-0002-2338-2334"))
+0:View(DF)
+0:DF <- unnest(orcid_works("0000-0002-2338-2334")
+0:DF <- orcid_works("0000-0002-2338-2334") %>%
+0:DF <- orcid_works("0000-0002-2338-2334") %>%
+0:unnest() %>%
+0:as_tibble()
+0:DF <- orcid_works("0000-0002-2338-2334") %>%
+0:unnest(cols = c(`0000-0002-2338-2334`)) %>%
+0:as_tibble()
+0:DF <- orcid_works("0000-0002-2338-2334") %>%
+0:enframe()
+0:View(DF)
+0:DF <- orcid_works("0000-0002-2338-2334")
+0:enframe(DF)
+0:as.data.frame(do.call(cbind, DF))
+0:DF2 <- as.data.frame(do.call(cbind, DF))
+0:View(DF2)
+0:DF <- orcid_works("0000-0002-2338-2334") %>%
+0:as.data.frame()
+0:DF %>%
+0:as.tibble()
+0:DF %>%
+0:as_tibble()
+0:DF <- orcid_works("0000-0002-2338-2334") %>%
+0:as.data.frame() %>%
+0:as_tibble()
+0:View(DF)
+0:View(DF[[19]][[64]])
+0:View(DF[[19]][[6]])
+0:DF <- works("0000-0002-2338-2334") %>%
+0:as.data.frame() %>%
+0:as_tibble()
+0:View(DF)
+0:View(DF[[19]][[5]])
+0:View(DF)
+0:pubs <- rorcid::orcid_citations("0000-0002-2338-2334")
+0:install.packages("rcrossref")
+0:library("rcrossref")
+0:pubs <- rorcid::orcid_citations("0000-0002-2338-2334")
+0:warnings()
+0:View(pubs)
+0:View(pubs)
+0:library(vitae)
+0:?bibliography_entries
+0:library(citr)
+1662555923011:usethis::use_git_config(user.name = "Alex Singleton", user.email = "alexandersingleton@gmail.com")
+1662555938314:usethis::create_github_token() #generates token
+1662556019745:gitcreds::gitcreds_set() #apply token
+1662556026841:gitcreds::gitcreds_set() #apply token

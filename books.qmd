@@ -1,0 +1,10 @@
+---
+title: "Books"
+listing:
+  type: grid
+  contents:
+    - content/books
+  sort: "date desc"
+  fields:  [image, title]
+---
+

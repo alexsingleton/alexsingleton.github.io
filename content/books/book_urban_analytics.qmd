@@ -1,0 +1,19 @@
+---
+title: "Urban Analytics"
+date: "2017"
+date-format: "YYYY"
+---
+
+::: column-margin
+![](../../img/UA.png)
+:::
+
+The economic and political situation of cities has shifted in recent years in light of rapid growth amidst infrastructure decline, the suburbanization of poverty and inner city revitalization. At the same time, the way that data are used to understand urban systems has changed dramatically.
+
+Urban Analytics offers a field-defining look at the challenges and opportunities of using new and emerging data to study contemporary and future cities through methods including GIS, Remote Sensing, Big Data and Geodemographics.
+
+Written in an accessible style and packed with illustrations and interviews from key urban analysts, this is a groundbreaking new textbook for students of urban planning, urban design, geography, and the information sciences.
+
+-   [Sage Website](https://uk.sagepub.com/en-gb/eur/urban-analytics/book249267)
+
+-   [Github Supporting Materials](https://github.com/alexsingleton/urban_analytics)
