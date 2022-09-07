@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.quarto
+.cache
+.config
 .local
-/.quarto/
-/_site/
