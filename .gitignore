@@ -8,3 +8,5 @@
 .local
 .gitconfig
 .bash_history
+
+/.quarto/
