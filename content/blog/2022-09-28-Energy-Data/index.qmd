@@ -11,7 +11,7 @@ execute:
 
 # Introduction
 
-The purpose of this post is to provide a methodological note about how small area energy related statistics can be derived for Great Britain. This details the code and analytic frameworks needed, and also some of the caveats that need to be associated with the use of specific sources of data.
+The purpose of this post is to provide a methodological note about how small area energy related statistics can be derived for Great Britain from open sources. This details the code and analytic frameworks needed, and also some of the caveats that need to be associated with the use and presentation of information derived from specific sources of data.
 
 The analysis looks at:
 
@@ -37,6 +37,7 @@ library(vroom)
 library(lubridate)
 library(scales)
 library(knitr)
+library(tmap)
 
 
 #Params (https://www.gov.uk/government/publications/energy-bills-support/energy-bills-support-factsheet-8-september-2022)
@@ -72,40 +73,45 @@ The first stage of the analysis is to import a series of data into R. These come
 
 ## Energy Estimates
 
-There are a variety of sub national energy estimate data available, and in this study we will just use unit postcode level data, alongside data at Lower Layer Super Output Area / Data Zone (LSOA / DZ). For more details about all of the data available, and methodological detail about how these estimates are created, you can see this [website](https://www.gov.uk/government/collections/sub-national-electricity-consumption-data).
+There are a variety of sub national energy estimate data available, and in this study we import unit postcode level data, alongside data at Lower Layer Super Output Area / Data Zone (LSOA / DZ). Further methodological details about how these estimates are created can be found on this [website](https://www.gov.uk/government/collections/sub-national-electricity-consumption-data).
 
-The first data imported are the latest postcode level energy estimates for residential gas and electricity. To enable later matching, all of the spaces were removed from the postcode energy data.
+The first data imported are the latest postcode level energy estimates for residential gas and electricity. To enable later data linkage, all of the spaces were removed from the postcode variable.
 
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, eval=FALSE}
 # Gas
+
 gas <- vroom("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1050282/Postcode_level_gas_2020.csv") %>%
   mutate(POSTCODE = gsub(' ', '', POSTCODE)) %>% #Remove spaces from the postcode
    clean_names() #Clean the variable names
 
 # Electricity
+
 elec <- vroom("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1050243/Postcode_level_all_meters_electricity_2020.csv") %>%
   mutate(POSTCODE = gsub(' ', '', POSTCODE)) %>% #Remove spaces from the postcode
   clean_names() #Clean the variable names
 
 ```
 
-Then, the same data for LSOA (England, Wales) and Intermediate Zones (Scotland).
+Then, the same data for Lower Layer Super Output Area (LSOA) (England, Wales) and Data Zones (DZ) (Scotland) were imported.
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 #Electricity
+
 f <- curl::curl_download("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1050110/LSOA_domestic_elec_2010-20.xlsx", tempfile(fileext = ".xlsx"))
 elec_lsoa_dz <- read_excel(f,sheet = 12,skip = 4)
 
-#Gas
+# Gas
+
 f <- curl::curl_download("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1050186/LSOA_domestic_gas_2010-20.xlsx", tempfile(fileext = ".xlsx"))
 gas_lsoa_dz <- read_excel(f,sheet = 12,skip = 4)
 
 ```
 
-Not all of the columns are required in the gas and electricity LSOA / IZ data so these were removed, alongside tidying up the column names to remove spaces.
+Not all of the columns were required in the gas and electricity LSOA / DZ data so these were removed, alongside tidying up the column names to remove spaces.
 
-```{r}
-#Electricity
+```{r  warning=FALSE, message=FALSE}
+# Electricity
+
 elec_lsoa_dz %<>%
   clean_names() %>%
   select(lsoa_code,local_authority_code,total_consumption_k_wh,number_of_meters) %>%
@@ -114,7 +120,8 @@ elec_lsoa_dz %<>%
   rename(number_of_meters_elec = number_of_meters) %>%
   filter(LSOA_DZ != "Unallocated")
 
-#Gas
+# Gas
+
 gas_lsoa_dz %<>%
   clean_names() %>%
   select(lsoa_code,total_consumption_k_wh,number_of_meters) %>%
@@ -127,9 +134,9 @@ gas_lsoa_dz %<>%
 
 ## Address Data
 
-The [Office for National Statistics Postcode Directory (ONSPD)](https://geoportal.statistics.gov.uk/search?collection=Dataset&sort=name&tags=all(PRD_ONSPD%2CAUG_2022)) provides a database of all postcodes in the UK, alongside some descriptive measures and lookup to various nested geographies. To create a more managable dataset, a subset of the ONSPD containing only postcodes within Great Britain and those variables of interest; notably a number of lookups, the IMD and OAC.
+The [Office for National Statistics Postcode Directory (ONSPD)](https://geoportal.statistics.gov.uk/search?collection=Dataset&sort=name&tags=all(PRD_ONSPD%2CAUG_2022)) provides a database of all postcodes in the UK, alongside descriptive measures and lookups to various containing geographies. To create a more manageable dataset, a subset of the ONSPD was created containing only postcodes within Great Britain and those variables of interest; notably a number of lookups, the IMD and OAC.
 
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, eval=FALSE}
 
 #Import ONSPD
 
@@ -159,11 +166,11 @@ onspd <- read_parquet("./parquet/onspd.parquet") %>%
 
 The format and units of geography for small area income data vary between [England and Wales](https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/bulletins/smallareamodelbasedincomeestimates/financialyearending2018), and [Scotland](https://www.gov.scot/publications/chma-small-area-income-estimates/).
 
-At the time of putting this analysis together, the latest versions of these data related to 2018. As such, an adjustment factor of 1.05 was applied to the estimimates which relates to the [rate of inflation to 2021 prices](https://www.bankofengland.co.uk/monetary-policy/inflation/inflation-calculator) from 2018. For the purpose of these analysis we are also ignoring the confidence intervals of the estimates; which are available for the England and Wales data. There are further differences in that the England and Wales data are presented for average (mean) household disposable (net) income; whereas in Scotland these are for gross income, which might also include welfare benefits, tax credits and housing benefit.
+At the time of putting this analysis together, the latest versions of these data related to 2018. As such, an adjustment factor of 1.05 was applied to the estimates which relates to the [rate of inflation to 2021 prices](https://www.bankofengland.co.uk/monetary-policy/inflation/inflation-calculator) from 2018. For the purpose of the analysis we are also ignoring the confidence intervals of the estimates; which are only available for the England and Wales data. There are further differences in that the England and Wales data estimates are presented for average (mean) household disposable (net) income; whereas in Scotland these are for gross income, which might also include welfare benefits, tax credits and housing benefit.
 
-A combined lookup is created containing both LSOA / DZ. Because the annual income estimates for England and Wales are available at MSOA, the analysis is assuming these values to be constant for all nested LSOA within the MSOA.
+A combined lookup is created containing both LSOA / DZ. Because the annual income estimates for England and Wales are available at Middle Layer Super Output Area (MSOA), the analysis assumes these values to be constant for all nested LSOA within each MSOA.
 
-```{r}
+```{r  warning=FALSE, message=FALSE}
 
 #2018 Income Estimates - MSOA - E&W
 
@@ -214,11 +221,13 @@ income <- LSOA_MSOA %<>%
 
 ## Property Data
 
-The Unique Property Reference Number (UPRN) data are [downloaded](https://geoportal.statistics.gov.uk/datasets/ons-uprn-directory-august-2022/about) and imported through the following code. The folders are unzipped and placed in the working directory. You won't find these on the [github repo](https://github.com/alexsingleton/energy_map) as they are very large. Because the data are so large, an R interface to Apache Arrow was used to create parquet files from all the extracted CSV data and then unify these into a single file.
+A Unique Property Reference Number (UPRN) aims to provide a unique identifier for every addressable location; much the same as an address might. For more information about UPRN and how they are used you can see this \[website\](https://www.local.gov.uk/our-support/research-and-data/data-and-transparency/using-unique-property-reference-number-uprn).
+
+UPRN data are [downloaded](https://geoportal.statistics.gov.uk/datasets/ons-uprn-directory-august-2022/about) and imported through the following code. The folders are unzipped and placed in the working directory. Because the data are so large, the R interface to [Apache Arrow](https://arrow.apache.org/) was used to create a parquet file from all the extracted CSV data.
 
 ```{r eval=FALSE, message=FALSE}
 
-# Download UPRN
+# Download UPRN data
 
 f <- curl::curl_download("https://www.arcgis.com/sharing/rest/content/items/116804213c0048ef94e9f190882bdbed/data", tempfile(fileext = ".zip"))
 unzip(f)
@@ -288,14 +297,13 @@ imd19ind =  int64()
 
 ###########################################################################
 
-# This this code only worked on a 128 gig memory machine - can be used instead of the above steps; which are two step - create then read parquet.
+# This code only worked on a larger memory machine and can be used instead of the above code that is commented out. This is two step process to create then read the parquet.
+
 uprn <- open_dataset(paste0("./Data/",files),
    delimiter = ",",
    schema = sch,
    skip = 1
 )
-
-
 
 # Remove UPRN in Large User Postcodes 
 
@@ -305,10 +313,12 @@ uprn <- uprn %>%
     collect()
 
 #Save file for later use
+
 write_parquet(uprn, sink = "./parquet/uprn.parquet")
 
 
 #Remove unwanted data
+
 unlink("./Documents/", recursive = TRUE) #Delete downloaded file
 unlink("./User Guide/", recursive = TRUE) #Delete downloaded file
 unlink("./Data/", recursive = TRUE) #Delete downloaded file
@@ -318,14 +328,16 @@ unlink("./Data/", recursive = TRUE) #Delete downloaded file
 
 ## Importing the Spatial Data
 
-A number of polygon files are needed to create the later maps, however, direct links were not available for England and Wales so were downloaded manually and loaded into R locally. These included:
+A number of polygon files were needed to create the later maps, however, direct links were not available for England and Wales so these were downloaded manually and loaded into R locally. These included:
 
 -   [Parliamentary Constituency Boundaries (2021)](https://geoportal.statistics.gov.uk/datasets/ons::westminster-parliamentary-constituencies-december-2021-uk-bgc)
 -   [2011 Census Lower Layer Super Output Areas (England & Wales)](https://geoportal.statistics.gov.uk/datasets/ons::lower-layer-super-output-areas-december-2011-boundaries-generalised-clipped-bgc-ew-v3)
 -   [2011 Census Intermediate Zones (Scotland)](https://spatialdata.gov.scot/geonetwork/srv/eng/catalog.search#/metadata/42dc0524-a8fb-4fdb-b838-2f63f96e5a2b)
 
 ```{r warning=FALSE, eval=FALSE}
+
 #Data Zones
+
 f <- curl::curl_download("https://maps.gov.scot/ATOM/shapefiles/SG_DataZoneBdry_2011.zip", tempfile(fileext = ".zip"))
 unzip(f, exdir="./Data")
 dz <- read_sf("./Data/SG_DataZone_Bdry_2011.shp") %>%
@@ -335,10 +347,12 @@ unlink("./Data/", recursive = TRUE) #Delete downloaded file
 
 
 #Lower Layer Super Output Areas
+
 lsoa <- read_sf("./Boundary_Files/Lower_Layer_Super_Output_Areas_(December_2011)_Boundaries_Full_Clipped_(BFC)_EW_V3.geojson")  %>%
 st_transform(27700)
 
 #Westminster Parliamentary Constituencies
+
 wpc <- read_sf("./Boundary_Files/Westminster_Parliamentary_Constituencies_(December_2021)_UK_BFC.geojson") %>%
 st_transform(27700)
 
@@ -374,9 +388,9 @@ save(wpc, file = "./Boundary_Files/wpc.Rdata")
 
 ## Energy Performance Certificate Data
 
-Energy Performance Certificate (EPC) data are available to download in bulk from this Department for Leveling Up, Housing & Communities [website](https://epc.opendatacommunities.org/domestic/search). This requires registration before download, and the extracted data are quite large (33 gig of unzipped .CSV files). For more information about EPC, the [Energy Saving Trust](https://energysavingtrust.org.uk/advice/guide-to-energy-performance-certificates-epcs/) website provides some useful information. The certificates are valid for 10 years and mainly assigned to properties as part of the process of property purchase or rental. Bands run from A (better) to G (worse), based on the energy performance of the property. There area a huge range of different attributes within these data, however not all are needed for these purposes so are cut down.
+Energy Performance Certificate (EPC) data are available to download in bulk from this Department for Leveling Up, Housing & Communities [website](https://epc.opendatacommunities.org/domestic/search). This requires registration before download, and the extracted data are quite large (33 gig of unzipped .CSV files). For more information about EPC, the [Energy Saving Trust](https://energysavingtrust.org.uk/advice/guide-to-energy-performance-certificates-epcs/) website provides some useful details. The certificates are valid for 10 years and are mainly assigned to properties as part of the process of property purchase or rental. Bands run from A (better) to G (worse), based on the energy performance of the property. There area a huge range of different attributes within these data, however not all are needed for the purposes here, so are cut down.
 
-After download, the data was manually unzipped into a folder called "all-domestic-certificates" in the root of the analysis folder.
+After download, the data was manually unzipped into a folder called "all-domestic-certificates" in the root of the analysis folder, and also processed with Apache Arrow.
 
 ```{r eval=FALSE}
 
@@ -491,7 +505,7 @@ epc <- open_dataset(files,
 
 ```
 
-After the dataset was created, postcodes were used to append the attributes of the onspd file. The date of the certificated lodgement was also recorded, and a new variable to identify property with certificates within the highest rated bands of A,B and C.
+After the dataset was created, postcodes were used to append the attributes of the ONSPD data created earlier. The date of the certificated lodgement was also recorded, and a new variable created to identify a property with a certificate within the highest energy performing bands of A,B and C.
 
 ```{r eval=FALSE}
 
@@ -568,7 +582,7 @@ unlink("sape-20-all-tabs-and-figs_TabA.csv")
 
 ```
 
-A second stage then apportions the area level population estimates by postcode, using the number of UPRN per postcode as an apportionment factor. Thus, if an area had two postcodes within it, with UPRN split in a ration of 75% and 25% between them, then the population would be split into postcodes in the same proportion; following the assumption that population follows UPRN (i.e. address) count.
+A second stage then apportions the area level population estimates by postcode, using the number of UPRN per postcode as an apportionment factor. Thus, if an area had two postcodes within it, with UPRN split between them in a ratio of 75% and 25%: then the population would be split into postcodes using the same proportion; following the assumption that population follows UPRN (i.e. address) count.
 
 ```{r warning=FALSE, message=FALSE, eval=FALSE}
 
@@ -677,14 +691,16 @@ write_parquet(PCD_Pop, sink = "./parquet/PCD_Pop.parquet")
 We can now create a list of the latest EPC assessments for each UPRN, and calculate the proportion of A,B,C certificates nationally and for a selected geography. This first involves identifying the most recent EPC for any given property.
 
 ```{r eval=FALSE}
-#For each UPRN nationally, select the most recent EPC
+# For each UPRN nationally, select the most recent EPC
+
 latest_epc_national <- bands %>%
     group_by(UPRN) %>%
-    slice(which.max(LODGEMENT_DATE2)) %>%
+    slice(which.max(LODGEMENT_DATE2)) %>% # a UPRN can have multiple assesments, uses the latest
     filter(!is.na(UPRN)) %>% 
     as_tibble()
 
-#Save file for later use
+# Save file for later use
+
 write_parquet(latest_epc_national, sink = "./parquet/latest_epc_national.parquet")
 
 ```
@@ -693,14 +709,15 @@ We can now calculate the proportion of ABC certificates by location and year.
 
 ```{r warning=FALSE, message=FALSE}
 # Calculate the proportion of ABC certificates by year nationally
+
 epc_change_graph_national <- latest_epc_national %>%
   select(YR,ABC) %>%
    group_by(YR,ABC) %>%
   summarise(count = n() ) %>%
   mutate( prop = (count / sum(count)) )
 
-
 # Calculate the proportion of ABC certificates by year for the WPC
+
 epc_change_graph_wpc <- latest_epc_national %>%
   filter(pcon == wpc_map) %>%
   select(YR,ABC) %>%
@@ -709,16 +726,19 @@ epc_change_graph_wpc <- latest_epc_national %>%
   mutate( prop = (count / sum(count))) %>%
   mutate(Geography = wpc_map )
 
-
 #Combined data for a plot
+
 epc_change_graph <- epc_change_graph_national %>%
   mutate(Geography = "England and Wales" ) %>%
   bind_rows(epc_change_graph_wpc)
 ```
 
-The proportion of EPC assesments with an A,B or C outcome by UPRN can then be mapped over time. The national proportions for England and Wales are shown in green, and the selected area in orange. The red line indicates the ten year cutoff for certificates expiring.
+The proportion of EPC assessments with an A,B or C outcome by UPRN can then be mapped over time. The national proportions for England and Wales are shown in green, and the selected area in orange. The red line indicates the ten year cutoff for certificates expiring.
 
-```{r}
+```{r warning=FALSE, message=FALSE}
+#| label: fig-epc-change
+#| fig-cap: "The proportion of EPC assessments with an A,B or C rating."
+#| cap-location: margin
 
 epc_change_graph %>%
   filter(ABC == "Yes") %>%
@@ -729,16 +749,15 @@ epc_change_graph %>%
   geom_point(colour="#344E5C")+
   scale_x_continuous(breaks = seq(2008, 2022, by = 1)) +
   scale_y_continuous(labels=percent_format()) +
-  labs(x="Year",y="%",
-               title="Percentage of Addresses Assessed with an EPC of A,B or C") 
+  labs(x="Year",y="%" ) 
 
 ```
 
-## Calculating the proportion of UPRN with an Energy Certificate
+## Calculating the proportion of UPRN within an area holding a valid Energy Performance Certificate
 
-To gauge the completeness of certificates, a count of UPRN that are not ascribed a large user postcode are compared to the number of UPRN that have been attributed an EPC within the past 10 years (period of certificate validity).
+To gauge the completeness of certificates within an area, a count of UPRN are compared to the number of UPRN that have been attributed an EPC within the past 10 years (period of certificate validity).
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 
 # Subset of EPC for WPC
 
@@ -748,58 +767,64 @@ select(UPRN,CURRENT_ENERGY_RATING)
 
 ```
 
-In `paste0(wpc_map)` there are `r bands %>% filter(pcon == wpc_map, is.na(UPRN)) %>% count(UPRN) %>% select(n) %>% pull()` assessments without a UPRN, however, for the `r nrow(EPC_WPC)` remaining assessments with a UPRN over the past 10 years, the distribution of their most current assessment is as follows:
+In `r paste0(wpc_map)` there are `r bands %>% filter(pcon == wpc_map, is.na(UPRN)) %>% count(UPRN) %>% select(n) %>% pull()` assessments without a UPRN, however, for the `r nrow(EPC_WPC)` remaining assessments with a UPRN over the past 10 years, the distribution of their most current assessment is as follows:
 
-```{r}
+```{r warning=FALSE, message=FALSE}
+#| label: fig-epc-distrib
+#| fig-cap: "Certificate Distribution of Addresses Assessed."
+#| cap-location: margin
 
 EPC_WPC %>%
 ggplot(aes(CURRENT_ENERGY_RATING)) +
-  geom_bar(aes(y=..count../sum(..count..),fill="#4AB19D")) +
+  geom_bar(aes(y=..count../sum(..count..)),fill="#4AB19D") +
   scale_y_continuous(labels=percent_format()) +
-  labs(x="EPC Current Rating",y="%", title="Certificate Distribution of Addresses Assessed") +
+  labs(x="EPC Current Rating",y="%") +
   theme(legend.position = "none")
-
-
 ```
 
 ## Assessed Properties
 
-We can now calculate the proportion of properties with and EPC assessment.
+We can now calculate the proportion of properties with an EPC assessment.
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 
-
+# Subset uprn to the wpc
 tot_uprn <- open_dataset("./parquet/uprn.parquet") %>%
   filter(PCON19CD == wpc_map) %>%
   nrow()
 
+# Total EPC within the wpc
 tot_uprn_wpc <- EPC_WPC %>%
   nrow()
 
+# Setup dummy data frame and add values
 df <- data.frame(matrix(nrow=1, ncol = 2))
-
 names(df) <- c("variable", "percentage")
 df$variable <- c("UPRN")
 df$percentage <- tot_uprn_wpc / tot_uprn
+```
 
+```{r warning=FALSE, message=FALSE}
+#| label: fig-epc-complete
+#| fig-cap: "EPC Completeness."
+#| column: margin
 
-ggplot(df, aes(fill = "#4AB19D", ymax = percentage, ymin = 0, xmax = 2, xmin = 1)) +
+ggplot(df, aes(ymax = percentage, ymin = 0, xmax = 2, xmin = 1)) +
  geom_rect(aes(ymax=1, ymin=0, xmax=2, xmin=1), fill ="#4AB19D") +
- geom_rect() + 
+ geom_rect(fill = "#E17A47") + 
  coord_polar(theta = "y",start=-pi/2) + xlim(c(0, 2)) + ylim(c(0,2)) +
- geom_text(aes(x = 0, y = 0, label = paste0(round(tot_uprn_wpc / tot_uprn * 100),"%"), colour="#344E5C"), size=12, family="Poppins SemiBold") +
+ geom_text(aes(x = 0, y = 0, label = paste0(round(tot_uprn_wpc / tot_uprn * 100),"%")), size=12, family="Poppins SemiBold",colour="#E17A47") +
  geom_text(aes(x=0.5, y=1.5, label="Properties with a valid EPC"), family="Poppins Light", size=4.2) + 
  theme_void() +
  theme(strip.background = element_blank(),strip.text.x = element_blank(),legend.position = "none")
-  
-  
+
 ```
 
 # Mapping Energy Data
 
-The first step is to append attribute data to the LSOA / DZ simple feature collection that will be used to generate different measures and maps:
+The first step is to append attribute data to the LSOA / DZ simple feature collection that will be used to generate the different measures to be mapped.
 
-```{r message=FALSE }
+```{r warning=FALSE, message=FALSE}
 #Join Attributes
 
 lsoa_dz %<>%
@@ -811,10 +836,14 @@ lsoa_dz %<>%
 
 ## Calculate Values to Map
 
-The following represent derived variables to map.
+The mean cost of gas and electricity per meter is calculated for a year within a LSOA / DZ and then compared to estimated income. The proportion of income is calculated and a new variable added where these are greater than 10%. The costs for electricity and gas are based on the average unit price for dual fuel customers who pay by direct debit and derived from this \[government announcement\](https://www.gov.uk/government/publications/energy-bills-support/energy-bills-support-factsheet-8-september-2022). This ignores the potential for people living in different areas to mitigate costs through behaviour change and assumes one type of billing. Costs may be high for those who pay through other means such as card meters.
 
-```{r message=FALSE}
+-   Electricity /kWh - `r paste0(elec_cost_kw)`
+-   Gas /kWh - `r paste0(gas_cost_kw)`
+-   Standing Charge (Gas) - `r paste0(standing_gas)`
+-   Standing Charge (Electricity) - `r paste0(standing_elec)`
 
+```{r warning=FALSE, message=FALSE}
 lsoa_dz %<>%
   mutate(electricity = (((elec_total_consumption_k_wh * elec_cost_kw)/100)/number_of_meters_elec) + ((standing_elec * 365)/100)) %>% # Mean Electricity Cost (per meter)
   mutate(gas = (((gas_total_consumption_k_wh * gas_cost_kw)/100)/number_of_meters_gas) + ((standing_gas * 365)/100)) %>% # Mean Gas Cost (per meter)
@@ -824,26 +853,26 @@ lsoa_dz %<>%
 
 ## Intersecting LSOA / DZ and WPC
 
-Because LSOA / DZ do not perfectly nest within Westminster Parliamentary Constituency, it is first necessary to explore these intersections and create a lookup table.
+Because LSOA / DZ do not perfectly nest within Westminster Parliamentary Constituencies, it is first necessary to build a table of these intersections.
 
-```{r, message=FALSE}
+```{r warning=FALSE, message=FALSE}
 # Identify the intersection of LSOA / DZ and WPC 
+
 lsoa_dz_wpc <- st_intersects(lsoa_dz,wpc,sparse = FALSE)
 lsoa_dz_wpc <- as_tibble(lsoa_dz_wpc,.name_repair = "minimal") %>%
   setNames(wpc$PCON21CD)
 
 # Append to LSOA / DZ SF
+
 lsoa_dz %<>%
   bind_cols(lsoa_dz_wpc)
-
 ```
 
 # Energy Maps
 
 First we create a subset of data to map by WPC, and including a subset of postcodes: which are also converted to an SF spatial object. Those postcodes within areas of fuel poverty are then identified.
 
-```{r warning=FALSE}
-
+```{r warning=FALSE, message=FALSE}
 
 # Get WPC Name
 wpc_name <- wpc %>%
@@ -864,7 +893,7 @@ t_lsoa_dz <- lsoa_dz %>%
 
 ```
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 
 # Subset postcodes
 
@@ -876,19 +905,19 @@ t_PCD_Pop <- PCD_Pop %>%
 # Identify which postcodes are within the area identified as fuel poverty
 
 fp <- st_intersection(t_PCD_Pop,(t_lsoa_dz %>% filter(Fuel_Poverty == "Yes")),sparse = FALSE)
-
-
 ```
 
-## Estimated Residential Electricity Cost Map
+## Residential Electricity and Gas Cost Maps
 
-```{r}
+The annual cost of electricity and gas in £000s can now be mapped.
 
+```{r warning=FALSE, message=FALSE}
 
-#Calculate Breaks
+# Calculate Breaks for electricty 
+
 classes <-  classIntervals(round(t_lsoa_dz$electricity,digits = 0), n=5, style="quantile")
 
-#Extract breaks and round values, accounting for the upper and lower bounds
+# Extract breaks and round values, accounting for the upper and lower bounds
 
 breaks <- classes$brks
 breaks[[1]] <- breaks[[1]] -1
@@ -897,29 +926,14 @@ breaks[[6]] <- breaks[[6]] +1
 t_lsoa_dz %<>%
   mutate(electricity_c = cut(electricity, round(breaks), dig.lab=10)) %>%
   mutate(electricity_l = str_replace_all(electricity_c, c("\\(" = "", "\\]" = "", "\\," = "-")))
-
-
-
-
-
-
-ggplot() +
- geom_sf(data = t_lsoa_dz, mapping = aes(fill = electricity_l), alpha = 1, colour = "#4b4b4b", size = 0.3) +
-  scale_fill_brewer(palette = "PuBu", name = "£000s") +
-  theme(panel.background = element_blank(),
-        line = element_blank(),
-        axis.text = element_blank(),
-        axis.title = element_blank()) +
-  coord_sf(datum=NA)
 ```
 
-## Estimated Residential Gas Cost Map
-
 ```{r}
-#Calculate Breaks
+# Calculate Breaks for gas
+
 classes <-  classIntervals(round(t_lsoa_dz$gas,digits = 0), n=5, style="quantile")
 
-#Extract breaks and round values, accounting for the upper and lower bounds
+# Extract breaks and round values, accounting for the upper and lower bounds
 
 breaks <- classes$brks
 breaks[[1]] <- breaks[[1]] -1
@@ -929,6 +943,30 @@ t_lsoa_dz %<>%
   mutate(gas_c = cut(gas, round(breaks), dig.lab=10)) %>%
   mutate(gas_l = str_replace_all(gas_c, c("\\(" = "", "\\]" = "", "\\," = "-")))
 
+
+```
+
+```{r warning=FALSE, message=FALSE}
+#| label: fig-cap-electic-cost
+#| fig-cap: "Estimated Electricity Costs."
+#| cap-location: margin
+
+ggplot() +
+ geom_sf(data = t_lsoa_dz, mapping = aes(fill = electricity_l), alpha = 1, colour = "#4b4b4b", size = 0.3) +
+  scale_fill_brewer(palette = "PuBu", name = "£000s") +
+  theme(panel.background = element_blank(),
+        line = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank()) +
+  coord_sf(datum=NA)
+
+```
+
+```{r warning=FALSE, message=FALSE}
+#| label: fig-cap-gas-cost
+#| fig-cap: "Estimated Gas Costs."
+#| cap-location: margin
+
 ggplot() +
  geom_sf(data = t_lsoa_dz, mapping = aes(fill = gas_l), alpha = 1, colour = "#4b4b4b", size = 0.3) +
   scale_fill_brewer(palette = "PuBu", name = "£000s") +
@@ -937,32 +975,29 @@ ggplot() +
         axis.text = element_blank(),
         axis.title = element_blank()) +
   coord_sf(datum=NA)
+
 ```
 
 ## Proportion of Income
 
-```{r}
+```{r echo=FALSE}
 fp_N<- nrow(fp)
 ```
 
 The following map illustrates the proportion of income that is estimated to be spent on electricity and gas. Those areas where this exceeds 10% are highlighted in red.
 
-`r if(fp_N > 0 ) {"\\begin{comment}"}`
+`r if(fp_N > 0){paste("There are an estimated ",paste0(sum(fp$total_population_PCD), "people who spend more than 10% of their income on fuel, with ",paste0(sum(fp$population_aged_65_and_over_PCD))," of these being over 65 years of age.","A file containing the postcodes within this area can be downloaded [here](",wpc_map,".csv)"))}`
 
-There are an estimated `r paste0(sum(fp$total_population_PCD))` people who spend more than 10% of their income on fuel, with `r paste0(sum(fp$population_aged_65_and_over_PCD))` of these being over 65 years of age.
 
-`r if(fp_N > 0 ){paste0("A file containing the postcodes within this area can be downloaded [here](",wpc_map,".csv)")}`.
+```{r  warning=FALSE, message=FALSE}
+#| label: fig-income-cost
+#| fig-cap: "Estimated Proportion of Income Spent on Gas and Electricity."
+#| cap-location: margin
 
-`r if(fp_N > 0) {"\\end{comment}"}`
-
-```{r}
-
-#Calculate Breaks
+# Calculate Breaks
 classes <-  classIntervals(t_lsoa_dz$prop_income, n=5, style="equal")
-
 breaks <- classes$brks
 
-color = NULL
 
 ggplot() +
  geom_sf(data = t_lsoa_dz, mapping = aes(fill = prop_income,color=Fuel_Poverty), lwd = 0.3) +
@@ -976,9 +1011,10 @@ ggplot() +
 
 
 ```
+The following is an interactive version of the same map.
 
 ```{r warning=FALSE, message=FALSE}
-
+#| column: screen
 tmap_mode("view")
 
 tm_shape(t_lsoa_dz) +
@@ -1005,13 +1041,14 @@ tm_basemap(leaflet::providers$CartoDB.Positron) +
 
 ```
 
-# Fuel Poverty Postcodes
 
-```{r}
+
+```{r echo=FALSE}
 #This code writes a CSV containing the postcodes within the WPC that are estimated as in fuel poverty
 
 fp %>%
   select(PCDS) %>%
+  st_drop_geometry()%>%
   write_csv(file = paste0(wpc_map,".csv"))
 
 
