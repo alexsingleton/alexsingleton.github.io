@@ -1,8 +1,8 @@
 ---
 title: "Mapping Energy Poverty"
-date: "2022-09-07"
-categories: [R, Windows, Rstudio]
-image: "R.png"
+date: "2022-09-30"
+categories: [R, Energy, Code]
+image: "map.png"
 execute:
   echo: true
   message: false
@@ -28,11 +28,10 @@ The first stage of this work is to load some necessary packages, and set some la
 library(tidyverse)
 library(magrittr)
 library(readxl)
-library(janitor) #For name cleaning
+library(janitor) # For name cleaning
 library(sf)
 library(classInt)
 library(arrow)
-library(tictoc)
 library(vroom)
 library(lubridate)
 library(scales)
@@ -40,7 +39,8 @@ library(knitr)
 library(tmap)
 
 
-#Params (https://www.gov.uk/government/publications/energy-bills-support/energy-bills-support-factsheet-8-september-2022)
+#Params (https://www.gov.uk/government/publications/
+#        energy-bills-support/energy-bills-support-factsheet-8-september-2022)
 wpc_map <- "E14000795" # This is a Westminster Parliamentary Constituency code
 elec_cost_kw <- 34
 gas_cost_kw <- 10.3
@@ -59,6 +59,10 @@ uprn <- read_parquet("./parquet/uprn.parquet")
 bands <- read_parquet("./parquet/bands.parquet")
 latest_epc_national <- read_parquet("./parquet/latest_epc_national.parquet")
 PCD_Pop <- read_parquet("./parquet/PCD_Pop.parquet")
+elec_lsoa_dz <- read_parquet("./parquet/elec_lsoa_dz.parquet")
+gas_lsoa_dz <- read_parquet("./parquet/gas_lsoa_dz.parquet")
+income <- read_parquet("./parquet/income.parquet")
+
 
 load(file = "./Boundary_Files/lsoa_dz.Rdata")
 load(file = "./Boundary_Files/wpc.Rdata")
@@ -94,7 +98,7 @@ elec <- vroom("https://assets.publishing.service.gov.uk/government/uploads/syste
 
 Then, the same data for Lower Layer Super Output Area (LSOA) (England, Wales) and Data Zones (DZ) (Scotland) were imported.
 
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, eval=FALSE}
 #Electricity
 
 f <- curl::curl_download("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1050110/LSOA_domestic_elec_2010-20.xlsx", tempfile(fileext = ".xlsx"))
@@ -109,7 +113,7 @@ gas_lsoa_dz <- read_excel(f,sheet = 12,skip = 4)
 
 Not all of the columns were required in the gas and electricity LSOA / DZ data so these were removed, alongside tidying up the column names to remove spaces.
 
-```{r  warning=FALSE, message=FALSE}
+```{r  warning=FALSE, message=FALSE, eval=FALSE}
 # Electricity
 
 elec_lsoa_dz %<>%
@@ -132,6 +136,11 @@ gas_lsoa_dz %<>%
 
 ```
 
+```{r echo=FALSE, eval=FALSE}
+write_parquet(elec_lsoa_dz, sink = "./parquet/elec_lsoa_dz.parquet")
+write_parquet(gas_lsoa_dz, sink = "./parquet/gas_lsoa_dz.parquet")
+```
+
 ## Address Data
 
 The [Office for National Statistics Postcode Directory (ONSPD)](https://geoportal.statistics.gov.uk/search?collection=Dataset&sort=name&tags=all(PRD_ONSPD%2CAUG_2022)) provides a database of all postcodes in the UK, alongside descriptive measures and lookups to various containing geographies. To create a more manageable dataset, a subset of the ONSPD was created containing only postcodes within Great Britain and those variables of interest; notably a number of lookups, the IMD and OAC.
@@ -146,6 +155,10 @@ onspd <- vroom("Data/ONSPD_AUG_2022_UK.csv")
 
 unlink("./Data/", recursive = TRUE) #Delete downloaded file
 
+
+```
+
+```{r echo=FALSE, eval=FALSE}
 #Save file for later use
 write_parquet(onspd, sink = "./parquet/onspd.parquet")
 
@@ -153,7 +166,7 @@ write_parquet(onspd, sink = "./parquet/onspd.parquet")
 
 ```{r  warning=FALSE, message=FALSE, eval=TRUE}
 
-onspd <- read_parquet("./parquet/onspd.parquet") %>%
+onspd  %<>%
   filter(ctry %in% c("E92000001","S92000003","W92000004"), # Keep England, Scotland, Wales
         is.na(doterm)) %>% 
   select(pcd,pcon,oa11,oslaua,lsoa11,msoa11,oac11,imd,oseast1m,osnrth1m) %>% #Keep Variables
@@ -170,7 +183,7 @@ At the time of putting this analysis together, the latest versions of these data
 
 A combined lookup is created containing both LSOA / DZ. Because the annual income estimates for England and Wales are available at Middle Layer Super Output Area (MSOA), the analysis assumes these values to be constant for all nested LSOA within each MSOA.
 
-```{r  warning=FALSE, message=FALSE}
+```{r  warning=FALSE, message=FALSE, eval=FALSE}
 
 #2018 Income Estimates - MSOA - E&W
 
@@ -218,6 +231,13 @@ income <- LSOA_MSOA %<>%
   bind_rows(s_income)
 
 ```
+
+```{r echo=FALSE, eval=FALSE}
+#Save file for later use
+write_parquet(income, sink = "./parquet/income.parquet")
+
+```
+
 
 ## Property Data
 
@@ -297,7 +317,9 @@ imd19ind =  int64()
 
 ###########################################################################
 
-# This code only worked on a larger memory machine and can be used instead of the above code that is commented out. This is two step process to create then read the parquet.
+# This code only worked on a larger memory machine and can be used instead of 
+# the above code that is commented out. This is two step process to create 
+# then read the parquet.
 
 uprn <- open_dataset(paste0("./Data/",files),
    delimiter = ",",
@@ -312,9 +334,6 @@ uprn <- uprn %>%
     filter(PCDS %in% onspd$pcd) %>% #checks if in onspd
     collect()
 
-#Save file for later use
-
-write_parquet(uprn, sink = "./parquet/uprn.parquet")
 
 
 #Remove unwanted data
@@ -324,6 +343,11 @@ unlink("./User Guide/", recursive = TRUE) #Delete downloaded file
 unlink("./Data/", recursive = TRUE) #Delete downloaded file
 
 
+```
+
+```{r echo=FALSE, eval=FALSE}
+#Save file for later use
+write_parquet(uprn, sink = "./parquet/uprn.parquet")
 ```
 
 ## Importing the Spatial Data
@@ -381,11 +405,12 @@ wpc %<>%
 
 rm(lsoa,dz)
 
+```
+```{r echo=FALSE, eval=FALSE}
+#Save file for later use
 save(lsoa_dz, file = "./Boundary_Files/lsoa_dz.Rdata")
 save(wpc, file = "./Boundary_Files/wpc.Rdata")
-
 ```
-
 ## Energy Performance Certificate Data
 
 Energy Performance Certificate (EPC) data are available to download in bulk from this Department for Leveling Up, Housing & Communities [website](https://epc.opendatacommunities.org/domestic/search). This requires registration before download, and the extracted data are quite large (33 gig of unzipped .CSV files). For more information about EPC, the [Energy Saving Trust](https://energysavingtrust.org.uk/advice/guide-to-energy-performance-certificates-epcs/) website provides some useful details. The certificates are valid for 10 years and are mainly assigned to properties as part of the process of property purchase or rental. Bands run from A (better) to G (worse), based on the energy performance of the property. There area a huge range of different attributes within these data, however not all are needed for the purposes here, so are cut down.
@@ -393,8 +418,9 @@ Energy Performance Certificate (EPC) data are available to download in bulk from
 After download, the data was manually unzipped into a folder called "all-domestic-certificates" in the root of the analysis folder, and also processed with Apache Arrow.
 
 ```{r eval=FALSE}
+# List all the certificates files
 
-files <- list.files(path='.',pattern="certificates.csv",recursive = TRUE) # List all the certificates files
+files <- list.files(path='.',pattern="certificates.csv",recursive = TRUE) 
 
 # Setup a schema for the certificates data
 
@@ -499,8 +525,8 @@ epc <- open_dataset(files,
   skip = 1,
   schema = sch,
   timestamp_parsers = c("%Y-%m-%d %H:%M:%S","%Y-%m-%d"),
-  convert_options = CsvConvertOptions$create(null_values = c('','+7'))# catch a couple of data errors
-)
+  convert_options = CsvConvertOptions$create(null_values = c('','+7'))
+) # catch a couple of data errors on read
 
 
 ```
@@ -511,20 +537,26 @@ After the dataset was created, postcodes were used to append the attributes of t
 
 # Append ONSPD and create new variables
 
+
 bands <- epc %>%
-  mutate(YR = str_sub(LODGEMENT_DATE,1,4)) %>% #Create year variable
-  select(UPRN,POSTCODE, LODGEMENT_DATE, YR,CURRENT_ENERGY_RATING) %>% #subset data
-  mutate(POSTCODE = gsub(' ', '', POSTCODE)) %>% #remove spaces from the postcode
+  mutate(YR = str_sub(LODGEMENT_DATE, 1, 4)) %>% #Create year variable
+  select(UPRN, POSTCODE, LODGEMENT_DATE, YR, CURRENT_ENERGY_RATING) %>% #subset
+  mutate(POSTCODE = gsub(' ', '', POSTCODE)) %>% #remove spaces
   collect() %>% # pulls into R prior to gsub
-  mutate(CURRENT_ENERGY_RATING = gsub('INVALID!', NA, CURRENT_ENERGY_RATING)) %>% #remove junk from the current energy rating 
-  left_join(onspd, by = c("POSTCODE" = "pcd")) %>% #join onspd
-  mutate (ABC= if_else(CURRENT_ENERGY_RATING %in% c("A","B","C"), "Yes", "No", missing = NULL)) %>% #create a ABC variable
+  mutate(CURRENT_ENERGY_RATING = gsub('INVALID!',
+                                    NA, CURRENT_ENERGY_RATING)) %>% #remove junk
+  mutate (ABC = if_else(
+    CURRENT_ENERGY_RATING %in% c("A", "B", "C"),
+    "Yes",
+    "No",
+    missing = NULL
+  )) %>% #create a ABC variable
   mutate(LODGEMENT_DATE2 = ymd(LODGEMENT_DATE)) #convert dates
-  
+
+```
+```{r eval=FALSE, echo=FALSE}
 # Save file for later use
-
 write_parquet(bands, sink = "./parquet/bands.parquet")
-
 ```
 
 ## Population Estimates
@@ -559,12 +591,16 @@ Pop_EW <- lapply(url_xlsx, read_xlsx_files ) %>%
 
 Pop_EW %<>%
  clean_names() %>%
-  mutate(population_aged_65_and_over = (x65 + x66 + x67 + x68 + x69 + x70 + x71 + x72 + x73 + x74 + x75 + x76 + x77 + x78 + x79 + x80 + x81 + x82 + x83 + x84 + x85 + x86 + x87 + x88 + x89 + x90)) %>%
+  mutate(population_aged_65_and_over = (x65 + x66 + x67 + x68 + x69 + x70 + x71
+                                        + x72 + x73 + x74 + x75 + x76 + x77 + 
+                                          x78 + x79 + x80 + x81 + x82 + x83 + 
+                                          x84 + x85 + x86 + x87 + x88 + x89 + 
+                                          x90)) %>%
   rename(total_population = all_ages) %>%
   select(oa11cd,total_population,population_aged_65_and_over) %>%
    group_by(oa11cd) %>% 
-  summarize(total_population = sum(total_population),population_aged_65_and_over = sum(population_aged_65_and_over))
-
+  summarize(total_population = sum(total_population),
+            population_aged_65_and_over = sum(population_aged_65_and_over))
 
 # Scotland
 
@@ -597,7 +633,7 @@ pcd_uprn_N <- open_dataset("./parquet/uprn.parquet") %>%
 # onspd - OA and LSOA / DZ Codes
 
 onspd <- open_dataset("./parquet/onspd.parquet") %>%
-  filter(ctry %in% c("E92000001","S92000003","W92000004"), # Keep England, Scotland, Wales
+  filter(ctry %in% c("E92000001","S92000003","W92000004"), # Keep E,S,W
         is.na(doterm)) %>% # Not terminated
   select(pcd,oa11,lsoa11) %>%
   mutate(pcd = gsub(' ', '', pcd)) %>%
@@ -609,7 +645,8 @@ pcd_uprn_N %<>%
     left_join(onspd, by = c("PCDS" = "pcd")) #join UPRN Counts
 
 
-# Create OA file for apportionment - note - some missing OA as there are no postcodes within them
+# Create OA file for apportionment - note - 
+# some missing OA as there are no postcodes within them
 
 OA_UPRN_N <- pcd_uprn_N %>%
                     group_by(oa11,PCDS) %>%
@@ -617,7 +654,8 @@ OA_UPRN_N <- pcd_uprn_N %>%
                      mutate( UPRN_Prop = (UPRN_Count / sum(UPRN_Count)))
 
 
-# Create LSOA / DZ file for apportionment - some missing DZ as there are no postcodes within them
+# Create LSOA / DZ file for apportionment - some missing DZ as
+# there are no postcodes within them
 
 LSOA_DZ_UPRN_N <- pcd_uprn_N %>%
                     group_by(lsoa11,PCDS) %>%
@@ -645,7 +683,8 @@ OA_UPRN_N %<>%
   ungroup() %>%
   left_join(Pop_EW, by = c("oa11" = "oa11cd")) %>%
   mutate(total_population_PCD = round(total_population * UPRN_Prop)) %>%
-  mutate(population_aged_65_and_over_PCD = round(population_aged_65_and_over * UPRN_Prop)) %>%
+  mutate(population_aged_65_and_over_PCD = 
+           round(population_aged_65_and_over * UPRN_Prop)) %>%
   select(PCDS,total_population_PCD, population_aged_65_and_over_PCD)
 
 # Scotland
@@ -668,21 +707,24 @@ We then can create a postcode population lookup. This will have fewer rows than 
 
 ```{r warning=FALSE, message=FALSE, eval=FALSE}
 
+
 onspd <- open_dataset("./parquet/onspd.parquet") %>%
-  filter(ctry %in% c("E92000001","S92000003","W92000004"), # Keep England, Scotland, Wales
-        is.na(doterm)) %>% # Not terminated
-  select(pcd,oseast1m,osnrth1m,pcon) %>%
+  filter(ctry %in% c("E92000001", "S92000003", "W92000004"), # Keep E, S, W
+         is.na(doterm)) %>% # Not terminated
+  select(pcd, oseast1m, osnrth1m, pcon) %>%
   mutate(pcd = gsub(' ', '', pcd)) %>%
   collect()
 
-
 PCD_Pop %<>%
-  left_join(onspd,by = c("PCDS" = "pcd"))
-
-
-write_parquet(PCD_Pop, sink = "./parquet/PCD_Pop.parquet")
+  left_join(onspd, by = c("PCDS" = "pcd"))
 
 ```
+
+```{r eval=FALSE, echo=FALSE}
+# Save for later use
+write_parquet(PCD_Pop, sink = "./parquet/PCD_Pop.parquet")
+```
+
 
 # Energy Data Analysis
 
@@ -695,41 +737,40 @@ We can now create a list of the latest EPC assessments for each UPRN, and calcul
 
 latest_epc_national <- bands %>%
     group_by(UPRN) %>%
-    slice(which.max(LODGEMENT_DATE2)) %>% # a UPRN can have multiple assesments, uses the latest
+    slice(which.max(LODGEMENT_DATE2)) %>% # uses the latest UPRN assesment
     filter(!is.na(UPRN)) %>% 
     as_tibble()
 
-# Save file for later use
-
-write_parquet(latest_epc_national, sink = "./parquet/latest_epc_national.parquet")
-
 ```
-
+```{r eval=FALSE, echo=FALSE}
+# Save file for later use
+write_parquet(latest_epc_national, sink = "./parquet/latest_epc_national.parquet")
+```
 We can now calculate the proportion of ABC certificates by location and year.
 
 ```{r warning=FALSE, message=FALSE}
 # Calculate the proportion of ABC certificates by year nationally
 
 epc_change_graph_national <- latest_epc_national %>%
-  select(YR,ABC) %>%
-   group_by(YR,ABC) %>%
-  summarise(count = n() ) %>%
-  mutate( prop = (count / sum(count)) )
+  select(YR, ABC) %>%
+  group_by(YR, ABC) %>%
+  summarise(count = n()) %>%
+  mutate(prop = (count / sum(count)))
 
 # Calculate the proportion of ABC certificates by year for the WPC
 
 epc_change_graph_wpc <- latest_epc_national %>%
   filter(pcon == wpc_map) %>%
-  select(YR,ABC) %>%
-   group_by(YR,ABC) %>%
-  summarise(count = n() ) %>%
-  mutate( prop = (count / sum(count))) %>%
-  mutate(Geography = wpc_map )
+  select(YR, ABC) %>%
+  group_by(YR, ABC) %>%
+  summarise(count = n()) %>%
+  mutate(prop = (count / sum(count))) %>%
+  mutate(Geography = wpc_map)
 
 #Combined data for a plot
 
 epc_change_graph <- epc_change_graph_national %>%
-  mutate(Geography = "England and Wales" ) %>%
+  mutate(Geography = "England and Wales") %>%
   bind_rows(epc_change_graph_wpc)
 ```
 
@@ -742,14 +783,16 @@ The proportion of EPC assessments with an A,B or C outcome by UPRN can then be m
 
 epc_change_graph %>%
   filter(ABC == "Yes") %>%
-    ggplot(aes(x = as.numeric(YR), y = prop, group=Geography)) +
-      geom_line(aes(color=Geography))+
-      scale_colour_manual(values=c("#E17A47", "#4AB19D")) +
-    geom_vline(xintercept = as.numeric(max(epc_change_graph$YR))-10, linetype="dotted", color = "#EF3D59") + # Adds a red line for certificate expiry
-  geom_point(colour="#344E5C")+
+  ggplot(aes(x = as.numeric(YR), y = prop, group = Geography)) +
+  geom_line(aes(color = Geography)) +
+  scale_colour_manual(values = c("#E17A47", "#4AB19D")) +
+  geom_vline(xintercept = as.numeric(max(epc_change_graph$YR)) - 10,
+             linetype = "dotted",
+             color = "#EF3D59") + # Adds a red line for certificate expiry
+  geom_point(colour = "#344E5C") +
   scale_x_continuous(breaks = seq(2008, 2022, by = 1)) +
-  scale_y_continuous(labels=percent_format()) +
-  labs(x="Year",y="%" ) 
+  scale_y_continuous(labels = percent_format()) +
+  labs(x = "Year", y = "%") 
 
 ```
 
@@ -807,16 +850,44 @@ df$percentage <- tot_uprn_wpc / tot_uprn
 ```{r warning=FALSE, message=FALSE}
 #| label: fig-epc-complete
 #| fig-cap: "EPC Completeness."
-#| column: margin
+#| cap-location: margin
 
-ggplot(df, aes(ymax = percentage, ymin = 0, xmax = 2, xmin = 1)) +
- geom_rect(aes(ymax=1, ymin=0, xmax=2, xmin=1), fill ="#4AB19D") +
- geom_rect(fill = "#E17A47") + 
- coord_polar(theta = "y",start=-pi/2) + xlim(c(0, 2)) + ylim(c(0,2)) +
- geom_text(aes(x = 0, y = 0, label = paste0(round(tot_uprn_wpc / tot_uprn * 100),"%")), size=12, family="Poppins SemiBold",colour="#E17A47") +
- geom_text(aes(x=0.5, y=1.5, label="Properties with a valid EPC"), family="Poppins Light", size=4.2) + 
- theme_void() +
- theme(strip.background = element_blank(),strip.text.x = element_blank(),legend.position = "none")
+
+ggplot(df, aes(
+  ymax = percentage,
+  ymin = 0,
+  xmax = 2,
+  xmin = 1
+)) +
+  geom_rect(aes(
+    ymax = 1,
+    ymin = 0,
+    xmax = 2,
+    xmin = 1
+  ), fill = "#4AB19D") +
+  geom_rect(fill = "#E17A47") +
+  coord_polar(theta = "y", start = -pi / 2) + xlim(c(0, 2)) + ylim(c(0, 2)) +
+  geom_text(
+    aes(
+      x = 0,
+      y = 0,
+      label = paste0(round(tot_uprn_wpc / tot_uprn * 100), "%")
+    ),
+    size = 12,
+    family = "Poppins SemiBold",
+    colour = "#E17A47"
+  ) +
+  geom_text(
+    aes(x = 0.5, y = 1.5, label = "Properties with a valid EPC"),
+    family = "Poppins Light",
+    size = 4.2
+  ) +
+  theme_void() +
+  theme(
+    strip.background = element_blank(),
+    strip.text.x = element_blank(),
+    legend.position = "none"
+  )
 
 ```
 
@@ -844,10 +915,13 @@ The mean cost of gas and electricity per meter is calculated for a year within a
 -   Standing Charge (Electricity) - `r paste0(standing_elec)`
 
 ```{r warning=FALSE, message=FALSE}
+# Mean Electricity and Gas Cost (per meter) & Proportion of income
 lsoa_dz %<>%
-  mutate(electricity = (((elec_total_consumption_k_wh * elec_cost_kw)/100)/number_of_meters_elec) + ((standing_elec * 365)/100)) %>% # Mean Electricity Cost (per meter)
-  mutate(gas = (((gas_total_consumption_k_wh * gas_cost_kw)/100)/number_of_meters_gas) + ((standing_gas * 365)/100)) %>% # Mean Gas Cost (per meter)
-  mutate(prop_income = 100 / total_annual_income_21 * (gas + electricity)) %>% # Proportion of income
+  mutate(electricity = (((elec_total_consumption_k_wh * elec_cost_kw)/100)/
+                          number_of_meters_elec) + ((standing_elec * 365)/100)) %>% 
+  mutate(gas = (((gas_total_consumption_k_wh * gas_cost_kw)/100)/
+                  number_of_meters_gas) + ((standing_gas * 365)/100)) %>%
+  mutate(prop_income = 100 / total_annual_income_21 * (gas + electricity)) %>% 
   mutate(Fuel_Poverty = if_else(prop_income >= 10, "Yes","No"))
 ```
 
@@ -904,7 +978,8 @@ t_PCD_Pop <- PCD_Pop %>%
 
 # Identify which postcodes are within the area identified as fuel poverty
 
-fp <- st_intersection(t_PCD_Pop,(t_lsoa_dz %>% filter(Fuel_Poverty == "Yes")),sparse = FALSE)
+fp <- st_intersection(t_PCD_Pop,(t_lsoa_dz %>% filter(Fuel_Poverty == "Yes")),
+                      sparse = FALSE)
 ```
 
 ## Residential Electricity and Gas Cost Maps
@@ -915,7 +990,8 @@ The annual cost of electricity and gas in £000s can now be mapped.
 
 # Calculate Breaks for electricty 
 
-classes <-  classIntervals(round(t_lsoa_dz$electricity,digits = 0), n=5, style="quantile")
+classes <-  classIntervals(round(t_lsoa_dz$electricity,digits = 0), n=5,
+                           style="quantile")
 
 # Extract breaks and round values, accounting for the upper and lower bounds
 
@@ -925,13 +1001,15 @@ breaks[[6]] <- breaks[[6]] +1
   
 t_lsoa_dz %<>%
   mutate(electricity_c = cut(electricity, round(breaks), dig.lab=10)) %>%
-  mutate(electricity_l = str_replace_all(electricity_c, c("\\(" = "", "\\]" = "", "\\," = "-")))
+  mutate(electricity_l = str_replace_all(electricity_c, c("\\(" = "", "\\]" = "",
+                                                          "\\," = "-")))
 ```
 
 ```{r}
 # Calculate Breaks for gas
 
-classes <-  classIntervals(round(t_lsoa_dz$gas,digits = 0), n=5, style="quantile")
+classes <-  classIntervals(round(t_lsoa_dz$gas,digits = 0), n=5,
+                           style="quantile")
 
 # Extract breaks and round values, accounting for the upper and lower bounds
 
@@ -941,7 +1019,8 @@ breaks[[6]] <- breaks[[6]] +1
   
 t_lsoa_dz %<>%
   mutate(gas_c = cut(gas, round(breaks), dig.lab=10)) %>%
-  mutate(gas_l = str_replace_all(gas_c, c("\\(" = "", "\\]" = "", "\\," = "-")))
+  mutate(gas_l = str_replace_all(gas_c, c("\\(" = "", "\\]" = "",
+                                          "\\," = "-")))
 
 
 ```
@@ -951,14 +1030,23 @@ t_lsoa_dz %<>%
 #| fig-cap: "Estimated Electricity Costs."
 #| cap-location: margin
 
+
 ggplot() +
- geom_sf(data = t_lsoa_dz, mapping = aes(fill = electricity_l), alpha = 1, colour = "#4b4b4b", size = 0.3) +
+  geom_sf(
+    data = t_lsoa_dz,
+    mapping = aes(fill = electricity_l),
+    alpha = 1,
+    colour = "#4b4b4b",
+    size = 0.3
+  ) +
   scale_fill_brewer(palette = "PuBu", name = "£000s") +
-  theme(panel.background = element_blank(),
-        line = element_blank(),
-        axis.text = element_blank(),
-        axis.title = element_blank()) +
-  coord_sf(datum=NA)
+  theme(
+    panel.background = element_blank(),
+    line = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank()
+  ) +
+  coord_sf(datum = NA)
 
 ```
 
@@ -967,14 +1055,23 @@ ggplot() +
 #| fig-cap: "Estimated Gas Costs."
 #| cap-location: margin
 
+
 ggplot() +
- geom_sf(data = t_lsoa_dz, mapping = aes(fill = gas_l), alpha = 1, colour = "#4b4b4b", size = 0.3) +
+  geom_sf(
+    data = t_lsoa_dz,
+    mapping = aes(fill = gas_l),
+    alpha = 1,
+    colour = "#4b4b4b",
+    size = 0.3
+  ) +
   scale_fill_brewer(palette = "PuBu", name = "£000s") +
-  theme(panel.background = element_blank(),
-        line = element_blank(),
-        axis.text = element_blank(),
-        axis.title = element_blank()) +
-  coord_sf(datum=NA)
+  theme(
+    panel.background = element_blank(),
+    line = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank()
+  ) +
+  coord_sf(datum = NA)
 
 ```
 
@@ -1000,14 +1097,29 @@ breaks <- classes$brks
 
 
 ggplot() +
- geom_sf(data = t_lsoa_dz, mapping = aes(fill = prop_income,color=Fuel_Poverty), lwd = 0.3) +
-  scale_fill_viridis_c(name = "Fuel as a \n % of Income \n",breaks = classes$brks, labels=round(breaks,digits = 1),aesthetics = "fill") +
-  scale_color_manual(values = c("red","#D3D3D3"),name = "Fuel Poverty", breaks=c('Yes', 'No')) +
-   theme(panel.background = element_blank(),
-        line = element_blank(),
-        axis.text = element_blank(),
-        axis.title = element_blank()) +
-  coord_sf(datum=NA)
+  geom_sf(
+    data = t_lsoa_dz,
+    mapping = aes(fill = prop_income, color = Fuel_Poverty),
+    lwd = 0.3
+  ) +
+  scale_fill_viridis_c(
+    name = "Fuel as a \n % of Income \n",
+    breaks = classes$brks,
+    labels = round(breaks, digits = 1),
+    aesthetics = "fill"
+  ) +
+  scale_color_manual(
+    values = c("red", "#D3D3D3"),
+    name = "Fuel Poverty",
+    breaks = c('Yes', 'No')
+  ) +
+  theme(
+    panel.background = element_blank(),
+    line = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank()
+  ) +
+  coord_sf(datum = NA)
 
 
 ```
@@ -1017,30 +1129,33 @@ The following is an interactive version of the same map.
 #| column: screen
 tmap_mode("view")
 
+
 tm_shape(t_lsoa_dz) +
-tm_basemap(leaflet::providers$CartoDB.Positron) +
-    tm_fill("prop_income", 
-                    popup.vars=c(
-
-                            "Proportion of Income: " = "prop_income"),
-                    id = "LSOA_DZ",
-                    group = NULL,
-                    alpha = 0.8,
-                    n = 5,
-                    palette = viridisLite::viridis(5),
-
-                    # title of the legend
-                    title = "Proportion of Income",
-                    legend.reverse = TRUE) + 
-                    tm_borders(col = "#D3D3D3", lwd = 0.7, group = NULL) +
+  tm_basemap(leaflet::providers$CartoDB.Positron) +
+  tm_fill(
+    "prop_income",
+    popup.vars = c("Proportion of Income: " = "prop_income"),
+    id = "LSOA_DZ",
+    group = NULL,
+    alpha = 0.8,
+    n = 5,
+    palette = viridisLite::viridis(5),
+    
+    # title of the legend
+    title = "Proportion of Income",
+    legend.reverse = TRUE
+  ) +
+  tm_borders(col = "#D3D3D3", lwd = 0.7, group = NULL) +
   
-  tm_shape(t_lsoa_dz %>% filter(Fuel_Poverty == "Yes")) + 
-    tm_borders(col = "red", lwd = 1, group = NULL) +
-  tm_add_legend("fill",col="red",labels = "Yes",title = "Fuel Poverty") +
+  tm_shape(t_lsoa_dz %>% filter(Fuel_Poverty == "Yes")) +
+  tm_borders(col = "red", lwd = 1, group = NULL) +
+  tm_add_legend("fill",
+                col = "red",
+                labels = "Yes",
+                title = "Fuel Poverty") +
   tm_view(set.view = 13)
 
 ```
-
 
 
 ```{r echo=FALSE}
