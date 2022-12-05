@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alex Singleton">
+<meta name="dcterms.date" content="2022-12-04">
+
+<title>Alex Singleton - Importing Census 2021 Data into R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script src="../../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Alex Singleton</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../cv.pdf">CV</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../papers.html">Papers</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../books.html">Books</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../blog.html">Blog</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Importing Census 2021 Data into R</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Census</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Alex Singleton <a href="https://orcid.org/0000-0002-2338-2334" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 4, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#files-to-download" id="toc-files-to-download" class="nav-link" data-scroll-target="#files-to-download">Files to Download</a></li>
+  <li><a href="#download-the-data" id="toc-download-the-data" class="nav-link" data-scroll-target="#download-the-data">Download the data</a></li>
+  <li><a href="#output-area-tables" id="toc-output-area-tables" class="nav-link" data-scroll-target="#output-area-tables">Output Area Tables</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Now that the 2021 Census data for England and Wales have started to be made available for small areas I wanted to take a closer look at these in R. I was disappointed to find that the ONS haven’t supplied these on their <a href="https://census.gov.uk/census-2021-results">website</a> or as bulk data on <a href="https://www.nomisweb.co.uk/sources/census_2021_bulk">Nomis</a> in a format that is especially helpful to use programatically.</p>
+<p>The key issue is that metadata associated with each column of the tables are also used as their names. While this is quite useful human readable information, it is problematic if you want to read the data into a package like R or Python in an automated fashion.</p>
+<p>At the Census 2011 the Scotland small area data had a similar format (from distant memory!!!), but England and Wales had each variable specified as a code based on the table name.</p>
+<p>As such, I have written some R code to:</p>
+<ul>
+<li>Download the bulk census data from <a href="https://www.nomisweb.co.uk/sources/census_2021_bulk">Nomis</a></li>
+<li>Import the Output Area level data into R</li>
+<li>Create new variable names based on the sequential ordering of the variables and the table identification code</li>
+<li>Create a metadata lookup table providing the link between the new names and the original names</li>
+<li>Export the OA data as both CSV and Parquet files</li>
+</ul>
+<p>This blog post provides a summary of the code; but for the fully reproducible version and the created data, they are located on this <a href="https://github.com/alexsingleton/Census_2021_Output_Areas">Github</a> repository.</p>
+</section>
+<section id="files-to-download" class="level2">
+<h2 class="anchored" data-anchor-id="files-to-download">Files to Download</h2>
+<p>The following code reads the content of the Nomis webpage where the bulk downloads are found, and extracts a list of zip files found within the HTML. These are then converted into list of download URLs. Because OA data are not available for all tables (discovered through trail and error!), these are removed from the list. Finally, a set of folders are created to hold the output.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the HTML page</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>html_page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"https://www.nomisweb.co.uk/sources/census_2021_bulk"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get census table zip file names</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>zip_urls <span class="ot">&lt;-</span> html_page <span class="sc">%&gt;%</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">html_nodes</span>(<span class="st">"a[href$='.zip']"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">html_attr</span>(<span class="st">"href"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Make zip file names into a full URL</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>zip_urls <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"https://www.nomisweb.co.uk"</span>,zip_urls)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an empty tibble with the following column names</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>meta_data_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Table_Name =</span> <span class="fu">character</span>(),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable_Name =</span> <span class="fu">character</span>(),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Type =</span> <span class="fu">character</span>(),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_names =</span> <span class="fu">character</span>(),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Table_ID =</span> <span class="fu">character</span>()</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Tables without OA data</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>no_oa_tables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts007.zip"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts009.zip"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts010.zip"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts012.zip"</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts013.zip"</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts071.zip"</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts072.zip"</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts073.zip"</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts074.zip"</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts022.zip"</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts024.zip"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts028.zip"</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="st">"https://www.nomisweb.co.uk/output/census/2021/census2021-ts031.zip"</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>zip_urls <span class="ot">&lt;-</span>  result <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(zip_urls, no_oa_tables)  <span class="co"># Remove the tables without OA</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Create output directories for the census tables</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"./output_data/csv"</span>,<span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"./output_data/parquet"</span>,<span class="at">recursive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="download-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="download-the-data">Download the data</h2>
+<p>The following code uses the download URLs to loop though each table and:</p>
+<ul>
+<li>Downloads, unzips, extracts and imports the the CSV file with OA data</li>
+<li>Extracts the table ID code for the current table</li>
+<li>Creates a new set of variable names in the format of TableIDXXXX where XXXX is the position of each column within the table, and with 0s used as padding to make these up to four digits in length. This also excludes the geography codes. For example, as the Total for the tables are found in column one, these will have the code of TableID_0001.</li>
+<li>The original and new table names are stored in a metadata table</li>
+<li>The census data with cleaned column names are exported as CSV and Parquet files</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (url <span class="cf">in</span> zip_urls){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"./tmp"</span>,<span class="at">recursive =</span> <span class="cn">TRUE</span>)<span class="co">#create a temporary directory for unzipping</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> curl<span class="sc">::</span><span class="fu">curl_download</span>(url, <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".zip"</span>)) <span class="co"># Download the specified zip file</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(f,  <span class="at">exdir=</span><span class="st">"./tmp"</span>) <span class="co"># Unzip</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>t_tab_loc <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"./tmp"</span>, <span class="at">pattern=</span><span class="st">".*-oa.csv"</span>) <span class="co"># Extract the OA csv location</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>t_name <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split</span>(t_tab_loc,<span class="st">"-"</span>))[<span class="dv">2</span>] <span class="co"># Extract the table name</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">assign</span>(t_name,<span class="fu">vroom</span>(<span class="fu">paste0</span>(<span class="st">"./tmp/"</span>,t_tab_loc),<span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>         <span class="fu">select</span>(<span class="sc">-</span>date,<span class="sc">-</span>geography) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>         <span class="fu">column_to_rownames</span>(<span class="st">"geography code"</span>)) <span class="co">#Move OA code to row names</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>old_names <span class="ot">&lt;-</span> <span class="fu">colnames</span>(<span class="fu">get</span>(t_name)) <span class="co"># Get the column names</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>new_names <span class="ot">&lt;-</span> <span class="fu">paste0</span>(t_name, <span class="fu">sprintf</span>(<span class="st">"%04d"</span>,<span class="fu">seq_along</span>(old_names)))  <span class="co"># Create some new column names with zero padding</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list of the new and old names, plus Table ID</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>N_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">old_names =</span> old_names,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_names =</span> new_names,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">Table_ID =</span> t_name</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates the meta data table</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>N_list <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(N_list)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep the metadata</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>meta_data_table <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(N_list)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Change the column names for the data frame</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>env <span class="ot">&lt;-</span> <span class="fu">environment</span>() <span class="co"># Have to be explicit about the env, as  %&gt;% uses a temp environment</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">get</span>(t_name) <span class="sc">%&gt;%</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_at</span>(<span class="fu">vars</span>(old_names), <span class="sc">~</span>new_names) <span class="sc">%&gt;%</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"OA"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(t_name,., <span class="at">envir =</span> env) <span class="co"># add a reference to the environment</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Write csv and parquet to the output folders</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="fu">write_parquet</span>(<span class="fu">get</span>(t_name), <span class="fu">paste0</span>(<span class="st">"./output_data/parquet/"</span>,t_name,<span class="st">".parquet"</span>))</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="fu">get</span>(t_name), <span class="fu">paste0</span>(<span class="st">"./output_data/csv/"</span>,t_name,<span class="st">".csv"</span>))</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="co">#Remove tmp objects</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(N_list, old_names, new_names, t_name, t_tab_loc)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co">#Remove all downloaded files for this table</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="st">"./tmp"</span>,<span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, the metadata table is cleaned up and exported to a csv. You will note that the “Ethnicity, Identity, Language and Religion” variables do not have a “Type” value specified. This happens because the column names for these tables do not match the format for the previous releases. Specifically, “; measures: Value” is missing from the end of each column.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Format the lookup table</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>meta_data_table2 <span class="ot">&lt;-</span> meta_data_table <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Table_Name =</span> <span class="fu">str_split_fixed</span>(old_names, <span class="st">":"</span>, <span class="dv">2</span>)[,<span class="dv">1</span>]) <span class="sc">%&gt;%</span> <span class="co"># Table Name</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="fu">str_replace_all</span>((<span class="fu">str_extract</span>(old_names, <span class="st">"; measures: </span><span class="sc">\\</span><span class="st">w+"</span>)), <span class="st">"; measures: "</span>, <span class="st">""</span>)) <span class="sc">%&gt;%</span> <span class="co"># Variable Type</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Variable_Name =</span> <span class="fu">str_replace_all</span>(old_names, <span class="st">";.*"</span>, <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Variable_Name =</span> <span class="fu">str_replace_all</span>(Variable_Name, <span class="fu">paste0</span>(Table_Name,<span class="st">": "</span>), <span class="st">""</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(meta_data_table2, <span class="st">"Table_Metadata.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="output-area-tables" class="level2">
+<h2 class="anchored" data-anchor-id="output-area-tables">Output Area Tables</h2>
+<p>The tables that are imported include:</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:400px; "><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> Table_Name </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> Variable_Name </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> Type </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> new_names </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> Table_ID </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> old_names </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Residence type </td>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0010001 </td>
+   <td style="text-align:left;"> ts001 </td>
+   <td style="text-align:left;"> Residence type: Total; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Residence type </td>
+   <td style="text-align:left;"> Lives in a household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0010002 </td>
+   <td style="text-align:left;"> ts001 </td>
+   <td style="text-align:left;"> Residence type: Lives in a household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Residence type </td>
+   <td style="text-align:left;"> Lives in a communal establishment </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0010003 </td>
+   <td style="text-align:left;"> ts001 </td>
+   <td style="text-align:left;"> Residence type: Lives in a communal establishment; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020001 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Total; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Never married and never registered a civil partnership </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020002 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Never married and never registered a civil partnership; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Married or in a registered civil partnership </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020003 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Married or in a registered civil partnership; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Married or in a registered civil partnership: Married </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020004 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Married or in a registered civil partnership: Married; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Married or in a registered civil partnership: Married: Opposite sex </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020005 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Married or in a registered civil partnership: Married: Opposite sex; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Married or in a registered civil partnership: Married: Same sex </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020006 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Married or in a registered civil partnership: Married: Same sex; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Married or in a registered civil partnership: In a registered civil partnership </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020007 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Married or in a registered civil partnership: In a registered civil partnership; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Married or in a registered civil partnership: In a registered civil partnership: Opposite sex </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020008 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Married or in a registered civil partnership: In a registered civil partnership: Opposite sex; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Married or in a registered civil partnership: In a registered civil partnership: Same sex </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020009 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Married or in a registered civil partnership: In a registered civil partnership: Same sex; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Separated, but still legally married or still legally in a civil partnership </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020010 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Separated, but still legally married or still legally in a civil partnership; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Separated, but still legally married or still legally in a civil partnership: Separated, but still married </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020011 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Separated, but still legally married or still legally in a civil partnership: Separated, but still married; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Separated, but still legally married or still legally in a civil partnership: Separated, but still in a registered civil partnership </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020012 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Separated, but still legally married or still legally in a civil partnership: Separated, but still in a registered civil partnership; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Divorced or civil partnership dissolved </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020013 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Divorced or civil partnership dissolved; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Divorced or civil partnership dissolved: Divorced </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020014 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Divorced or civil partnership dissolved: Divorced; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Divorced or civil partnership dissolved: Formerly in a civil partnership now legally dissolved </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020015 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Divorced or civil partnership dissolved: Formerly in a civil partnership now legally dissolved; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Widowed or surviving civil partnership partner </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020016 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Widowed or surviving civil partnership partner; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Widowed or surviving civil partnership partner: Widowed </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020017 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Widowed or surviving civil partnership partner: Widowed; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marital and civil partnership status </td>
+   <td style="text-align:left;"> Widowed or surviving civil partnership partner: Surviving partner from civil partnership </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0020018 </td>
+   <td style="text-align:left;"> ts002 </td>
+   <td style="text-align:left;"> Marital and civil partnership status: Widowed or surviving civil partnership partner: Surviving partner from civil partnership; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030001 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Total; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> One person household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030002 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: One person household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> One person household: Aged 66 years and over </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030003 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: One person household: Aged 66 years and over; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> One person household: Other </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030004 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: One person household: Other; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030005 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: All aged 66 years and over </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030006 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: All aged 66 years and over; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Married or civil partnership couple </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030007 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Married or civil partnership couple; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Married or civil partnership couple: No children </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030008 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Married or civil partnership couple: No children; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Married or civil partnership couple: Dependent children </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030009 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Married or civil partnership couple: Dependent children; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Married or civil partnership couple: All children non-dependent </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030010 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Married or civil partnership couple: All children non-dependent; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Cohabiting couple family </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030011 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Cohabiting couple family; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Cohabiting couple family: No children </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030012 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Cohabiting couple family: No children; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Cohabiting couple family: With dependent children </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030013 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Cohabiting couple family: With dependent children; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Cohabiting couple family: All children non-dependent </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030014 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Cohabiting couple family: All children non-dependent; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Lone parent family </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030015 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Lone parent family; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Lone parent family: With dependent children </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030016 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Lone parent family: With dependent children; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Lone parent family: All children non-dependent </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030017 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Lone parent family: All children non-dependent; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Other single family household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030018 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Other single family household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Single family household: Other single family household: Other family composition </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030019 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Single family household: Other single family household: Other family composition; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Other household types </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030020 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Other household types; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Other household types: With dependent children </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030021 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Other household types: With dependent children; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household composition </td>
+   <td style="text-align:left;"> Other household types: Other, including all full-time students and all aged 66 years and over </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0030022 </td>
+   <td style="text-align:left;"> ts003 </td>
+   <td style="text-align:left;"> Household composition: Other household types: Other, including all full-time students and all aged 66 years and over; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040001 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Total; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Europe </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040002 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Europe; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Europe: United Kingdom </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040003 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Europe: United Kingdom; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Europe: EU countries </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040004 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Europe: EU countries; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Europe: EU countries: European Union EU14 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040005 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Europe: EU countries: European Union EU14; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Europe: EU countries: European Union EU8 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040006 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Europe: EU countries: European Union EU8; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Europe: EU countries: European Union EU2 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040007 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Europe: EU countries: European Union EU2; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Europe: EU countries: All other EU countries </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040008 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Europe: EU countries: All other EU countries; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Europe: Non-EU countries </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040009 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Europe: Non-EU countries; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Europe: Non-EU countries: All other non-EU countries </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040010 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Europe: Non-EU countries: All other non-EU countries; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Africa </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040011 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Africa; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Middle East and Asia </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040012 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Middle East and Asia; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> The Americas and the Caribbean </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040013 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: The Americas and the Caribbean; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> Antarctica and Oceania (including Australasia) and Other </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040014 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: Antarctica and Oceania (including Australasia) and Other; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Country of birth </td>
+   <td style="text-align:left;"> British Overseas </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0040015 </td>
+   <td style="text-align:left;"> ts004 </td>
+   <td style="text-align:left;"> Country of birth: British Overseas ; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050001 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Total; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050002 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: United Kingdom </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050003 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: United Kingdom; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Ireland </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050004 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Ireland; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050005 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050006 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries: France </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050007 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries: France; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries: Germany </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050008 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries: Germany; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries: Italy </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050009 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries: Italy; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries: Portugal </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050010 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries: Portugal; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries: Spain </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050011 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries: Spain; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries: Lithuania </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050012 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries: Lithuania; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries: Poland </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050013 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries: Poland; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries: Romania </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050014 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries: Romania; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: EU Member countries: Other EU countries </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050015 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: EU Member countries: Other EU countries; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: Rest of Europe </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050016 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: Rest of Europe; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: Rest of Europe: Turkey </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050017 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: Rest of Europe: Turkey; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Europe: Other Europe: Rest of Europe: Other Europe </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050018 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Europe: Other Europe: Rest of Europe: Other Europe; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Africa </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050019 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Africa; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Africa: North Africa </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050020 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Africa: North Africa; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Africa: Central and Western Africa </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050021 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Africa: Central and Western Africa; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Africa: South and Eastern Africa </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050022 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Africa: South and Eastern Africa; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Middle East and Asia </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050023 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Middle East and Asia; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Middle East and Asia: Middle East </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050024 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Middle East and Asia: Middle East; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Middle East and Asia: Eastern Asia </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050025 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Middle East and Asia: Eastern Asia; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Middle East and Asia: Southern Asia </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050026 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Middle East and Asia: Southern Asia; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Middle East and Asia: South-East Asia </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050027 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Middle East and Asia: South-East Asia; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Middle East and Asia: Central Asia </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050028 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Middle East and Asia: Central Asia; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> The Americas and the Caribbean </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050029 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: The Americas and the Caribbean; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> The Americas and the Caribbean: North America and the Caribbean </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050030 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: The Americas and the Caribbean: North America and the Caribbean; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> The Americas and the Caribbean: Central and South America </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050031 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: The Americas and the Caribbean: Central and South America; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> Antarctica and Oceania, including Australasia </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050032 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: Antarctica and Oceania, including Australasia; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> British Overseas Territories </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050033 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: British Overseas Territories; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Passports held </td>
+   <td style="text-align:left;"> No passport held </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0050034 </td>
+   <td style="text-align:left;"> ts005 </td>
+   <td style="text-align:left;"> Passports held: No passport held; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Population Density </td>
+   <td style="text-align:left;"> Persons per square kilometre </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0060001 </td>
+   <td style="text-align:left;"> ts006 </td>
+   <td style="text-align:left;"> Population Density: Persons per square kilometre; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Sex </td>
+   <td style="text-align:left;"> All persons </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0080001 </td>
+   <td style="text-align:left;"> ts008 </td>
+   <td style="text-align:left;"> Sex: All persons; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Sex </td>
+   <td style="text-align:left;"> Female </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0080002 </td>
+   <td style="text-align:left;"> ts008 </td>
+   <td style="text-align:left;"> Sex: Female; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Sex </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0080003 </td>
+   <td style="text-align:left;"> ts008 </td>
+   <td style="text-align:left;"> Sex: Male; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household deprivation </td>
+   <td style="text-align:left;"> Total: All households </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0110001 </td>
+   <td style="text-align:left;"> ts011 </td>
+   <td style="text-align:left;"> Household deprivation: Total: All households; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household deprivation </td>
+   <td style="text-align:left;"> Household is not deprived in any dimension </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0110002 </td>
+   <td style="text-align:left;"> ts011 </td>
+   <td style="text-align:left;"> Household deprivation: Household is not deprived in any dimension; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household deprivation </td>
+   <td style="text-align:left;"> Household is deprived in one dimension </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0110003 </td>
+   <td style="text-align:left;"> ts011 </td>
+   <td style="text-align:left;"> Household deprivation: Household is deprived in one dimension; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household deprivation </td>
+   <td style="text-align:left;"> Household is deprived in two dimensions </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0110004 </td>
+   <td style="text-align:left;"> ts011 </td>
+   <td style="text-align:left;"> Household deprivation: Household is deprived in two dimensions; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household deprivation </td>
+   <td style="text-align:left;"> Household is deprived in three dimensions </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0110005 </td>
+   <td style="text-align:left;"> ts011 </td>
+   <td style="text-align:left;"> Household deprivation: Household is deprived in three dimensions; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household deprivation </td>
+   <td style="text-align:left;"> Household is deprived in four dimensions </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0110006 </td>
+   <td style="text-align:left;"> ts011 </td>
+   <td style="text-align:left;"> Household deprivation: Household is deprived in four dimensions; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Total: All usual residents </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150001 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Total: All usual residents; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Born in the UK </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150002 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Born in the UK; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived before 1951 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150003 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived before 1951; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 1951 to 1960 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150004 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 1951 to 1960; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 1961 to 1970 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150005 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 1961 to 1970; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 1971 to 1980 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150006 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 1971 to 1980; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 1981 to 1990 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150007 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 1981 to 1990; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 1991 to 2000 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150008 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 1991 to 2000; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 2001 to 2010 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150009 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 2001 to 2010; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 2011 to 2013 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150010 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 2011 to 2013; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 2014 to 2016 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150011 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 2014 to 2016; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 2017 to 2019 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150012 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 2017 to 2019; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Year of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived 2020 to 2021 </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0150013 </td>
+   <td style="text-align:left;"> ts015 </td>
+   <td style="text-align:left;"> Year of arrival in the UK: Arrived 2020 to 2021; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Length of residence in the UK </td>
+   <td style="text-align:left;"> Total: All usual residents </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0160001 </td>
+   <td style="text-align:left;"> ts016 </td>
+   <td style="text-align:left;"> Length of residence in the UK: Total: All usual residents; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Length of residence in the UK </td>
+   <td style="text-align:left;"> Born in the UK </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0160002 </td>
+   <td style="text-align:left;"> ts016 </td>
+   <td style="text-align:left;"> Length of residence in the UK: Born in the UK; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Length of residence in the UK </td>
+   <td style="text-align:left;"> 10 years or more </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0160003 </td>
+   <td style="text-align:left;"> ts016 </td>
+   <td style="text-align:left;"> Length of residence in the UK: 10 years or more; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Length of residence in the UK </td>
+   <td style="text-align:left;"> 5 years or more, but less than 10 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0160004 </td>
+   <td style="text-align:left;"> ts016 </td>
+   <td style="text-align:left;"> Length of residence in the UK: 5 years or more, but less than 10 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Length of residence in the UK </td>
+   <td style="text-align:left;"> 2 years or more, but less than 5 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0160005 </td>
+   <td style="text-align:left;"> ts016 </td>
+   <td style="text-align:left;"> Length of residence in the UK: 2 years or more, but less than 5 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Length of residence in the UK </td>
+   <td style="text-align:left;"> Less than 2 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0160006 </td>
+   <td style="text-align:left;"> ts016 </td>
+   <td style="text-align:left;"> Length of residence in the UK: Less than 2 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> Total: All household spaces </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170001 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: Total: All household spaces; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> 0 people in household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170002 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: 0 people in household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> 1 person in household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170003 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: 1 person in household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> 2 people in household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170004 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: 2 people in household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> 3 people in household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170005 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: 3 people in household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> 4 people in household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170006 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: 4 people in household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> 5 people in household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170007 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: 5 people in household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> 6 people in household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170008 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: 6 people in household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> 7 people in household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170009 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: 7 people in household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household size </td>
+   <td style="text-align:left;"> 8 or more people in household </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0170010 </td>
+   <td style="text-align:left;"> ts017 </td>
+   <td style="text-align:left;"> Household size: 8 or more people in household; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Total: All usual residents </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180001 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Total: All usual residents; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Born in the UK </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180002 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Born in the UK; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180003 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 0 to 4 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180004 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 0 to 4 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 5 to 7 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180005 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 5 to 7 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 8 to 9 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180006 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 8 to 9 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 10 to 14 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180007 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 10 to 14 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 15 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180008 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 15 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 16 to 17 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180009 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 16 to 17 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 18 to 19 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180010 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 18 to 19 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 20 to 24 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180011 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 20 to 24 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 25 to 29 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180012 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 25 to 29 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 30 to 44 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180013 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 30 to 44 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 45 to 59 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180014 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 45 to 59 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 60 to 64 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180015 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 60 to 64 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 65 to 74 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180016 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 65 to 74 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 75 to 84 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180017 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 75 to 84 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 85 to 89 years </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180018 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 85 to 89 years; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age of arrival in the UK </td>
+   <td style="text-align:left;"> Arrived in the UK: Aged 90 years and over </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0180019 </td>
+   <td style="text-align:left;"> ts018 </td>
+   <td style="text-align:left;"> Age of arrival in the UK: Arrived in the UK: Aged 90 years and over; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Migrant indicator </td>
+   <td style="text-align:left;"> Total: All usual residents </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0190001 </td>
+   <td style="text-align:left;"> ts019 </td>
+   <td style="text-align:left;"> Migrant indicator: Total: All usual residents; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Migrant indicator </td>
+   <td style="text-align:left;"> Address one year ago is the same as the address of enumeration </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0190002 </td>
+   <td style="text-align:left;"> ts019 </td>
+   <td style="text-align:left;"> Migrant indicator: Address one year ago is the same as the address of enumeration; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Migrant indicator </td>
+   <td style="text-align:left;"> Address one year ago is student term-time or boarding school address in the UK </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0190003 </td>
+   <td style="text-align:left;"> ts019 </td>
+   <td style="text-align:left;"> Migrant indicator: Address one year ago is student term-time or boarding school address in the UK; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Migrant indicator </td>
+   <td style="text-align:left;"> Migrant from within the UK: Address one year ago was in the UK </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0190004 </td>
+   <td style="text-align:left;"> ts019 </td>
+   <td style="text-align:left;"> Migrant indicator: Migrant from within the UK: Address one year ago was in the UK; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Migrant indicator </td>
+   <td style="text-align:left;"> Migrant from outside the UK: Address one year ago was outside the UK </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0190005 </td>
+   <td style="text-align:left;"> ts019 </td>
+   <td style="text-align:left;"> Migrant indicator: Migrant from outside the UK: Address one year ago was outside the UK; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Sex </td>
+   <td style="text-align:left;"> All persons </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0200001 </td>
+   <td style="text-align:left;"> ts020 </td>
+   <td style="text-align:left;"> Sex: All persons; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Sex </td>
+   <td style="text-align:left;"> Female </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0200002 </td>
+   <td style="text-align:left;"> ts020 </td>
+   <td style="text-align:left;"> Sex: Female; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Sex </td>
+   <td style="text-align:left;"> Male </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0200003 </td>
+   <td style="text-align:left;"> ts020 </td>
+   <td style="text-align:left;"> Sex: Male; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Number of households </td>
+   <td style="text-align:left;"> Number of households </td>
+   <td style="text-align:left;"> Value </td>
+   <td style="text-align:left;"> ts0410001 </td>
+   <td style="text-align:left;"> ts041 </td>
+   <td style="text-align:left;"> Number of households: Number of households; measures: Value </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Total: All usual residents </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210001 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Total: All usual residents </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Asian, Asian British or Asian Welsh </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210002 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Asian, Asian British or Asian Welsh </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Asian, Asian British or Asian Welsh: Bangladeshi </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210003 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Asian, Asian British or Asian Welsh: Bangladeshi </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Asian, Asian British or Asian Welsh: Chinese </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210004 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Asian, Asian British or Asian Welsh: Chinese </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Asian, Asian British or Asian Welsh: Indian </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210005 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Asian, Asian British or Asian Welsh: Indian </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Asian, Asian British or Asian Welsh: Pakistani </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210006 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Asian, Asian British or Asian Welsh: Pakistani </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Asian, Asian British or Asian Welsh: Other Asian </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210007 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Asian, Asian British or Asian Welsh: Other Asian </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Black, Black British, Black Welsh, Caribbean or African </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210008 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Black, Black British, Black Welsh, Caribbean or African </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Black, Black British, Black Welsh, Caribbean or African: African </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210009 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Black, Black British, Black Welsh, Caribbean or African: African </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Black, Black British, Black Welsh, Caribbean or African: Caribbean </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210010 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Black, Black British, Black Welsh, Caribbean or African: Caribbean </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Black, Black British, Black Welsh, Caribbean or African: Other Black </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210011 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Black, Black British, Black Welsh, Caribbean or African: Other Black </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Mixed or Multiple ethnic groups </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210012 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Mixed or Multiple ethnic groups </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Mixed or Multiple ethnic groups: White and Asian </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210013 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Mixed or Multiple ethnic groups: White and Asian </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Mixed or Multiple ethnic groups: White and Black African </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210014 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Mixed or Multiple ethnic groups: White and Black African </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Mixed or Multiple ethnic groups: White and Black Caribbean </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210015 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Mixed or Multiple ethnic groups: White and Black Caribbean </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Mixed or Multiple ethnic groups: Other Mixed or Multiple ethnic groups </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210016 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Mixed or Multiple ethnic groups: Other Mixed or Multiple ethnic groups </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> White </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210017 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: White </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> White: English, Welsh, Scottish, Northern Irish or British </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210018 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: White: English, Welsh, Scottish, Northern Irish or British </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> White: Irish </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210019 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: White: Irish </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> White: Gypsy or Irish Traveller </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210020 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: White: Gypsy or Irish Traveller </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> White: Roma </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210021 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: White: Roma </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> White: Other White </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210022 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: White: Other White </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Other ethnic group </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210023 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Other ethnic group </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Other ethnic group: Arab </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210024 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Other ethnic group: Arab </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ethnic group </td>
+   <td style="text-align:left;"> Other ethnic group: Any other ethnic group </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0210025 </td>
+   <td style="text-align:left;"> ts021 </td>
+   <td style="text-align:left;"> Ethnic group: Other ethnic group: Any other ethnic group </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple ethnic groups in household </td>
+   <td style="text-align:left;"> Total: All households </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0230001 </td>
+   <td style="text-align:left;"> ts023 </td>
+   <td style="text-align:left;"> Multiple ethnic groups in household: Total: All households </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple ethnic groups in household </td>
+   <td style="text-align:left;"> One-person household </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0230002 </td>
+   <td style="text-align:left;"> ts023 </td>
+   <td style="text-align:left;"> Multiple ethnic groups in household: One-person household </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple ethnic groups in household </td>
+   <td style="text-align:left;"> All household members have the same ethnic group </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0230003 </td>
+   <td style="text-align:left;"> ts023 </td>
+   <td style="text-align:left;"> Multiple ethnic groups in household: All household members have the same ethnic group </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple ethnic groups in household </td>
+   <td style="text-align:left;"> Ethnic groups differ between generations but not within partnerships </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0230004 </td>
+   <td style="text-align:left;"> ts023 </td>
+   <td style="text-align:left;"> Multiple ethnic groups in household: Ethnic groups differ between generations but not within partnerships </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple ethnic groups in household </td>
+   <td style="text-align:left;"> Ethnic groups differ within partnerships </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0230005 </td>
+   <td style="text-align:left;"> ts023 </td>
+   <td style="text-align:left;"> Multiple ethnic groups in household: Ethnic groups differ within partnerships </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple ethnic groups in household </td>
+   <td style="text-align:left;"> Any other combination of multiple ethnic identities </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0230006 </td>
+   <td style="text-align:left;"> ts023 </td>
+   <td style="text-align:left;"> Multiple ethnic groups in household: Any other combination of multiple ethnic identities </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household language (English and Welsh) </td>
+   <td style="text-align:left;"> Household language (English and Welsh): Total: All households </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0250001 </td>
+   <td style="text-align:left;"> ts025 </td>
+   <td style="text-align:left;"> Household language (English and Welsh): Total: All households </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household language (English and Welsh) </td>
+   <td style="text-align:left;"> Household language (English and Welsh): All adults in household have English in England, or English or Welsh in Wales as a main language </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0250002 </td>
+   <td style="text-align:left;"> ts025 </td>
+   <td style="text-align:left;"> Household language (English and Welsh): All adults in household have English in England, or English or Welsh in Wales as a main language </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household language (English and Welsh) </td>
+   <td style="text-align:left;"> Household language (English and Welsh): At least one but not all adults in household have English in England, or English or Welsh in Wales as a main language </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0250003 </td>
+   <td style="text-align:left;"> ts025 </td>
+   <td style="text-align:left;"> Household language (English and Welsh): At least one but not all adults in household have English in England, or English or Welsh in Wales as a main language </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household language (English and Welsh) </td>
+   <td style="text-align:left;"> Household language (English and Welsh): No adults in household, but at least one person aged 3 to 15 years, has English in England or English or Welsh in Wales as a main language </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0250004 </td>
+   <td style="text-align:left;"> ts025 </td>
+   <td style="text-align:left;"> Household language (English and Welsh): No adults in household, but at least one person aged 3 to 15 years, has English in England or English or Welsh in Wales as a main language </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Household language (English and Welsh) </td>
+   <td style="text-align:left;"> Household language (English and Welsh): No people in household have English in England, or English or Welsh in Wales as a main language </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0250005 </td>
+   <td style="text-align:left;"> ts025 </td>
+   <td style="text-align:left;"> Household language (English and Welsh): No people in household have English in England, or English or Welsh in Wales as a main language </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple main languages in household </td>
+   <td style="text-align:left;"> Total: All households </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0260001 </td>
+   <td style="text-align:left;"> ts026 </td>
+   <td style="text-align:left;"> Multiple main languages in household: Total: All households </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple main languages in household </td>
+   <td style="text-align:left;"> One-person household </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0260002 </td>
+   <td style="text-align:left;"> ts026 </td>
+   <td style="text-align:left;"> Multiple main languages in household: One-person household </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple main languages in household </td>
+   <td style="text-align:left;"> All household members have the same main language </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0260003 </td>
+   <td style="text-align:left;"> ts026 </td>
+   <td style="text-align:left;"> Multiple main languages in household: All household members have the same main language </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple main languages in household </td>
+   <td style="text-align:left;"> Main language differs between generations, but not within partnerships </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0260004 </td>
+   <td style="text-align:left;"> ts026 </td>
+   <td style="text-align:left;"> Multiple main languages in household: Main language differs between generations, but not within partnerships </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple main languages in household </td>
+   <td style="text-align:left;"> Main language differs within partnerships </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0260005 </td>
+   <td style="text-align:left;"> ts026 </td>
+   <td style="text-align:left;"> Multiple main languages in household: Main language differs within partnerships </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multiple main languages in household </td>
+   <td style="text-align:left;"> Any other combination of multiple main languages </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0260006 </td>
+   <td style="text-align:left;"> ts026 </td>
+   <td style="text-align:left;"> Multiple main languages in household: Any other combination of multiple main languages </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Total: All usual residents </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270001 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Total: All usual residents </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> British only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270002 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: British only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> English only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270003 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: English only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> English and British only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270004 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: English and British only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Welsh only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270005 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Welsh only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Welsh and British only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270006 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Welsh and British only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Any other combination of only UK identities...10 </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270007 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Any other combination of only UK identities...10 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Scottish only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270008 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Scottish only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Scottish and British only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270009 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Scottish and British only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Northern Irish only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270010 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Northern Irish only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Northern Irish and British only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270011 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Northern Irish and British only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Cornish only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270012 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Cornish only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Cornish and British only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270013 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Cornish and British only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Any other combination of only UK identities...17 </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270014 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Any other combination of only UK identities...17 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Irish only identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270015 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Irish only identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Irish and at least one UK identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270016 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Irish and at least one UK identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Other identity only </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270017 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Other identity only </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Other identity and at least one UK identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270018 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Other identity and at least one UK identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> Non-UK identity only </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270019 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: Non-UK identity only </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> National identity </td>
+   <td style="text-align:left;"> UK identity and non-UK identity </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0270020 </td>
+   <td style="text-align:left;"> ts027 </td>
+   <td style="text-align:left;"> National identity: UK identity and non-UK identity </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Proficiency in English language </td>
+   <td style="text-align:left;"> Total: All usual residents aged 3 years and over </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0290001 </td>
+   <td style="text-align:left;"> ts029 </td>
+   <td style="text-align:left;"> Proficiency in English language: Total: All usual residents aged 3 years and over </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Proficiency in English language </td>
+   <td style="text-align:left;"> Main language is English (English or Welsh in Wales) </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0290002 </td>
+   <td style="text-align:left;"> ts029 </td>
+   <td style="text-align:left;"> Proficiency in English language: Main language is English (English or Welsh in Wales) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Proficiency in English language </td>
+   <td style="text-align:left;"> Main language is not English (English or Welsh in Wales) </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0290003 </td>
+   <td style="text-align:left;"> ts029 </td>
+   <td style="text-align:left;"> Proficiency in English language: Main language is not English (English or Welsh in Wales) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Proficiency in English language </td>
+   <td style="text-align:left;"> Main language is not English (English or Welsh in Wales): Can speak English very well </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0290004 </td>
+   <td style="text-align:left;"> ts029 </td>
+   <td style="text-align:left;"> Proficiency in English language: Main language is not English (English or Welsh in Wales): Can speak English very well </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Proficiency in English language </td>
+   <td style="text-align:left;"> Main language is not English (English or Welsh in Wales): Can speak English well </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0290005 </td>
+   <td style="text-align:left;"> ts029 </td>
+   <td style="text-align:left;"> Proficiency in English language: Main language is not English (English or Welsh in Wales): Can speak English well </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Proficiency in English language </td>
+   <td style="text-align:left;"> Main language is not English (English or Welsh in Wales): Cannot speak English well </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0290006 </td>
+   <td style="text-align:left;"> ts029 </td>
+   <td style="text-align:left;"> Proficiency in English language: Main language is not English (English or Welsh in Wales): Cannot speak English well </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Proficiency in English language </td>
+   <td style="text-align:left;"> Main language is not English (English or Welsh in Wales): Cannot speak English </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0290007 </td>
+   <td style="text-align:left;"> ts029 </td>
+   <td style="text-align:left;"> Proficiency in English language: Main language is not English (English or Welsh in Wales): Cannot speak English </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> Total: All usual residents </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300001 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: Total: All usual residents </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> No religion </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300002 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: No religion </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> Christian </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300003 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: Christian </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> Buddhist </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300004 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: Buddhist </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> Hindu </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300005 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: Hindu </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> Jewish </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300006 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: Jewish </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> Muslim </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300007 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: Muslim </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> Sikh </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300008 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: Sikh </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> Other religion </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300009 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: Other religion </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religion </td>
+   <td style="text-align:left;"> Not answered </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0300010 </td>
+   <td style="text-align:left;"> ts030 </td>
+   <td style="text-align:left;"> Religion: Not answered </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multi religion household </td>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0750001 </td>
+   <td style="text-align:left;"> ts075 </td>
+   <td style="text-align:left;"> Multi religion household: Total </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multi religion household </td>
+   <td style="text-align:left;"> One-person household </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0750002 </td>
+   <td style="text-align:left;"> ts075 </td>
+   <td style="text-align:left;"> Multi religion household: One-person household </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multi religion household </td>
+   <td style="text-align:left;"> Multi-person household: No people stated their religion </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0750003 </td>
+   <td style="text-align:left;"> ts075 </td>
+   <td style="text-align:left;"> Multi religion household: Multi-person household: No people stated their religion </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multi religion household </td>
+   <td style="text-align:left;"> Multi-person household: Same religion (at least one person has stated a religion but the household may include people who did not state their religion) </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0750004 </td>
+   <td style="text-align:left;"> ts075 </td>
+   <td style="text-align:left;"> Multi religion household: Multi-person household: Same religion (at least one person has stated a religion but the household may include people who did not state their religion) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multi religion household </td>
+   <td style="text-align:left;"> Multi-person household: No religion (household may include people who did not state their religion) </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0750005 </td>
+   <td style="text-align:left;"> ts075 </td>
+   <td style="text-align:left;"> Multi religion household: Multi-person household: No religion (household may include people who did not state their religion) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multi religion household </td>
+   <td style="text-align:left;"> Multi-person household: Same religion and no religion (household may include people who did not state their religion) </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0750006 </td>
+   <td style="text-align:left;"> ts075 </td>
+   <td style="text-align:left;"> Multi religion household: Multi-person household: Same religion and no religion (household may include people who did not state their religion) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Multi religion household </td>
+   <td style="text-align:left;"> Multi-person household: At least two different religions stated (household may include people with no religion and who did not state their religion) </td>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> ts0750007 </td>
+   <td style="text-align:left;"> ts075 </td>
+   <td style="text-align:left;"> Multi religion household: Multi-person household: At least two different religions stated (household may include people with no religion and who did not state their religion) </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

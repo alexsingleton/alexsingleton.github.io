@@ -1,6 +1,6 @@
 ---
 title: "Papers"
-bibliography: papers.bib
+bibliography: my_papers.bib
 csl: apa-cv.csl
 reference-section-title: 'Peer Reviewed Journals'
 sidebar: false

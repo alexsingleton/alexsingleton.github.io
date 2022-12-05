@@ -1,0 +1,177 @@
+---
+title: "Importing Census 2021 Data into R"
+date: "2022-12-04"
+categories: [R, Census]
+image: "map.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+## Introduction
+
+Now that the 2021 Census data for England and Wales have started to be made available for small areas I wanted to take a closer look at these in R. I was disappointed to find that the ONS haven't supplied these on their [website](https://census.gov.uk/census-2021-results) or as bulk data on [Nomis](https://www.nomisweb.co.uk/sources/census_2021_bulk) in a format that is especially helpful to use programatically.
+
+The key issue is that metadata associated with each column of the tables are also used as their names. While this is quite useful human readable information, it is problematic if you want to read the data into a package like R or Python in an automated fashion.
+
+At the Census 2011 the Scotland small area data had a similar format (from distant memory!!!), but England and Wales had each variable specified as a code based on the table name.
+
+As such, I have written some R code to:
+
+-   Download the bulk census data from [Nomis](https://www.nomisweb.co.uk/sources/census_2021_bulk)
+-   Import the Output Area level data into R
+-   Create new variable names based on the sequential ordering of the variables and the table identification code
+-   Create a metadata lookup table providing the link between the new names and the original names
+-   Export the OA data as both CSV and Parquet files
+
+This blog post provides a summary of the code; but for the fully reproducible version and the created data, they are located on this [Github](https://github.com/alexsingleton/Census_2021_Output_Areas) repository.
+
+## Files to Download
+
+The following code reads the content of the Nomis webpage where the bulk downloads are found, and extracts a list of zip files found within the HTML. These are then converted into list of download URLs. Because OA data are not available for all tables (discovered through trail and error!), these are removed from the list. Finally, a set of folders are created to hold the output.
+
+```{r eval=FALSE}
+
+# Read the HTML page
+html_page <- read_html("https://www.nomisweb.co.uk/sources/census_2021_bulk")
+
+# Get census table zip file names
+zip_urls <- html_page %>% 
+            html_nodes("a[href$='.zip']") %>% 
+            html_attr("href")
+
+# Make zip file names into a full URL
+zip_urls <- paste0("https://www.nomisweb.co.uk",zip_urls)
+
+# Create an empty tibble with the following column names
+meta_data_table <- tibble(
+  Table_Name = character(),
+  Variable_Name = character(),
+  Type = character(),
+  new_names = character(),
+  Table_ID = character()
+)
+
+
+# Tables without OA data
+
+no_oa_tables <- c("https://www.nomisweb.co.uk/output/census/2021/census2021-ts007.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts009.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts010.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts012.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts013.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts071.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts072.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts073.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts074.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts022.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts024.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts028.zip",
+"https://www.nomisweb.co.uk/output/census/2021/census2021-ts031.zip")
+
+zip_urls <-  result <- setdiff(zip_urls, no_oa_tables)  # Remove the tables without OA
+
+# Create output directories for the census tables
+dir.create("./output_data/csv",recursive = TRUE)
+dir.create("./output_data/parquet",recursive = TRUE)
+
+```
+
+## Download the data
+
+The following code uses the download URLs to loop though each table and:
+
+-   Downloads, unzips, extracts and imports the the CSV file with OA data
+-   Extracts the table ID code for the current table
+-   Creates a new set of variable names in the format of TableIDXXXX where XXXX is the position of each column within the table, and with 0s used as padding to make these up to four digits in length. This also excludes the geography codes. For example, as the Total for the tables are found in column one, these will have the code of TableID_0001.
+-   The original and new table names are stored in a metadata table
+-   The census data with cleaned column names are exported as CSV and Parquet files
+
+```{r eval=FALSE}
+
+for (url in zip_urls){
+
+dir.create("./tmp",recursive = TRUE)#create a temporary directory for unzipping
+f <- curl::curl_download(url, tempfile(fileext = ".zip")) # Download the specified zip file
+unzip(f,  exdir="./tmp") # Unzip
+t_tab_loc <- list.files("./tmp", pattern=".*-oa.csv") # Extract the OA csv location
+
+t_name <- unlist(str_split(t_tab_loc,"-"))[2] # Extract the table name
+
+
+assign(t_name,vroom(paste0("./tmp/",t_tab_loc),show_col_types = FALSE) %>% 
+         select(-date,-geography) %>% 
+         column_to_rownames("geography code")) #Move OA code to row names
+ 
+old_names <- colnames(get(t_name)) # Get the column names
+new_names <- paste0(t_name, sprintf("%04d",seq_along(old_names)))  # Create some new column names with zero padding
+
+# Create a list of the new and old names, plus Table ID
+N_list <- list(
+  old_names = old_names,
+  new_names = new_names,
+  Table_ID = t_name
+)
+
+# Creates the meta data table
+N_list <- as_tibble(N_list)
+
+# Keep the metadata
+meta_data_table %<>%
+  bind_rows(N_list)
+
+# Change the column names for the data frame
+env <- environment() # Have to be explicit about the env, as  %>% uses a temp environment
+get(t_name) %>%
+  rename_at(vars(old_names), ~new_names) %>%
+  rownames_to_column("OA") %>%
+  assign(t_name,., envir = env) # add a reference to the environment
+
+# Write csv and parquet to the output folders
+write_parquet(get(t_name), paste0("./output_data/parquet/",t_name,".parquet"))
+write_csv(get(t_name), paste0("./output_data/csv/",t_name,".csv"))
+
+#Remove tmp objects
+rm(N_list, old_names, new_names, t_name, t_tab_loc)
+
+#Remove all downloaded files for this table
+unlink("./tmp",recursive = TRUE)
+
+
+}
+
+```
+
+Finally, the metadata table is cleaned up and exported to a csv. You will note that the "Ethnicity, Identity, Language and Religion" variables do not have a "Type" value specified. This happens because the column names for these tables do not match the format for the previous releases. Specifically, "; measures: Value" is missing from the end of each column.
+
+```{r eval=FALSE}
+
+# Format the lookup table
+
+meta_data_table2 <- meta_data_table %>%
+  mutate(Table_Name = str_split_fixed(old_names, ":", 2)[,1]) %>% # Table Name
+  mutate(Type = str_replace_all((str_extract(old_names, "; measures: \\w+")), "; measures: ", "")) %>% # Variable Type
+  mutate(Variable_Name = str_replace_all(old_names, ";.*", "")) %>%
+  mutate(Variable_Name = str_replace_all(Variable_Name, paste0(Table_Name,": "), ""))
+
+write_csv(meta_data_table2, "Table_Metadata.csv")
+
+```
+
+## Output Area Tables
+
+The tables that are imported include:
+
+```{r echo=FALSE, warning=FALSE,message=FALSE}
+
+library(kableExtra)
+library(tidyverse)
+
+read_csv("Table_Metadata.csv") %>%
+kable() %>%
+kable_styling("striped", full_width = F) %>% 
+scroll_box(height = "400px")
+
+
+```
