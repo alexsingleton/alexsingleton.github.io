@@ -244,3 +244,110 @@ Multi religion household,Multi-person household: Same religion (at least one per
 Multi religion household,Multi-person household: No religion (household may include people who did not state their religion),NA,ts0750005,ts075,Multi religion household: Multi-person household: No religion (household may include people who did not state their religion)
 Multi religion household,Multi-person household: Same religion and no religion (household may include people who did not state their religion),NA,ts0750006,ts075,Multi religion household: Multi-person household: Same religion and no religion (household may include people who did not state their religion)
 Multi religion household,Multi-person household: At least two different religions stated (household may include people with no religion and who did not state their religion),NA,ts0750007,ts075,Multi religion household: Multi-person household: At least two different religions stated (household may include people with no religion and who did not state their religion)
+Welsh language skills,Total: All usual residents aged 3 years and over,NA,ts0320001,ts032,Welsh language skills: Total: All usual residents aged 3 years and over
+Welsh language skills,Can understand spoken Welsh only,NA,ts0320002,ts032,Welsh language skills: Can understand spoken Welsh only
+Welsh language skills,"Can speak, read and write Welsh",NA,ts0320003,ts032,"Welsh language skills: Can speak, read and write Welsh"
+Welsh language skills,Can speak but cannot read or write Welsh,NA,ts0320004,ts032,Welsh language skills: Can speak but cannot read or write Welsh
+Welsh language skills,Can speak and read but cannot write Welsh,NA,ts0320005,ts032,Welsh language skills: Can speak and read but cannot write Welsh
+Welsh language skills,Can read but cannot speak or write Welsh,NA,ts0320006,ts032,Welsh language skills: Can read but cannot speak or write Welsh
+Welsh language skills,Can write but cannot speak or read Welsh,NA,ts0320007,ts032,Welsh language skills: Can write but cannot speak or read Welsh
+Welsh language skills,Can read and write but cannot speak Welsh,NA,ts0320008,ts032,Welsh language skills: Can read and write but cannot speak Welsh
+Welsh language skills,Can speak and other combinations of skills in Welsh,NA,ts0320009,ts032,Welsh language skills: Can speak and other combinations of skills in Welsh
+Welsh language skills,No skills in Welsh,NA,ts0320010,ts032,Welsh language skills: No skills in Welsh
+Welsh speaking ability,Total: All usual residents aged 3 years and over,NA,ts0330001,ts033,Welsh speaking ability: Total: All usual residents aged 3 years and over
+Welsh speaking ability,Cannot speak Welsh,NA,ts0330002,ts033,Welsh speaking ability: Cannot speak Welsh
+Welsh speaking ability,Can speak Welsh,NA,ts0330003,ts033,Welsh speaking ability: Can speak Welsh
+Welsh writing ability,Total: All usual residents aged 3 years and over,NA,ts0340001,ts034,Welsh writing ability: Total: All usual residents aged 3 years and over
+Welsh writing ability,Cannot write Welsh,NA,ts0340002,ts034,Welsh writing ability: Cannot write Welsh
+Welsh writing ability,Can write Welsh,NA,ts0340003,ts034,Welsh writing ability: Can write Welsh
+Welsh reading ability,Total: All usual residents aged 3 years and over,NA,ts0350001,ts035,Welsh reading ability: Total: All usual residents aged 3 years and over
+Welsh reading ability,Cannot read Welsh,NA,ts0350002,ts035,Welsh reading ability: Cannot read Welsh
+Welsh reading ability,Can read Welsh,NA,ts0350003,ts035,Welsh reading ability: Can read Welsh
+Welsh understanding ability,Total: All usual residents aged 3 years and over,NA,ts0360001,ts036,Welsh understanding ability: Total: All usual residents aged 3 years and over
+Welsh understanding ability,Cannot understand spoken Welsh,NA,ts0360002,ts036,Welsh understanding ability: Cannot understand spoken Welsh
+Welsh understanding ability,Can understand spoken Welsh,NA,ts0360003,ts036,Welsh understanding ability: Can understand spoken Welsh
+Distance travelled to work,Total: All usual residents aged 16 years and over in employment the week before the census,NA,ts0580001,ts058,Distance travelled to work: Total: All usual residents aged 16 years and over in employment the week before the census
+Distance travelled to work,Less than 2km,NA,ts0580002,ts058,Distance travelled to work: Less than 2km
+Distance travelled to work,2km to less than 5km,NA,ts0580003,ts058,Distance travelled to work: 2km to less than 5km
+Distance travelled to work,5km to less than 10km,NA,ts0580004,ts058,Distance travelled to work: 5km to less than 10km
+Distance travelled to work,10km to less than 20km,NA,ts0580005,ts058,Distance travelled to work: 10km to less than 20km
+Distance travelled to work,20km to less than 30km,NA,ts0580006,ts058,Distance travelled to work: 20km to less than 30km
+Distance travelled to work,30km to less than 40km,NA,ts0580007,ts058,Distance travelled to work: 30km to less than 40km
+Distance travelled to work,40km to less than 60km,NA,ts0580008,ts058,Distance travelled to work: 40km to less than 60km
+Distance travelled to work,60km and over,NA,ts0580009,ts058,Distance travelled to work: 60km and over
+Distance travelled to work,Works mainly from home,NA,ts0580010,ts058,Distance travelled to work: Works mainly from home
+Distance travelled to work,"Works mainly at an offshore installation, in no fixed place, or outside the UK",NA,ts0580011,ts058,"Distance travelled to work: Works mainly at an offshore installation, in no fixed place, or outside the UK"
+Hours worked,Total: All usual residents aged 16 years and over in employment the week before the census,NA,ts0590001,ts059,Hours worked: Total: All usual residents aged 16 years and over in employment the week before the census
+Hours worked,Part-time,NA,ts0590002,ts059,Hours worked: Part-time
+Hours worked,Part-time: 15 hours or less worked,NA,ts0590003,ts059,Hours worked: Part-time: 15 hours or less worked
+Hours worked,Part-time: 16 to 30 hours worked,NA,ts0590004,ts059,Hours worked: Part-time: 16 to 30 hours worked
+Hours worked,Full-time,NA,ts0590005,ts059,Hours worked: Full-time
+Hours worked,Full-time: 31 to 48 hours worked,NA,ts0590006,ts059,Hours worked: Full-time: 31 to 48 hours worked
+Hours worked,Full-time: 49 or more hours worked,NA,ts0590007,ts059,Hours worked: Full-time: 49 or more hours worked
+Method of travel to workplace,Total: All usual residents aged 16 years and over in employment the week before the census,NA,ts0610001,ts061,Method of travel to workplace: Total: All usual residents aged 16 years and over in employment the week before the census
+Method of travel to workplace,Work mainly at or from home,NA,ts0610002,ts061,Method of travel to workplace: Work mainly at or from home
+Method of travel to workplace,"Underground, metro, light rail, tram",NA,ts0610003,ts061,"Method of travel to workplace: Underground, metro, light rail, tram"
+Method of travel to workplace,Train,NA,ts0610004,ts061,Method of travel to workplace: Train
+Method of travel to workplace,"Bus, minibus or coach",NA,ts0610005,ts061,"Method of travel to workplace: Bus, minibus or coach"
+Method of travel to workplace,Taxi,NA,ts0610006,ts061,Method of travel to workplace: Taxi
+Method of travel to workplace,"Motorcycle, scooter or moped",NA,ts0610007,ts061,"Method of travel to workplace: Motorcycle, scooter or moped"
+Method of travel to workplace,Driving a car or van,NA,ts0610008,ts061,Method of travel to workplace: Driving a car or van
+Method of travel to workplace,Passenger in a car or van,NA,ts0610009,ts061,Method of travel to workplace: Passenger in a car or van
+Method of travel to workplace,Bicycle,NA,ts0610010,ts061,Method of travel to workplace: Bicycle
+Method of travel to workplace,On foot,NA,ts0610011,ts061,Method of travel to workplace: On foot
+Method of travel to workplace,Other method of travel to work,NA,ts0610012,ts061,Method of travel to workplace: Other method of travel to work
+National Statistics Socio-economic Classification (NS-SEC),National Statistics Socio-economic Classification (NS-SEC): Total: All usual residents aged 16 years and over,NA,ts0620001,ts062,National Statistics Socio-economic Classification (NS-SEC): Total: All usual residents aged 16 years and over
+National Statistics Socio-economic Classification (NS-SEC),"National Statistics Socio-economic Classification (NS-SEC): L1, L2 and L3 Higher managerial, administrative and professional occupations",NA,ts0620002,ts062,"National Statistics Socio-economic Classification (NS-SEC): L1, L2 and L3 Higher managerial, administrative and professional occupations"
+National Statistics Socio-economic Classification (NS-SEC),"National Statistics Socio-economic Classification (NS-SEC): L4, L5 and L6 Lower managerial, administrative and professional occupations",NA,ts0620003,ts062,"National Statistics Socio-economic Classification (NS-SEC): L4, L5 and L6 Lower managerial, administrative and professional occupations"
+National Statistics Socio-economic Classification (NS-SEC),National Statistics Socio-economic Classification (NS-SEC): L7 Intermediate occupations,NA,ts0620004,ts062,National Statistics Socio-economic Classification (NS-SEC): L7 Intermediate occupations
+National Statistics Socio-economic Classification (NS-SEC),National Statistics Socio-economic Classification (NS-SEC): L8 and L9 Small employers and own account workers,NA,ts0620005,ts062,National Statistics Socio-economic Classification (NS-SEC): L8 and L9 Small employers and own account workers
+National Statistics Socio-economic Classification (NS-SEC),National Statistics Socio-economic Classification (NS-SEC): L10 and L11 Lower supervisory and technical occupations,NA,ts0620006,ts062,National Statistics Socio-economic Classification (NS-SEC): L10 and L11 Lower supervisory and technical occupations
+National Statistics Socio-economic Classification (NS-SEC),National Statistics Socio-economic Classification (NS-SEC): L12 Semi-routine occupations,NA,ts0620007,ts062,National Statistics Socio-economic Classification (NS-SEC): L12 Semi-routine occupations
+National Statistics Socio-economic Classification (NS-SEC),National Statistics Socio-economic Classification (NS-SEC): L13 Routine occupations,NA,ts0620008,ts062,National Statistics Socio-economic Classification (NS-SEC): L13 Routine occupations
+National Statistics Socio-economic Classification (NS-SEC),National Statistics Socio-economic Classification (NS-SEC): L14.1 and L14.2 Never worked and long-term unemployed,NA,ts0620009,ts062,National Statistics Socio-economic Classification (NS-SEC): L14.1 and L14.2 Never worked and long-term unemployed
+National Statistics Socio-economic Classification (NS-SEC),National Statistics Socio-economic Classification (NS-SEC): L15 Full-time students,NA,ts0620010,ts062,National Statistics Socio-economic Classification (NS-SEC): L15 Full-time students
+Occupation (current),Occupation (current): Total: All usual residents aged 16 years and over in employment the week before the census,NA,ts0630001,ts063,Occupation (current): Total: All usual residents aged 16 years and over in employment the week before the census
+Occupation (current),"Occupation (current): 1. Managers, directors and senior officials",NA,ts0630002,ts063,"Occupation (current): 1. Managers, directors and senior officials"
+Occupation (current),Occupation (current): 2. Professional occupations,NA,ts0630003,ts063,Occupation (current): 2. Professional occupations
+Occupation (current),Occupation (current): 3. Associate professional and technical occupations,NA,ts0630004,ts063,Occupation (current): 3. Associate professional and technical occupations
+Occupation (current),Occupation (current): 4. Administrative and secretarial occupations,NA,ts0630005,ts063,Occupation (current): 4. Administrative and secretarial occupations
+Occupation (current),Occupation (current): 5. Skilled trades occupations,NA,ts0630006,ts063,Occupation (current): 5. Skilled trades occupations
+Occupation (current),"Occupation (current): 6. Caring, leisure and other service occupations",NA,ts0630007,ts063,"Occupation (current): 6. Caring, leisure and other service occupations"
+Occupation (current),Occupation (current): 7. Sales and customer service occupations,NA,ts0630008,ts063,Occupation (current): 7. Sales and customer service occupations
+Occupation (current),"Occupation (current): 8. Process, plant and machine operatives",NA,ts0630009,ts063,"Occupation (current): 8. Process, plant and machine operatives"
+Occupation (current),Occupation (current): 9. Elementary occupations,NA,ts0630010,ts063,Occupation (current): 9. Elementary occupations
+Unemployment history,Total: All usual residents aged 16 years and over not in employment the week before the census,NA,ts0650001,ts065,Unemployment history: Total: All usual residents aged 16 years and over not in employment the week before the census
+Unemployment history,Not in employment: Worked in the last 12 months,NA,ts0650002,ts065,Unemployment history: Not in employment: Worked in the last 12 months
+Unemployment history,Not in employment: Not worked in the last 12 months,NA,ts0650003,ts065,Unemployment history: Not in employment: Not worked in the last 12 months
+Unemployment history,Not in employment: Never worked,NA,ts0650004,ts065,Unemployment history: Not in employment: Never worked
+Economic activity status,Total: All usual residents aged 16 years and over,NA,ts0660001,ts066,Economic activity status: Total: All usual residents aged 16 years and over
+Economic activity status,Economically active (excluding full-time students),NA,ts0660002,ts066,Economic activity status: Economically active (excluding full-time students)
+Economic activity status,Economically active (excluding full-time students):In employment,NA,ts0660003,ts066,Economic activity status: Economically active (excluding full-time students):In employment
+Economic activity status,Economically active (excluding full-time students):In employment:Employee,NA,ts0660004,ts066,Economic activity status: Economically active (excluding full-time students):In employment:Employee
+Economic activity status,Economically active (excluding full-time students): In employment: Employee: Part-time,NA,ts0660005,ts066,Economic activity status: Economically active (excluding full-time students): In employment: Employee: Part-time
+Economic activity status,Economically active (excluding full-time students): In employment: Employee: Full-time,NA,ts0660006,ts066,Economic activity status: Economically active (excluding full-time students): In employment: Employee: Full-time
+Economic activity status,Economically active (excluding full-time students):In employment:Self-employed with employees,NA,ts0660007,ts066,Economic activity status: Economically active (excluding full-time students):In employment:Self-employed with employees
+Economic activity status,Economically active (excluding full-time students): In employment: Self-employed with employees: Part-time,NA,ts0660008,ts066,Economic activity status: Economically active (excluding full-time students): In employment: Self-employed with employees: Part-time
+Economic activity status,Economically active (excluding full-time students): In employment: Self-employed with employees: Full-time,NA,ts0660009,ts066,Economic activity status: Economically active (excluding full-time students): In employment: Self-employed with employees: Full-time
+Economic activity status,Economically active (excluding full-time students):In employment:Self-employed without employees,NA,ts0660010,ts066,Economic activity status: Economically active (excluding full-time students):In employment:Self-employed without employees
+Economic activity status,Economically active (excluding full-time students): In employment: Self-employed without employees: Part-time,NA,ts0660011,ts066,Economic activity status: Economically active (excluding full-time students): In employment: Self-employed without employees: Part-time
+Economic activity status,Economically active (excluding full-time students): In employment: Self-employed without employees: Full-time,NA,ts0660012,ts066,Economic activity status: Economically active (excluding full-time students): In employment: Self-employed without employees: Full-time
+Economic activity status,Economically active (excluding full-time students): Unemployed,NA,ts0660013,ts066,Economic activity status: Economically active (excluding full-time students): Unemployed
+Economic activity status,Economically active and a full-time student,NA,ts0660014,ts066,Economic activity status: Economically active and a full-time student
+Economic activity status,Economically active and a full-time student:In employment,NA,ts0660015,ts066,Economic activity status: Economically active and a full-time student:In employment
+Economic activity status,Economically active and a full-time student:In employment:Employee,NA,ts0660016,ts066,Economic activity status: Economically active and a full-time student:In employment:Employee
+Economic activity status,Economically active and a full-time student: In employment: Employee: Part-time,NA,ts0660017,ts066,Economic activity status: Economically active and a full-time student: In employment: Employee: Part-time
+Economic activity status,Economically active and a full-time student: In employment: Employee: Full-time,NA,ts0660018,ts066,Economic activity status: Economically active and a full-time student: In employment: Employee: Full-time
+Economic activity status,Economically active and a full-time student:In employment:Self-employed with employees,NA,ts0660019,ts066,Economic activity status: Economically active and a full-time student:In employment:Self-employed with employees
+Economic activity status,Economically active and a full-time student: In employment: Self-employed with employees: Part-time,NA,ts0660020,ts066,Economic activity status: Economically active and a full-time student: In employment: Self-employed with employees: Part-time
+Economic activity status,Economically active and a full-time student: In employment: Self-employed with employees: Full-time,NA,ts0660021,ts066,Economic activity status: Economically active and a full-time student: In employment: Self-employed with employees: Full-time
+Economic activity status,Economically active and a full-time student:In employment:Self-employed without employees,NA,ts0660022,ts066,Economic activity status: Economically active and a full-time student:In employment:Self-employed without employees
+Economic activity status,Economically active and a full-time student: In employment: Self-employed without employees: Part-time,NA,ts0660023,ts066,Economic activity status: Economically active and a full-time student: In employment: Self-employed without employees: Part-time
+Economic activity status,Economically active and a full-time student: In employment: Self-employed without employees: Full-time,NA,ts0660024,ts066,Economic activity status: Economically active and a full-time student: In employment: Self-employed without employees: Full-time
+Economic activity status,Economically active and a full-time student: Unemployed,NA,ts0660025,ts066,Economic activity status: Economically active and a full-time student: Unemployed
+Economic activity status,Economically inactive,NA,ts0660026,ts066,Economic activity status: Economically inactive
+Economic activity status,Economically inactive: Retired,NA,ts0660027,ts066,Economic activity status: Economically inactive: Retired
+Economic activity status,Economically inactive: Student,NA,ts0660028,ts066,Economic activity status: Economically inactive: Student
+Economic activity status,Economically inactive: Looking after home or family,NA,ts0660029,ts066,Economic activity status: Economically inactive: Looking after home or family
+Economic activity status,Economically inactive: Long-term sick or disabled,NA,ts0660030,ts066,Economic activity status: Economically inactive: Long-term sick or disabled
+Economic activity status,Economically inactive: Other,NA,ts0660031,ts066,Economic activity status: Economically inactive: Other
