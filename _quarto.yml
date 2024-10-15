@@ -16,7 +16,7 @@ website:
 
 format:
   html:
-    theme: sandstone
+    theme: superhero
     css: styles.css
     toc: true
 

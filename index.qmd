@@ -1,9 +1,9 @@
 ---
 title: "Alex Singleton"
+toc: false
 about:
   template: broadside
   image: ./img/profile.jpg
-  template: trestles
   image-width: 20em
   image-shape: round
   links:
@@ -24,14 +24,14 @@ about:
 I am a **Professor of Geographic Information Science at the University of Liverpool**, Deputy Director of the [ESRC Consumer Data Research Centre (CDRC)](http://www.cdrc.ac.uk) and Director of the ESRC Data [Analytics & Society CDT](https://datacdt.org/). In a general sense my research is concerned with how the complexities of individual behaviours, attitudes and contexts manifest spatially, and can be represented and understood though a framework of geographic data science.
 
 ## Education
-University College London | London, UK
-PhD | 2003 - 2007
 
-University of Manchester | Manchester, UK
-BSc in Geography | 2000- 2003
+University College London \| London, UK PhD \| 2003 - 2007
+
+University of Manchester \| Manchester, UK BSc in Geography \| 2000- 2003
 
 ## Interests
-* Geographic Data Science
-* Urban Analytics
-* GIS
-* Geodemographics
+
+-   Geographic Data Science
+-   Urban Analytics
+-   GIS
+-   Geodemographics
