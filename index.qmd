@@ -2,7 +2,7 @@
 title: "Alex Singleton"
 toc: false
 about:
-  template: broadside
+  template: trestles
   image: ./img/profile.jpg
   image-width: 20em
   image-shape: round
