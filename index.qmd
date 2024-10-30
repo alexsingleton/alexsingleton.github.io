@@ -11,7 +11,7 @@ about:
       text: Email
       href: mailto:alex.singleton@liverpool.ac.uk
     - icon: twitter-x
-      text: twitter
+      text: X
       href: https://twitter.com/alexsingleton
     - icon: github
       text: Github
@@ -19,10 +19,10 @@ about:
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/alexdsingleton/
-    - icon: envelope
+    - icon: server
       text: Bluesky
       href: https://bsky.app/profile/alexsingleton.bsky.social
-    - icon: envelope
+    - icon: mastodon
       text: Mastodon
       href: https://mapstodon.space/@alexsingleton
 ---
