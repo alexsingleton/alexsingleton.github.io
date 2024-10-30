@@ -10,7 +10,7 @@ about:
     - icon: envelope
       text: Email
       href: mailto:alex.singleton@liverpool.ac.uk
-    - icon: twitter
+    - icon: twitter-x
       text: twitter
       href: https://twitter.com/alexsingleton
     - icon: github
@@ -19,6 +19,12 @@ about:
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/alexdsingleton/
+    - icon: server
+      text: Bluesky
+      href: https://bsky.app/profile/alexsingleton.bsky.social
+    - icon: mastodon
+      text: Mastodon
+      href: https://mapstodon.space/@alexsingleton
 ---
 
 I am a **Professor of Geographic Information Science at the University of Liverpool**, Deputy Director of the [ESRC Consumer Data Research Centre (CDRC)](http://www.cdrc.ac.uk) and Director of the ESRC Data [Analytics & Society CDT](https://datacdt.org/). In a general sense my research is concerned with how the complexities of individual behaviours, attitudes and contexts manifest spatially, and can be represented and understood though a framework of geographic data science.
