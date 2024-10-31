@@ -1,0 +1,32 @@
+---
+title: "30 Day Map Challenge"
+date: "2024-10-31"
+categories: [Maps]
+image: "1.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# 30 Day Map Challenge
+
+Last year I had a go at generating quite a few of the [30 Day Map Challenge](https://30daymapchallenge.com/) images using [Stable Diffusion](https://en.wikipedia.org/wiki/Stable_Diffusion). Some of these were more successful than others, and a year on, Generative AI has come on leaps and bounds. Some of last years "maps" (really cheats!):
+
+
+![](1.png){width=200}
+![](2.png){width=200}
+![](3.png){width=200}
+![](4.jpeg){width=200}
+![](3.png){width=200}
+![](5.png){width=200}
+![](6.png){width=200}
+![](7.png){width=200}
+![](8.jpeg){width=200}
+
+However, for this year I have decided to take on a slightly different approach by hunting through maps and analysis that I have published previously and if I get time, infilling the gaps with some R maps in between! I suspect that I am going to get distracted, but this is my intention at least.
+
+## Map Calendar
+
+![](30dmc_2024.png)
+
