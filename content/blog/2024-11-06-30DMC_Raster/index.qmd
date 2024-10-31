@@ -1,0 +1,20 @@
+---
+title: "30 Day Map Challenge: Raster"
+date: "2024-11-06"
+categories: [Maps]
+image: "D6.jpg"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 6: Raster
+
+This map exploits advances in machine learning to implement a new method of capturing a measure of urban context from multispectral satellite imagery at a very small area level through the application of a convolutional autoencoder (CAE). Cluster analysis was used to generate a typology from the CAE output comprising seven groups describing salient patterns of differentiated urban context. You can view an [interactive map](https://mapmaker.cdrc.ac.uk/#/postcode-context-classification) here, and [download the data](https://data.cdrc.ac.uk/dataset/postcode-context-classification) too.
+
+![](D6.jpg)
+
+Full details can be found in this paper:
+
+Singleton, A., Arribas-Bel, D., Murray, J., & Fleischmann, M. (2022). Estimating generalized measures of local neighbourhood context from multispectral satellite images using a convolutional neural network. Computers, Environment and Urban Systems, 95, 101802. <https://doi.org/10.1016/j.compenvurbsys.2022.101802>

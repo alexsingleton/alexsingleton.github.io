@@ -1,32 +1,22 @@
 ---
-title: "30 Day Map Challenge"
-date: "2024-10-31"
+title: "30 Day Map Challenge: Points"
+date: "2024-11-01"
 categories: [Maps]
-image: "1.png"
+image: "D1.jpeg"
 execute:
   echo: true
   message: false
   warning: false
 ---
 
-# 30 Day Map Challenge
+# Day 1: Points
 
-Last year I had a go at generating quite a few of the [30 Day Map Challenge](https://30daymapchallenge.com/) images using [Stable Diffusion](https://en.wikipedia.org/wiki/Stable_Diffusion). Some of these were more successful than others, and a year on, Generative AI has come on leaps and bounds. Some of last years "maps" (really cheats!):
+This map was created using point data from [SafeGraph](https://www.safegraph.com/)and a method that combines Hierarchical-DBSCAN with ‘H3’ geometry to delineate retail centre agglomerations.
 
+Full details can be found in this paper:
 
-![](1.png){width=200}
-![](2.png){width=200}
-![](3.png){width=200}
-![](4.jpeg){width=200}
-![](3.png){width=200}
-![](5.png){width=200}
-![](6.png){width=200}
-![](7.png){width=200}
-![](8.jpeg){width=200}
+Singleton, A., Dolega, L., & Credit, K. (2022). A framework for delineating the scale, extent and characteristics of American retail centre agglomerations. Environment and Planning B: Urban Analytics and City Science, 49(3), 1112–1128. <https://doi.org/10.1177/23998083211040519>
 
-However, for this year I have decided to take on a slightly different approach by hunting through maps and analysis that I have published previously and if I get time, infilling the gaps with some R maps in between! I suspect that I am going to get distracted, but this is my intention at least.
+![](D1.jpeg)
 
-## Map Calendar
-
-![](30dmc_2024.png)
-
+You can even browse our [online map](https://mapmaker.cdrc.ac.uk/#/us-retail-centres); or download the [data](https://data.cdrc.ac.uk/dataset/us-retail-centre-boundaries-and-classification).

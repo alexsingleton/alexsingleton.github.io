@@ -1,0 +1,52 @@
+---
+title: "Mapping All of the England and Wales 2021 Census"
+date: "2024-11-03"
+categories: [R, Census, Maps]
+image: "map.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 3: Polygons (Mapping All of the England and Wales 2021 Census)
+
+Almost ten years ago I decided to map everything in the 2011 Census... this was really a test for my developing R skills, but also to scratch an itch that I had since starting to code more seriously.
+
+### The Census website can be found at: [census.alex-singleton.com](https://census.alex-singleton.com/)
+
+Although I am not even sure that these are online anymore (or at least I can't find them!!), the project was quite successful ([the Guardian picked it up](https://www.theguardian.com/news/datablog/2013/feb/08/census-data-mapped))- in a nutshell, I created a PDF map for every local authority; mapping all of the 2011 Census Key Statistics for England and Wales.
+
+This was in a pre-github era for me, so the code (which may or may not work) can be found [here](https://rpubs.com/alexsingleton/openatlas) - it is very messy, and uses LaTex to render each PDF.
+
+There is always horror when looking back at your own code, which reflects the progress that you have made at coding, but also the rapidly evolving nature of languages like R. Since my 2011 work there have been huge developments in both mapping and publishing packages, making much of what was done before either redundant, simpler or more easy to automate.
+
+## From Mapbooks to a Website
+
+The original project was organised into consolidated PDF Mapbooks containing all the maps for each local authority. These files were reasonably large, and I was never sure that it was the most effective dissemination mechanism. I liked the PDF format for the maps as this enabled them to store the images as vectors: so you don't need to worry about image resolution etc. They also tended to be more compact in size relative to rasters (png, jpg etc).
+
+I have been particularly enthusiastic about [Quarto](https://quarto.org/) the past couple of years which is a publishing framework that is used to create this website / blog, but can also be used for lots of other things like reports and presentations. While making this website, I had an idea that the components of the Quarto framework could also be adapted to create an updated census mapping project .... which is how we ended up here!
+
+## Technical Overview of the Project
+
+I blogged [here](https://www.alex-singleton.com/content/blog/2022-12-04-Census-2021/) about processing the 2021 England and Wales census data for output areas; specifically: creating new column names and a metadata table so that they could be used programmatically without lots of cleaning. The code that creates the local authority web pages described here use these data.
+
+The code used in this project can be found over on [Github](https://github.com/alexsingleton/Census_2021_Maps) but in simple terms:
+
+1)  Generates a skeleton website using Quarto
+2)  Removes unwanted content and builds a new directory structure organized around regions and local authority codes
+3)  Populates local authority folders with census data table extracts as CSVs
+4)  Produces new quarto (.qmd) pages with code that will (when rendered):
+    a)  Produce a directory structure / searchable content
+    b)  Produce tables and maps for the local authority pages
+5)  When the Quarto website is rendered, all of the files created above have the R code within them run, and this generates an HTML website in a format that can be deployed on github.
+
+I have tried to be as detailed as possible in the comments associated with the R code generating the above, so I would hope that this would be easy to replicate if you wanted to create something similar for another project. Also, if you don't like the specific maps (or colours etc), then there is code for each local authority to make an alternative version.
+
+## Project Output and Runtime
+
+R is such a versatile language; and for the most part, if you can imagine it: it can be done. For a project like this, you don't even need an especially fancy computer to run the code.
+
+The machine used for this project is my HP ZBook Firefly 14 inch G8, which has 32 gig memory and an i7 CPU (2.8 Ghz; 4 cores). The code ran start to finish in 16 hours; generating 99,674 maps!
+
+A conservative estimate of the time it would take to create a map manually might be 5 mins; and if so, to generate the same amount of maps, this would equate to 498,370 minutes or 8,306 hours. This is 346 days if you were working a 24 hour shift! If we look at this more reasonably, at £15.00 / hour and based on a 37.5 hour working week (\~£29k / year salary); making all of these maps would take 221 weeks or around 4.2 years; costing (assuming no pay rise!) about £122k! Quite a saving by R coding a very mundane task.

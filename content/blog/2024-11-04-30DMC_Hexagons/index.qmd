@@ -1,0 +1,24 @@
+---
+title: "30 Day Map Challenge: Hexagons"
+date: "2024-11-04"
+categories: [Maps]
+image: "D4.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 4: Hexagons
+
+Todays [map](https://mapmaker.cdrc.ac.uk/#/retail-centres?d=11110000&m=classif_intid&lon=-2.9495&lat=53.3897&zoom=12.38) is of our town centre and high-street definitions. The extent and boundaries of these areas are identified based on the density and connectivity patterns of individual retail units over space, with the areas delineated using [H3 polygons](https://h3geo.org/).
+
+A high resolution hexagonal grid is superimposed over spatial clusters of retail points and a network-based algorithm used to identify mutually exclusive tracts. Agglomerations are then pruned and fine-tuned according to a series of heuristic rules.
+
+Our retail agglomerations represent local commerce areas with shopping amenities and are assigned to a hierarchical classification ranking from the largest Regional Centres, Major Town Centres and Town Centres, down to Small Local Centres and Retail Parks.
+
+![](D4.png)
+
+Full details can be found in this paper:
+
+Macdonald, J. L., Dolega, L., & Singleton, A. (2022). An open source delineation and hierarchical classification of UK retail agglomerations. Scientific Data, 9(1). <https://doi.org/10.1038/s41597-022-01556-3>

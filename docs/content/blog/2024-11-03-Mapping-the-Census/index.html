@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Alex Singleton">
+<meta name="dcterms.date" content="2024-11-03">
 
-<title>Blog – Alex Singleton</title>
+<title>Mapping All of the England and Wales 2021 Census – Alex Singleton</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,23 +25,21 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -67,77 +67,19 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-categories','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Alex Singleton</span>
     </a>
   </div>
@@ -148,23 +90,23 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./cv.pdf"> 
+    <a class="nav-link" href="../../../cv.pdf"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./papers.html"> 
+    <a class="nav-link" href="../../../papers.html"> 
 <span class="menu-text">Papers</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./books.html"> 
+    <a class="nav-link" href="../../../books.html"> 
 <span class="menu-text">Books</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./blog.html" aria-current="page"> 
+    <a class="nav-link" href="../../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -175,298 +117,106 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Mapping All of the England and Wales 2021 Census</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Census</div>
+                <div class="quarto-category">Maps</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://www.alex-singleton.com">Alex Singleton</a> <a href="https://orcid.org/0000-0002-2338-2334" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 3, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(9)</span></div><div class="category" data-category="Census">Census <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Maps">Maps <span class="quarto-category-count">(7)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Rstudio">Rstudio <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Windows">Windows <span class="quarto-category-count">(1)</span></div></div></div>
-<!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Blog</h1>
-</div>
-
-
-
-<div class="quarto-title-meta column-page-left">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-
-
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-date-sort" data-direction="asc">
-          Date - Oldest
-        </option>
-         <option value="listing-date-sort" data-direction="desc">
-          Date - Newest
-        </option>
-     </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#day-3-polygons-mapping-all-of-the-england-and-wales-2021-census" id="toc-day-3-polygons-mapping-all-of-the-england-and-wales-2021-census" class="nav-link active" data-scroll-target="#day-3-polygons-mapping-all-of-the-england-and-wales-2021-census">Day 3: Polygons (Mapping All of the England and Wales 2021 Census)</a>
+  <ul class="collapse">
+  <li><a href="#the-census-website-can-be-found-at-census.alex-singleton.com" id="toc-the-census-website-can-be-found-at-census.alex-singleton.com" class="nav-link" data-scroll-target="#the-census-website-can-be-found-at-census.alex-singleton.com">The Census website can be found at: census.alex-singleton.com</a></li>
+  <li><a href="#from-mapbooks-to-a-website" id="toc-from-mapbooks-to-a-website" class="nav-link" data-scroll-target="#from-mapbooks-to-a-website">From Mapbooks to a Website</a></li>
+  <li><a href="#technical-overview-of-the-project" id="toc-technical-overview-of-the-project" class="nav-link" data-scroll-target="#technical-overview-of-the-project">Technical Overview of the Project</a></li>
+  <li><a href="#project-output-and-runtime" id="toc-project-output-and-runtime" class="nav-link" data-scroll-target="#project-output-and-runtime">Project Output and Runtime</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
-</div>
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Maps" data-listing-date-sort="1730851200000" data-listing-file-modified-sort="1730415043002" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="111">
-<a href="./content/blog/2024-11-06-30DMC_Raster/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./content/blog/2024-11-06-30DMC_Raster/D6.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-30 Day Map Challenge: Raster
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Maps'); return false;">
-Maps
-</div>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Nov 6, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="Maps" data-listing-date-sort="1730764800000" data-listing-file-modified-sort="1730415030762" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="133">
-<a href="./content/blog/2024-11-05-30DMC_A_Journey/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./content/blog/2024-11-05-30DMC_A_Journey/D5.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-30 Day Map Challenge: A Journey
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Maps'); return false;">
-Maps
-</div>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Nov 5, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="Maps" data-listing-date-sort="1730678400000" data-listing-file-modified-sort="1730414990709" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="140">
-<a href="./content/blog/2024-11-04-30DMC_Hexagons/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./content/blog/2024-11-04-30DMC_Hexagons/D4.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-30 Day Map Challenge: Hexagons
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Maps'); return false;">
-Maps
-</div>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Nov 4, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-categories="R,Census,Maps" data-listing-date-sort="1730592000000" data-listing-file-modified-sort="1730410908348" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="764">
-<a href="./content/blog/2024-11-03-Mapping-the-Census/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./content/blog/2024-11-03-Mapping-the-Census/map.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Mapping All of the England and Wales 2021 Census
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Census'); return false;">
-Census
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Maps'); return false;">
-Maps
-</div>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Nov 3, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="4" data-categories="Maps" data-listing-date-sort="1730505600000" data-listing-file-modified-sort="1730409910459" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="148">
-<a href="./content/blog/2024-11-02-30DMC_Lines/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./content/blog/2024-11-02-30DMC_Lines/D2.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-30 Day Map Challenge: Lines
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Maps'); return false;">
-Maps
-</div>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Nov 2, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="5" data-categories="Maps" data-listing-date-sort="1730419200000" data-listing-file-modified-sort="1730408840351" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="67">
-<a href="./content/blog/2024-11-01-30DMC_Points/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./content/blog/2024-11-01-30DMC_Points/D1.jpeg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-30 Day Map Challenge: Points
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Maps'); return false;">
-Maps
-</div>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Nov 1, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="6" data-categories="Maps" data-listing-date-sort="1730332800000" data-listing-file-modified-sort="1730407557161" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="104">
-<a href="./content/blog/2024-10-31-30DMC/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./content/blog/2024-10-31-30DMC/1.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-30 Day Map Challenge
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Maps'); return false;">
-Maps
-</div>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Oct 31, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="7" data-categories="R,Census" data-listing-date-sort="1670112000000" data-listing-file-modified-sort="1730407557131" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="886">
-<a href="./content/blog/2022-12-04-Census-2021/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./content/blog/2022-12-04-Census-2021/map.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Importing Census 2021 Data into R
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Census'); return false;">
-Census
-</div>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Dec 4, 2022
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="8" data-categories="R,Windows,Rstudio" data-listing-date-sort="1662508800000" data-listing-file-modified-sort="1730407557131" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="630">
-<a href="./content/blog/2022-09-07-WSL2/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./content/blog/2022-09-07-WSL2/R.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Getting Rstudio Running Under Windows 11 with WSL2
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Windows'); return false;">
-Windows
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Rstudio'); return false;">
-Rstudio
-</div>
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Sep 7, 2022
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="day-3-polygons-mapping-all-of-the-england-and-wales-2021-census" class="level1">
+<h1>Day 3: Polygons (Mapping All of the England and Wales 2021 Census)</h1>
+<p>Almost ten years ago I decided to map everything in the 2011 Census… this was really a test for my developing R skills, but also to scratch an itch that I had since starting to code more seriously.</p>
+<section id="the-census-website-can-be-found-at-census.alex-singleton.com" class="level3">
+<h3 class="anchored" data-anchor-id="the-census-website-can-be-found-at-census.alex-singleton.com">The Census website can be found at: <a href="https://census.alex-singleton.com/">census.alex-singleton.com</a></h3>
+<p>Although I am not even sure that these are online anymore (or at least I can’t find them!!), the project was quite successful (<a href="https://www.theguardian.com/news/datablog/2013/feb/08/census-data-mapped">the Guardian picked it up</a>)- in a nutshell, I created a PDF map for every local authority; mapping all of the 2011 Census Key Statistics for England and Wales.</p>
+<p>This was in a pre-github era for me, so the code (which may or may not work) can be found <a href="https://rpubs.com/alexsingleton/openatlas">here</a> - it is very messy, and uses LaTex to render each PDF.</p>
+<p>There is always horror when looking back at your own code, which reflects the progress that you have made at coding, but also the rapidly evolving nature of languages like R. Since my 2011 work there have been huge developments in both mapping and publishing packages, making much of what was done before either redundant, simpler or more easy to automate.</p>
+</section>
+<section id="from-mapbooks-to-a-website" class="level2">
+<h2 class="anchored" data-anchor-id="from-mapbooks-to-a-website">From Mapbooks to a Website</h2>
+<p>The original project was organised into consolidated PDF Mapbooks containing all the maps for each local authority. These files were reasonably large, and I was never sure that it was the most effective dissemination mechanism. I liked the PDF format for the maps as this enabled them to store the images as vectors: so you don’t need to worry about image resolution etc. They also tended to be more compact in size relative to rasters (png, jpg etc).</p>
+<p>I have been particularly enthusiastic about <a href="https://quarto.org/">Quarto</a> the past couple of years which is a publishing framework that is used to create this website / blog, but can also be used for lots of other things like reports and presentations. While making this website, I had an idea that the components of the Quarto framework could also be adapted to create an updated census mapping project …. which is how we ended up here!</p>
+</section>
+<section id="technical-overview-of-the-project" class="level2">
+<h2 class="anchored" data-anchor-id="technical-overview-of-the-project">Technical Overview of the Project</h2>
+<p>I blogged <a href="https://www.alex-singleton.com/content/blog/2022-12-04-Census-2021/">here</a> about processing the 2021 England and Wales census data for output areas; specifically: creating new column names and a metadata table so that they could be used programmatically without lots of cleaning. The code that creates the local authority web pages described here use these data.</p>
+<p>The code used in this project can be found over on <a href="https://github.com/alexsingleton/Census_2021_Maps">Github</a> but in simple terms:</p>
+<ol type="1">
+<li>Generates a skeleton website using Quarto</li>
+<li>Removes unwanted content and builds a new directory structure organized around regions and local authority codes</li>
+<li>Populates local authority folders with census data table extracts as CSVs</li>
+<li>Produces new quarto (.qmd) pages with code that will (when rendered):
+<ol type="a">
+<li>Produce a directory structure / searchable content</li>
+<li>Produce tables and maps for the local authority pages</li>
+</ol></li>
+<li>When the Quarto website is rendered, all of the files created above have the R code within them run, and this generates an HTML website in a format that can be deployed on github.</li>
+</ol>
+<p>I have tried to be as detailed as possible in the comments associated with the R code generating the above, so I would hope that this would be easy to replicate if you wanted to create something similar for another project. Also, if you don’t like the specific maps (or colours etc), then there is code for each local authority to make an alternative version.</p>
+</section>
+<section id="project-output-and-runtime" class="level2">
+<h2 class="anchored" data-anchor-id="project-output-and-runtime">Project Output and Runtime</h2>
+<p>R is such a versatile language; and for the most part, if you can imagine it: it can be done. For a project like this, you don’t even need an especially fancy computer to run the code.</p>
+<p>The machine used for this project is my HP ZBook Firefly 14 inch G8, which has 32 gig memory and an i7 CPU (2.8 Ghz; 4 cores). The code ran start to finish in 16 hours; generating 99,674 maps!</p>
+<p>A conservative estimate of the time it would take to create a map manually might be 5 mins; and if so, to generate the same amount of maps, this would equate to 498,370 minutes or 8,306 hours. This is 346 days if you were working a 24 hour shift! If we look at this more reasonably, at £15.00 / hour and based on a 37.5 hour working week (~£29k / year salary); making all of these maps would take 221 weeks or around 4.2 years; costing (assuming no pay rise!) about £122k! Quite a saving by R coding a very mundane task.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

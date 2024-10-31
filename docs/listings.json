@@ -12,7 +12,13 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/content/blog/2024-11-06-30DMC_Raster/index.html",
+      "/content/blog/2024-11-05-30DMC_A_Journey/index.html",
+      "/content/blog/2024-11-04-30DMC_Hexagons/index.html",
+      "/content/blog/2024-11-03-Mapping-the-Census/index.html",
+      "/content/blog/2024-11-02-30DMC_Lines/index.html",
       "/content/blog/2024-11-01-30DMC_Points/index.html",
+      "/content/blog/2024-10-31-30DMC/index.html",
       "/content/blog/2022-12-04-Census-2021/index.html",
       "/content/blog/2022-09-07-WSL2/index.html"
     ]

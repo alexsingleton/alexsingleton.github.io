@@ -1,0 +1,22 @@
+---
+title: "30 Day Map Challenge: A Journey"
+date: "2024-11-05"
+categories: [Maps]
+image: "D5.jpg"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 5: A Journey
+
+This is an old map that was created in one of my first projects when I first became a lecturer. It is not of an individual journey, but the outcomes of multiple journeys. I developed an estimation technique to model CO2 emissions linked with the journey to school that integrated both transport network-level routing and geographically disaggregate vehicle emissions data.
+
+Emissions were shown to increase with school year, with larger step changes between educational stages reflecting the different geography of school locations. Furthermore, where secondary school entry policies were selective or based on a religious domination, average emissions were typically higher than in non-selective schools.
+
+![](D5.jpg)
+
+Full details can be found in this paper:
+
+Singleton, A. (2014). A GIS approach to modelling CO2 emissions associated with the pupil-school commute. International Journal of Geographical Information Science, 28(2), 256–273. <https://doi.org/10.1080/13658816.2013.832765>
