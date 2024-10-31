@@ -1,12 +1,5 @@
 [
   {
-    "listing": "/blog.html",
-    "items": [
-      "/content/blog/2022-12-04-Census-2021/index.html",
-      "/content/blog/2022-09-07-WSL2/index.html"
-    ]
-  },
-  {
     "listing": "/books.html",
     "items": [
       "/content/books/book_consumer_data.html",
@@ -14,6 +7,13 @@
       "/content/books/Big_Spatial_Data.html",
       "/content/books/book_geocomputation.html",
       "/content/books/educational_opportunities.html"
+    ]
+  },
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/content/blog/2022-12-04-Census-2021/index.html",
+      "/content/blog/2022-09-07-WSL2/index.html"
     ]
   }
 ]
