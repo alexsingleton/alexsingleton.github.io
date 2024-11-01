@@ -1,0 +1,32 @@
+---
+title: "30 Day Map Challenge: Vintage"
+date: "2024-11-07"
+categories: [Maps]
+image: "D7.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 7: Vintage
+
+I am cheating on this one a bit, but a very long time ago I wrote a paper; and in fact, so long ago, that this was my first published paper (also still to this date my most cited!) with [Muki Haklay](https://povesham.wordpress.com/) and [Chris Parker](https://www.linkedin.com/in/chrisjparker1/).
+
+The paper examined the rapid evolution and democratisation of web mapping technologies that had happened since 2005 (then 2008!), marking the early emergence of those contemporary mapping tools that are now widely familiar.
+
+In career terms this makes it a personal vintage, but also when you look at some of the mapping technology that we talk about, this is indeed very vintage looking now!
+
+The first vintage web map featured was the Environment Agency from in 2002. This has a tiny map interface, with no "slippy map" function; and of course is also black and white!
+
+![](D7.png){width="400"}
+
+We featured another map, from Multimap which was taken in 2005. This was later acquired by Microsoft in 2007 and merged into Bing.
+
+![](D7_2.png){width="400"}
+
+Full details can be found in this paper:
+
+Haklay, M., Singleton, A., & Parker, C. (2008). Web mapping 2.0: The neogeography of the GeoWeb. *Geography Compass*, *2*(6), 2011–2039. <https://doi.org/10.1111/j.1749-8198.2008.00167.x>
+
+You can download [here](10.1111j.1749-8198.2008.00167.x.pdf)

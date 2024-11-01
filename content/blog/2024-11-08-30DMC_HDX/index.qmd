@@ -1,0 +1,106 @@
+---
+title: "30 Day Map Challenge: HDX"
+date: "2024-11-08"
+categories: [Maps]
+image: "D8.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 8: Humanitarian Data Exchange (HDX)
+
+The [Humanitarian Data Exchange (HDX)](https://data.humdata.org/) is an open platform that facilitates data sharing across crises and organisations worldwide. Since its launch in July 2014, HDX has aimed to make humanitarian data accessible and easy to use. It hosts a diverse and growing collection of datasets, which have been accessed by users from over 250 countries and territories. Managed by the[United Nations Office for the Coordination of Humanitarian Affairs (OCHA)](https://www.unocha.org/) through its [Centre for Humanitarian Data in The Hague](https://centre.humdata.org/), HDX plays a vital role in unifying humanitarian efforts by providing a reliable data hub.
+
+In my own work, I am yet to use HDX data, so for Day 7 I will dip into demo mode to show how these can be accessed from within R.
+
+## Setup
+
+This code loads the rhdx package which enables connection to HDX. Note that this isn't on CRAN, so you need to use the remotes package to pull this from github. You can obviously just go to the HDX website and download some data, but I will try to be entirely automated here.
+
+```{r message=FALSE}
+remotes::install_gitlab("dickoa/rhdx") #install hdx
+library(rhdx) # load HDX
+library(tidyverse)
+library(sf)
+library(tmap)
+```
+
+Next we will connect to the HDX servers.
+
+```{r}
+set_rhdx_config(hdx_site = "prod")
+```
+
+## Searching for Data
+
+And search for some data. This is perhaps not the best way to find data on their website which is powered by CKAN, but I include it here for completeness.
+
+```{r}
+data_returned <- search_datasets("fire", rows = 2) # search for data on HDX
+data_returned
+```
+
+We will then select the second dataset which concerns the [March 2021 Rohingya refugee-camp fire](https://en.wikipedia.org/wiki/March_2021_Rohingya_refugee-camp_fire).
+
+```{r}
+ds <- pluck(data_returned, 2)
+ds
+```
+
+And list all the resources contained in the data.
+
+```{r}
+get_resources(ds)
+
+```
+
+And then select the resource that we want to download.
+
+```{r}
+
+fire <- get_resource(ds, 1) # Select the resource
+download_resource(fire,folder = getwd()) # Download
+```
+
+Next we read this into a SF object for plotting.
+
+```{r}
+unzip("fire_extent_shapefile.zip", exdir = "./") # unzip
+# Read the file
+fire_SF <- st_read(file.path(getwd(), "Fire_Extent_shapefile", "Fire affcted area.shp"))
+```
+
+## Creating a Plot
+
+```{r warning=FALSE,error=FALSE, message=FALSE}
+
+tmap_options(check.and.fix = TRUE) #fix any invalid polygons
+
+# Set tmap to interactive viewing mode
+tmap_mode("view")
+
+# Change CRS to WGS 84 (EPSG:4326)
+fire_SF <- st_transform(fire_SF, crs = 4326)
+
+tm_shape(fire_SF) +
+  tm_polygons(
+    col = "red",            # Fill color
+    alpha = 0,              # Set fill opacity to zero
+    border.col = "red",     # Red border
+    lty = "dotted",         # Dotted line
+    lwd = 2
+  ) +
+  tm_basemap("Esri.WorldImagery") +
+  tm_view(bbox = fire_SF)
+
+```
+
+```{r echo=FALSE}
+# Clean Up
+unlink("Fire_Extent_shapefile", recursive = TRUE)
+unlink("fire_extent_shapefile.zip")
+```
+
+The Balukhali camp in Bangladesh is believed to one of the largest refugee settlements in the world. In March 2021, a devastating fire broke out on the afternoon of March 22 and was possibly triggered by exploding gas cylinders used for cooking. The fire spread rapidly through the camp's densely packed shelters, and burned for around eight hours despite the best efforts of firefighters. Tragically, the fire claimed the lives of at least 15 people, left over 560 injured, and around 400 missing. Approximately 50,000 refugees were displaced.
