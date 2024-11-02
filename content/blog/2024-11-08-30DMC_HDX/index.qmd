@@ -4,6 +4,7 @@ date: "2024-11-08"
 categories: [Maps]
 image: "D8.png"
 execute:
+  freeze: true
   echo: true
   message: false
   warning: false
