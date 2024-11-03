@@ -1,0 +1,28 @@
+---
+title: "30 Day Map Challenge: Time and Space"
+date: "2024-11-12"
+categories: [Maps]
+image: "D12.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 11: Time and Space
+
+Todays visualisation is quite abstract and from a paper that my colleague Seth and I wrote a couple of years ago. This introduced a concept of "generalized activity spaces" to bridge a gap in understanding geographic context through both spatial activity and demographic attributes. Our model aimed to move beyond traditional microscale "space-time paths," which focus on individual movements, to a broader, more inclusive framework that considers demographic and socioeconomic factors shaping individuals' activity spaces.
+
+In this we standardised individuals' activity paths into a generalized format using a polar coordinate system centered on each participant's home, with directional data aligned to a common reference point.
+
+![](angles.png)
+
+By translating each trip into this standardized coordinate system, this enabled us to compare activity patterns across different geographic and demographic groups without distortions introduced by specific local configurations of the built environment.
+
+Findings highlighted that while location alone is not a comprehensive descriptor, a combination of residential location and demographics can yield generalised insights into how individuals use space.
+
+Full details can be found in this paper:
+
+Spielman, S. E., & Singleton, A. D. (2022). A Generalized Model of Activity Space. *Annals of the American Association of Geographers*, 1–18. <https://doi.org/10.1080/24694452.2022.2077165>
+
+Download the paper [here](A_Generalized_Model_of_Activity_Space.pdf).

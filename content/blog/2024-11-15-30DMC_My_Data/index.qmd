@@ -1,0 +1,32 @@
+---
+title: "30 Day Map Challenge: My Data"
+date: "2024-11-15"
+categories: [Maps]
+image: "D15.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 15: My Data
+
+One of the main reasons that I got interested in Geography was because my dad had experienced a lot of it in his life and consequently told us about it. He had been a Geologist for the British Antarctic Survey and had done some pretty wild adventuring as part of his job and more generally in the 1970s. This included Antartcia , the Himalayas and the Andes. I have never been to any of these places, potentially as a result of the volume of slide shows that I have seen.
+
+This was my dad in Antarctica with his lead dog called Sue who he trained up from a puppy. This generation of explorers used dogs extensively for transportation - off topic, but there is a [really interesting book on this](https://workinglikedogs.com/product/of-dogs-and-men/).
+
+![](Dad.JPG){width="500"}
+
+This is another one of him looking more adventurous on his sledge. The pipe he is holding was purely an aesthetic choice to make him look more adventurous apparently.
+
+![](pipe.jpg){width="500"}
+
+My dad has a huge numbers of Antarctic stories, but the one that I really like as a Geographer is that he has a mountain named after him. Well the top of a mountain peeking out of the snow, as formally it is a [Nunatak](https://en.wikipedia.org/wiki/Nunatak). He was the first person to go there and then also map it - this is an extract of the full map:
+
+![](D15.png)
+
+There is more about Singleton Nunatak on its [Wikipedia page](https://en.wikipedia.org/wiki/Kvinge_Peninsula#Singleton_Nunatak).
+
+This map extract comes from the full publication, which can be downloaded in full from the NERC archive:
+
+[Singleton, D.G.. 1980 *The geology of the central Black Coast, Palmer Land.* Cambridge, British Antarctic Survey, 50pp. (British Antarctic Survey Scientific Reports, 102).](https://nora.nerc.ac.uk/id/eprint/509183/)

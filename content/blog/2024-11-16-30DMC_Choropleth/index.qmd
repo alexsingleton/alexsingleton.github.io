@@ -1,0 +1,22 @@
+---
+title: "30 Day Map Challenge: Choropleth"
+date: "2024-11-16"
+categories: [Maps]
+image: "D16.jpg"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 16: Choropleth
+
+I make more Choropleth maps than anything else. This one is of the 2021 London Output Area Classification which is a geodemographic that I built with the Greater London Authority.
+
+![](D16.jpg)
+
+You can view an interactive version of this map [here](https://mapmaker.cdrc.ac.uk/#/london-oac), and download the data yourself [here](https://data.cdrc.ac.uk/dataset/london-oac).
+
+Full details can be found in this paper:
+
+Singleton, A. D., & Longley, P. A. (2024). Classifying and mapping residential structure through the London Output Area Classification. Environment and Planning B: Urban Analytics and City Science, 51(5), 1153–1164. <https://doi.org/10.1177/23998083241242913>

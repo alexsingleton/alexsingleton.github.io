@@ -1,0 +1,20 @@
+---
+title: "30 Day Map Challenge: A New Tool"
+date: "2024-11-13"
+categories: [Maps]
+image: "D13.jpg"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 13: A New Tool
+
+This paper was written when I was feeling quite ill in 2009 as I had caught [Swine Flu](https://en.wikipedia.org/wiki/2009_swine_flu_pandemic_in_the_United_Kingdom). I am not particularly good at resting when ill and was quite bored. I have a distinct memory of laying flat on my sofa with a tiny sony laptop balanced on my chest and learning to use [ESRI Network Analyst](https://www.esri.com/en-us/arcgis/products/arcgis-network-analyst/overview); the outcome of which was this paper! This was the first bit of network analysis that I had done, and the first time using this tool. Here is a map of a safety weighted cycling route through London.
+
+![](D13.jpg)
+
+Full details can be found in this paper:
+
+Singleton, A. D., & Lewis, D. J. (2011). Including Accident Information in Automatic Bicycle Route Planning for Urban Areas. Urban Studies Research, 2011, 1–10. <https://doi.org/10.1155/2011/362817>

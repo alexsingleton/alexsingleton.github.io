@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alex Singleton">
-<meta name="dcterms.date" content="2024-11-03">
+<meta name="dcterms.date" content="2024-11-13">
 
-<title>Mapping All of the England and Wales 2021 Census – Alex Singleton</title>
+<title>30 Day Map Challenge: A New Tool – Alex Singleton</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -129,10 +129,8 @@ gtag('config', 'G-78FCG2RHDH', { 'anonymize_ip': true});
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Mapping All of the England and Wales 2021 Census</h1>
+      <h1 class="title">30 Day Map Challenge: A New Tool</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">R</div>
-                <div class="quarto-category">Census</div>
                 <div class="quarto-category">Maps</div>
               </div>
                   </div>
@@ -151,7 +149,7 @@ gtag('config', 'G-78FCG2RHDH', { 'anonymize_ip': true});
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 3, 2024</p>
+        <p class="date">November 13, 2024</p>
       </div>
     </div>
     
@@ -167,13 +165,7 @@ gtag('config', 'G-78FCG2RHDH', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#day-3-polygons-mapping-all-of-the-england-and-wales-2021-census" id="toc-day-3-polygons-mapping-all-of-the-england-and-wales-2021-census" class="nav-link active" data-scroll-target="#day-3-polygons-mapping-all-of-the-england-and-wales-2021-census">Day 3: Polygons (Mapping All of the England and Wales 2021 Census)</a>
-  <ul class="collapse">
-  <li><a href="#the-census-website-can-be-found-at-census.alex-singleton.com" id="toc-the-census-website-can-be-found-at-census.alex-singleton.com" class="nav-link" data-scroll-target="#the-census-website-can-be-found-at-census.alex-singleton.com">The Census website can be found at: census.alex-singleton.com</a></li>
-  <li><a href="#from-mapbooks-to-a-website" id="toc-from-mapbooks-to-a-website" class="nav-link" data-scroll-target="#from-mapbooks-to-a-website">From Mapbooks to a Website</a></li>
-  <li><a href="#technical-overview-of-the-project" id="toc-technical-overview-of-the-project" class="nav-link" data-scroll-target="#technical-overview-of-the-project">Technical Overview of the Project</a></li>
-  <li><a href="#project-output-and-runtime" id="toc-project-output-and-runtime" class="nav-link" data-scroll-target="#project-output-and-runtime">Project Output and Runtime</a></li>
-  </ul></li>
+  <li><a href="#day-13-a-new-tool" id="toc-day-13-a-new-tool" class="nav-link active" data-scroll-target="#day-13-a-new-tool">Day 13: A New Tool</a></li>
   </ul>
 </nav>
     </div>
@@ -184,45 +176,14 @@ gtag('config', 'G-78FCG2RHDH', { 'anonymize_ip': true});
 
 
 
-<section id="day-3-polygons-mapping-all-of-the-england-and-wales-2021-census" class="level1">
-<h1>Day 3: Polygons (Mapping All of the England and Wales 2021 Census)</h1>
-<p>Almost ten years ago I decided to map everything in the 2011 Census… this was really a test for my developing R skills, but also to scratch an itch that I had since starting to code more seriously.</p>
-<section id="the-census-website-can-be-found-at-census.alex-singleton.com" class="level3">
-<h3 class="anchored" data-anchor-id="the-census-website-can-be-found-at-census.alex-singleton.com">The Census website can be found at: <a href="https://census.alex-singleton.com/">census.alex-singleton.com</a></h3>
-<p>Although I am not even sure that these are online anymore (or at least I can’t find them!!), the project was quite successful (<a href="https://www.theguardian.com/news/datablog/2013/feb/08/census-data-mapped">the Guardian picked it up</a>)- in a nutshell, I created a PDF map for every local authority; mapping all of the 2011 Census Key Statistics for England and Wales.</p>
-<p>This was in a pre-github era for me, so the code (which may or may not work) can be found <a href="https://rpubs.com/alexsingleton/openatlas">here</a> - it is very messy, and uses LaTex to render each PDF.</p>
-<p>There is always horror when looking back at your own code, which reflects the progress that you have made at coding, but also the rapidly evolving nature of languages like R. Since my 2011 work there have been huge developments in both mapping and publishing packages, making much of what was done before either redundant, simpler or more easy to automate.</p>
-</section>
-<section id="from-mapbooks-to-a-website" class="level2">
-<h2 class="anchored" data-anchor-id="from-mapbooks-to-a-website">From Mapbooks to a Website</h2>
-<p>The original project was organised into consolidated PDF Mapbooks containing all the maps for each local authority. These files were reasonably large, and I was never sure that it was the most effective dissemination mechanism. I liked the PDF format for the maps as this enabled them to store the images as vectors: so you don’t need to worry about image resolution etc. They also tended to be more compact in size relative to rasters (png, jpg etc).</p>
-<p>I have been particularly enthusiastic about <a href="https://quarto.org/">Quarto</a> the past couple of years which is a publishing framework that is used to create this website / blog, but can also be used for lots of other things like reports and presentations. While making this website, I had an idea that the components of the Quarto framework could also be adapted to create an updated census mapping project …. which is how we ended up here!</p>
-</section>
-<section id="technical-overview-of-the-project" class="level2">
-<h2 class="anchored" data-anchor-id="technical-overview-of-the-project">Technical Overview of the Project</h2>
-<p>I blogged <a href="https://www.alex-singleton.com/content/blog/2022-12-04-Census-2021/">here</a> about processing the 2021 England and Wales census data for output areas; specifically: creating new column names and a metadata table so that they could be used programmatically without lots of cleaning. The code that creates the local authority web pages described here use these data.</p>
-<p>The code used in this project can be found over on <a href="https://github.com/alexsingleton/Census_Maps_and_Data">Github</a>but in simple terms:</p>
-<ol type="1">
-<li>Generates a skeleton website using Quarto</li>
-<li>Removes unwanted content and builds a new directory structure organized around regions and local authority codes</li>
-<li>Populates local authority folders with census data table extracts as CSVs</li>
-<li>Produces new quarto (.qmd) pages with code that will (when rendered):
-<ol type="a">
-<li>Produce a directory structure / searchable content</li>
-<li>Produce tables and maps for the local authority pages</li>
-</ol></li>
-<li>When the Quarto website is rendered, all of the files created above have the R code within them run, and this generates an HTML website in a format that can be deployed on github.</li>
-</ol>
-<p>I have tried to be as detailed as possible in the comments associated with the R code generating the above, so I would hope that this would be easy to replicate if you wanted to create something similar for another project. Also, if you don’t like the specific maps (or colours etc), then there is code for each local authority to make an alternative version.</p>
-</section>
-<section id="project-output-and-runtime" class="level2">
-<h2 class="anchored" data-anchor-id="project-output-and-runtime">Project Output and Runtime</h2>
-<p>R is such a versatile language; and for the most part, if you can imagine it: it can be done. For a project like this, you don’t even need an especially fancy computer to run the code.</p>
-<p>The machine used for this project is my HP ZBook Firefly 14 inch G8, which has 32 gig memory and an i7 CPU (2.8 Ghz; 4 cores). The code ran start to finish in 16 hours; generating 99,674 maps!</p>
-<p>A conservative estimate of the time it would take to create a map manually might be 5 mins; and if so, to generate the same amount of maps, this would equate to 498,370 minutes or 8,306 hours. This is 346 days if you were working a 24 hour shift! If we look at this more reasonably, at £15.00 / hour and based on a 37.5 hour working week (~£29k / year salary); making all of these maps would take 221 weeks or around 4.2 years; costing (assuming no pay rise!) about £122k! Quite a saving by R coding a very mundane task.</p>
+<section id="day-13-a-new-tool" class="level1">
+<h1>Day 13: A New Tool</h1>
+<p>This paper was written when I was feeling quite ill in 2009 as I had caught <a href="https://en.wikipedia.org/wiki/2009_swine_flu_pandemic_in_the_United_Kingdom">Swine Flu</a>. I am not particularly good at resting when ill and was quite bored. I have a distinct memory of laying flat on my sofa with a tiny sony laptop balanced on my chest and learning to use <a href="https://www.esri.com/en-us/arcgis/products/arcgis-network-analyst/overview">ESRI Network Analyst</a>; the outcome of which was this paper! This was the first bit of network analysis that I had done, and the first time using this tool. Here is a map of a safety weighted cycling route through London.</p>
+<p><img src="D13.jpg" class="img-fluid"></p>
+<p>Full details can be found in this paper:</p>
+<p>Singleton, A. D., &amp; Lewis, D. J. (2011). Including Accident Information in Automatic Bicycle Route Planning for Urban Areas. Urban Studies Research, 2011, 1–10. <a href="https://doi.org/10.1155/2011/362817" class="uri">https://doi.org/10.1155/2011/362817</a></p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
