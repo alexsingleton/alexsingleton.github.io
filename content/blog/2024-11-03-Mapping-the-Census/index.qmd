@@ -31,7 +31,7 @@ I have been particularly enthusiastic about [Quarto](https://quarto.org/) the pa
 
 I blogged [here](https://www.alex-singleton.com/content/blog/2022-12-04-Census-2021/) about processing the 2021 England and Wales census data for output areas; specifically: creating new column names and a metadata table so that they could be used programmatically without lots of cleaning. The code that creates the local authority web pages described here use these data.
 
-The code used in this project can be found over on [Github](https://github.com/alexsingleton/Census_2021_Maps) but in simple terms:
+The code used in this project can be found over on [Github](https://github.com/alexsingleton/Census_Maps_and_Data)but in simple terms:
 
 1)  Generates a skeleton website using Quarto
 2)  Removes unwanted content and builds a new directory structure organized around regions and local authority codes
