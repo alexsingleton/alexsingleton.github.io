@@ -1,0 +1,20 @@
+---
+title: "30 Day Map Challenge: 3D"
+date: "2024-11-18"
+categories: [Maps]
+image: "D18.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 18: 3D
+
+Another category of map that I rarely create is 3D. That said, in ESRI ArcGIS Online it was fairly easy to create a 3D map of the 2021 London Output Area Classification. In this a set of Output Areas where the non populated built up areas had been extracted was used as a basemap over extruded building polygons. This is a reasonably close replication of the style that we use in [mapmaker.cdrc.ac.uk](https://mapmaker.cdrc.ac.uk/#/london-oac). This was featured a [couple of days ago](https://www.alex-singleton.com/content/blog/2024-11-16-30DMC_Choropleth/).
+
+<iframe src="https://uoliv.maps.arcgis.com/apps/instant/3dviewer/index.html?appid=35dee79e5c7f418b805f06b2d5a4530e" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen>iFrames are not supported on this page.</iframe>
+
+Full details can be found in this paper:
+
+Singleton, A. D., & Longley, P. A. (2024). Classifying and mapping residential structure through the London Output Area Classification. Environment and Planning B: Urban Analytics and City Science, 51(5), 1153–1164. https://doi.org/10.1177/23998083241242913
