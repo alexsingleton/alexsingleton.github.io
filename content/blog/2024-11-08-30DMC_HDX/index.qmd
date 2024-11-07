@@ -14,7 +14,7 @@ execute:
 
 The [Humanitarian Data Exchange (HDX)](https://data.humdata.org/) is an open platform that facilitates data sharing across crises and organisations worldwide. Since its launch in July 2014, HDX has aimed to make humanitarian data accessible and easy to use. It hosts a diverse and growing collection of datasets, which have been accessed by users from over 250 countries and territories. Managed by the[United Nations Office for the Coordination of Humanitarian Affairs (OCHA)](https://www.unocha.org/) through its [Centre for Humanitarian Data in The Hague](https://centre.humdata.org/), HDX plays a vital role in unifying humanitarian efforts by providing a reliable data hub.
 
-In my own work, I am yet to use HDX data, so for Day 7 I will dip into demo mode to show how these can be accessed from within R.
+In my own work, I am yet to use HDX data, so for Day 8 I will dip into demo mode to show how these can be accessed from within R.
 
 ## Setup
 
