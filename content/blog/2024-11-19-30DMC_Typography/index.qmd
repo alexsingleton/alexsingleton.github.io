@@ -1,6 +1,6 @@
 ---
 title: "30 Day Map Challenge: Typography"
-date: "2024-11-18"
+date: "2024-11-19"
 categories: [Maps]
 image: "D19.png"
 execute:
