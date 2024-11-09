@@ -101,7 +101,6 @@ sizes <- st_area(dorling_cartogram) %>%
 
 These can then be used to create a Typography only map by using the centroid locations of the circles (which are hidden), with the labels plotted but scaled by their associated shape size.
 
-
 ```{r}
 # Plot using ggplot2
 ggplot(dorling_cartogram) +

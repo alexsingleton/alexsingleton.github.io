@@ -1,0 +1,36 @@
+---
+title: "30 Day Map Ch7allenge: Collaborative Map"
+date: "2024-11-17"
+categories: [Maps]
+image: "D17.jpg"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 17: Collaborative Map
+
+For todays map, I am featuring something from a paper with [Patrick Ballantyne](https://scholar.google.com/citations?user=N-YrHxMAAAAJ&hl=en) where collaboration was crucial to the development of a comprehensive evidence base for addressing spatial inequalities in Liverpool City Region Combined Authority (LCRCA).
+
+The collaboration was built on several co-production phase and key to this process was the co-design of composite indicator across four domains—transport accessibility, economic development, housing opportunities, and deprivation/socioeconomic status. This approach ensured that the resulting city dashboard was not only evidence-based but also aligned with local policymaking priorities.
+
+The outcome of a qualitative exercise conducted during one of the workshops with policymakers is shown below. The exercise involved participants manually marking areas of interest on a city dashboard based on the four domains of inequality.
+
+Each domain was represented by different colored circles:
+
+-   **Green** for Transport Network Accessibility
+
+-   **Purple** for Deprivation and Socioeconomic Status
+
+-   **Orange** for Economic Development
+
+-   **Blue** for Housing Opportunities
+
+The participants, including transport officers and development managers, were asked to draw circles over the areas they identified as needing the most attention. This interactive mapping exercise helped build trust among policymakers by directly involving them in the evidence-gathering process. It also served as a tool to align local expertise with empirical data, thereby enhancing the relevance and practical applicability of the research outputs.
+
+![](D17.jpg){width="600"}
+
+Full details can be found in this paper:
+
+Ballantyne, P., & Singleton, A. (2024). Using composite indicators and city dashboards to promote place-based policy interventions. Cities, 154, 105329. <https://doi.org/10.1016/j.cities.2024.105329>

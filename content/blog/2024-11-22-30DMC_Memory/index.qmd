@@ -1,0 +1,26 @@
+---
+title: "30 Day Map Challenge: Memory"
+date: "2024-11-23"
+categories: [Maps]
+image: "D22.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 23: Memory
+
+In this paper we explored the concept of *cognitive place associations* — which are essentially how people connect different places based on their subconscious perceptions rather than direct physical experiences.
+
+Cognitive associations between places are deeply rooted in human memory and experiences. Unlike traditional methods that rely on physical data like travel or migration patterns, this study maps how people *think* about places. The study used data from millions of comments on Reddit to extract mentions of locations and examined how these places are linked in the minds of users.
+
+The key takeaway is that while physical distance does influence how we associate places, it's not the only factor. People can perceive certain locations as closely connected, even if they're far apart geographically. For example, the study found strong cognitive associations between cities like London and Edinburgh, reflecting their cultural prominence, despite the actual distance between them.
+
+Todays map visualises the cognitive associations that people hold between places, highlighting how these associations change with distance. Each map shows the strength of cognitive associations between these cities and other places in the UK. The darker the hexagon, the stronger the association between that area and the given city.
+
+![](D22.png)
+
+Full details can be found in this paper:
+
+Berragan, C., Singleton, A., Calafiore, A., & Morley, J. (2024). Mapping cognitive place associations within the United Kingdom through online discussion on Reddit. Transactions of the Institute of British Geographers, 49(3), e12669. <https://doi.org/10.1111/tran.12669>

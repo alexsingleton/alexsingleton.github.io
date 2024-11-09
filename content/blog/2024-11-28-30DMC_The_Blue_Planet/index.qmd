@@ -1,0 +1,22 @@
+---
+title: "30 Day Map Challenge: The Blue Planet"
+date: "2024-11-28"
+categories: [Maps]
+image: "D28.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 28: The Blue Planet
+
+Now up to version 4, ‘[Access to Healthy Assets and Hazards](https://data.cdrc.ac.uk/dataset/access-healthy-assets-hazards-ahah)' (AHAH) is an index of neighborhood-level access to various health-related assets and hazards. One of the inputs includes a measure of **Bluespace** given how access to natural environments is known to influence physical and mental wellbeing.
+
+You can view and interactive version of the map [here](https://mapmaker.cdrc.ac.uk/#/access-healthy-assets-hazards?d=11110000&m=ah4blue_pct&lon=-1.9162&lat=52.511&zoom=9.93).
+
+![](D28.png){width="500"}
+
+Full details can be found in this paper:
+
+Green, M. A., Daras, K., Davies, A., Barr, B., & Singleton, A. (2018). Developing an openly accessible multi-dimensional small area index of ?Access to Healthy Assets and Hazards? For Great Britain, 2016. Health and Place, 54, 11–19. <https://doi.org/10.1016/j.healthplace.2018.08.019>

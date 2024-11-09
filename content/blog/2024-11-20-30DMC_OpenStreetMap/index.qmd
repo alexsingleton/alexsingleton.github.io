@@ -1,0 +1,22 @@
+---
+title: "30 Day Map Challenge: OpenStreetMap"
+date: "2024-11-20"
+categories: [Maps]
+image: "D20.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 20: OpenStreetMap
+
+I posted on [Day 4](https://www.alex-singleton.com/content/blog/2024-11-04-30DMC_Hexagons/) about the development of our retail boundaries in the UK, however we have also produced another model for the USA. These integrated retail land-use polygons from OpenStreetMap to capture the extent of larger retail developments, such as shopping centers and their associated parking lots. This helped delineate the boundaries of retail centers in urban areas where retail spaces often blend into other commercial or mixed-use zones. OpenStreetMap data was combined in this instance with [SafeGraph](https://www.safegraph.com/)’s point-of-interest (POI) data and the [H3](https://www.uber.com/en-GB/blog/h3/) spatial indexing system.
+
+You can view an interactive version of this map [here](https://mapmaker.cdrc.ac.uk/#/us-retail-centres).
+
+![](D20.png)
+
+Full details can be found in this paper:
+
+Ballantyne, P., Singleton, A., Dolega, L., & Macdonald, J. (2022). Integrating the Who, What, and Where of U.S. Retail Center Geographies. Annals of the American Association of Geographers, 0(0), 1–23. <https://doi.org/10.1080/24694452.2022.2098087>

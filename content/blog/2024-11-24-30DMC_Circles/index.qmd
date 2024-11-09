@@ -44,6 +44,7 @@ London_Greenspace %>%
   theme_minimal() +
   theme(legend.position = "none")
 ```
+
 And also the size of the area covered by each category:
 
 ```{r}
@@ -64,6 +65,7 @@ London_Greenspace %>%
   theme_minimal() +
   theme(legend.position = "none")
 ```
+
 Next we will generate a grid of points spanning the extent of London:
 
 ```{r message=FALSE, warning=FALSE}
@@ -78,6 +80,7 @@ grid_points <- st_make_grid(London, cellsize = 1000, what = "centers") %>%
 grid_points <- st_intersection(grid_points, London)
 
 ```
+
 We can then create a subset of the greenspace SF to look specifically at the "Allotments Or Community Growing Spaces" category. Using this, we can then calculate a simple measure of accessibility to these locations from across Greater London.
 
 ```{r}
@@ -104,11 +107,13 @@ grid_points %<>%
     mutate(distance_category = ntile(-distance_to_polygon, 5))
 
 ```
+
 ```{r echo=FALSE}
 knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
 ```
 
 These are then used to create the map:
+
 ```{r plot-cropped, warning=FALSE, message=FALSE}
 #| crop: true
 ggplot() +
@@ -135,4 +140,3 @@ ggplot() +
   )
 
 ```
-
