@@ -1,6 +1,6 @@
 ---
 title: "30 Day Map Challenge: Pen and Paper"
-date: "2024-11-11"
+date: "2024-11-10"
 categories: [Maps]
 image: "D10.png"
 execute:
