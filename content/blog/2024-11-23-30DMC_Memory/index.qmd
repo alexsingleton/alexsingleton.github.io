@@ -2,7 +2,7 @@
 title: "30 Day Map Challenge: Memory"
 date: "2024-11-23"
 categories: [Maps]
-image: "D22.png"
+image: "D23.png"
 execute:
   echo: true
   message: false
