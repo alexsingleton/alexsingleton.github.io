@@ -1,0 +1,113 @@
+---
+title: "30 Day Map Challenge: Overture"
+date: "2024-11-29"
+categories: [Maps]
+image: "D29.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 29: Overture
+
+We have been looking at the Overture data in the [CDRC](https://data.cdrc.ac.uk/) and have created a data pipeline that creates a UK POI dataset. You can download this [here](https://data.cdrc.ac.uk/dataset/point-interest-data-united-kingdom#data-and-resources). For a simple example of how to use the data, the following code extracts POI for the three largest coffee chains in the UK and maps these for Liverpool City Region.
+
+First, we load the required packages and read in the CDRC Overture POI data.
+
+```{r message = FALSE}
+library(tidyverse)
+library(sf)
+POI <- st_read("poi_uk.gpkg")
+```
+
+Next, we need to subset the data for the different coffee chains. The categories and names are a bit messy, so to capture the POI, we need to use a combination of the store name and the two levels of category.
+
+```{r}
+
+nero <- POI %>%
+  filter(
+    grepl("Caffè Nero", primary_name, ignore.case = TRUE) &
+    (grepl("coffee", main_category, ignore.case = TRUE) | 
+     grepl("coffee", alternate_category, ignore.case = TRUE))
+  )
+
+starbucks <- POI %>%
+  filter(
+    grepl("starbucks", primary_name, ignore.case = TRUE) &
+    (grepl("coffee", main_category, ignore.case = TRUE) | 
+     grepl("coffee", alternate_category, ignore.case = TRUE))
+  )
+
+
+costa <- POI %>%
+  filter(
+    grepl("costa", primary_name, ignore.case = TRUE) &
+    (grepl("coffee", main_category, ignore.case = TRUE) | 
+     grepl("coffee", alternate_category, ignore.case = TRUE))
+  )
+```
+
+We can then read in a further set of polygons that represent the area of Liverpool City Region.
+
+```{r message=FALSE}
+#Get City Region Boundaries and subset for Liverpool
+CR_SF <- st_read("https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/Combined_Authorities_May_2023_Boundaries_EN_BGC/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson") %>% filter(CAUTH24CD == "E47000004")
+```
+
+Next, we create a subset of the coffee chains that intersect with the Liverpool City Region polygon.
+
+```{r}
+# Ensure all layers have the same CRS
+CRS_target <- st_crs(CR_SF)  # Get the CRS of CR_SF
+
+# Transform the points datasets to match the CRS of CR_SF
+nero <- st_transform(nero, CRS_target)
+costa <- st_transform(costa, CRS_target)
+starbucks <- st_transform(starbucks, CRS_target)
+
+# Subset points to only those within Liverpool City Region
+nero_subset <- st_intersection(nero, CR_SF)
+costa_subset <- st_intersection(costa, CR_SF)
+starbucks_subset <- st_intersection(starbucks, CR_SF)
+```
+
+And finally, we can use these to create a map.
+
+```{r warning=FALSE}
+
+
+ggplot() +
+  # Add the boundary
+  geom_sf(data = CR_SF, fill = "#005f73", color = "#001219", linewidth = 0.5) +
+  
+  # Add coffee shops with different colors and labels
+  geom_sf(data = nero_subset, aes(color = "Caffè Nero"), size = 1.2, alpha = 1) +
+  geom_sf(data = costa_subset, aes(color = "Costa Coffee"), size = 1.2, alpha = 1) +
+  geom_sf(data = starbucks_subset, aes(color = "Starbucks"), size = 1.2, alpha = 1) +
+  
+  # Add legend
+  scale_color_manual(
+    name = "Coffee Shops",
+    values = c("Caffè Nero" = "#0096c7",
+              "Costa Coffee" = "#bb3e03",
+              "Starbucks" = "#6a994e")
+  ) +
+    theme_minimal() +
+
+
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.spacing = unit(0, "mm"),
+    plot.margin = unit(rep(0, 4), "mm"),
+    plot.background = element_rect(fill = 'grey', colour = 'grey'),
+    legend.text = element_text(size = 12, family = "Mono", face = "italic"),
+    legend.title = element_text(size = 14, family = "Mono", face = "bold"),
+    legend.position = "right"
+  )
+  
+```
