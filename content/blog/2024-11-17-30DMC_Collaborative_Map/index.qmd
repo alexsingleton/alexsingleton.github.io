@@ -1,5 +1,5 @@
 ---
-title: "30 Day Map Ch7allenge: Collaborative Map"
+title: "30 Day Map Challenge: Collaborative Map"
 date: "2024-11-17"
 categories: [Maps]
 image: "D17.jpg"
@@ -13,7 +13,7 @@ execute:
 
 For todays map, I am featuring something from a paper with [Patrick Ballantyne](https://scholar.google.com/citations?user=N-YrHxMAAAAJ&hl=en) where collaboration was crucial to the development of a comprehensive evidence base for addressing spatial inequalities in Liverpool City Region Combined Authority (LCRCA).
 
-The collaboration was built on several co-production phase and key to this process was the co-design of composite indicator across four domains—transport accessibility, economic development, housing opportunities, and deprivation/socioeconomic status. This approach ensured that the resulting city dashboard was not only evidence-based but also aligned with local policymaking priorities.
+The collaboration was built on several co-production phase and key to this process was the co-design of composite indicator across four domains—transport accessibility, economic development, housing opportunities, and deprivation/socioeconomic status. This approach ensured that the resulting city dashboard was not only evidence-based but also aligned with local policy making priorities.
 
 The outcome of a qualitative exercise conducted during one of the workshops with policymakers is shown below. The exercise involved participants manually marking areas of interest on a city dashboard based on the four domains of inequality.
 
