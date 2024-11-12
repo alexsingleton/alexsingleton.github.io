@@ -11,7 +11,7 @@ execute:
 
 # Day 17: Collaborative Map
 
-For todays map, I am featuring something from a paper with [Patrick Ballantyne](https://scholar.google.com/citations?user=N-YrHxMAAAAJ&hl=en) where collaboration was crucial to the development of a comprehensive evidence base for addressing spatial inequalities in Liverpool City Region Combined Authority (LCRCA).
+This map came from a paper with [Patrick Ballantyne](#0) where collaboration was crucial to the development of a comprehensive evidence base for addressing spatial inequalities in Liverpool City Region Combined Authority (LCRCA).
 
 The collaboration was built on several co-production phase and key to this process was the co-design of composite indicator across four domains—transport accessibility, economic development, housing opportunities, and deprivation/socioeconomic status. This approach ensured that the resulting city dashboard was not only evidence-based but also aligned with local policy making priorities.
 
