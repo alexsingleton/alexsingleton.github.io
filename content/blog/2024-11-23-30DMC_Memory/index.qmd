@@ -19,7 +19,7 @@ The key takeaway is that while physical distance does influence how we associate
 
 Todays map visualises the cognitive associations that people hold between places, highlighting how these associations change with distance. Each map shows the strength of cognitive associations between these cities and other places in the UK. The darker the hexagon, the stronger the association between that area and the given city.
 
-![](D22.png)
+![](D23.png){width="600"}
 
 Full details can be found in this paper:
 
