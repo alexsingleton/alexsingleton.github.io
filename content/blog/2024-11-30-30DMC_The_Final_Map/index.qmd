@@ -1,0 +1,281 @@
+---
+title: "30 Day Map Challenge: The Final Map"
+date: "2024-11-30"
+categories: [Maps]
+image: "D30.png"
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+# Day 30: The Final Map
+
+I am using today as an excuse to look at some new data (to me at least) that popped into my social media feed a month or so back, but I have not had chance to look at them yet.
+
+These concern [UK small area gross value added (GVA) estimates](https://www.ons.gov.uk/economy/grossvalueaddedgva/datasets/uksmallareagvaestimates) - but something that interested me was that there were a lot of caveats when using these data - specifically:
+
+> The building blocks statistics are not directly comparable across nations because the levels of composition can vary hugely. This is because some small areas contain mainly (or exclusively) households, and others contain heavy industries.
+>
+> Further, the building blocks geographies are defined differently, which calls for caution when comparing and/or interpreting the statistics.
+>
+> The small areas statistics can appear quite volatile, but are more stable when aggregated to form larger geographic areas.
+
+These all sounded like interesting challenges to me!
+
+## Exploring the Data
+
+Load packages
+
+```{r warning=FALSE}
+library(readxl)
+library(tidyverse)
+library(sf)
+library(janitor)
+library(magrittr)
+library(kableExtra)
+library(viridis)
+library(httr)
+```
+
+This reads the data for England and cleans up the column names.
+
+```{r message=FALSE}
+# URL
+url <- "https://www.ons.gov.uk/file?uri=/economy/grossvalueaddedgva/datasets/uksmallareagvaestimates/1998to2022/uksmallareagvaestimates1998to2022.xlsx"
+
+# Download the file to a temporary location
+temp_file <- tempfile(fileext = ".xlsx")
+GET(url, write_disk(temp_file, overwrite = TRUE))
+
+# Read the Excel file
+gva <- read_excel(temp_file, sheet = "Table 1", skip = 1) %>% clean_names()
+
+#Subset
+gva %<>%
+  select(lsoa_code,x1998:x2022)
+```
+
+We can then create a function to produce an index calibrated against the earliest year of data; in this case 1998.
+
+```{r}
+
+calculate_index <- function(df) {
+  
+  # Get the base year (1998) values
+  base_values <- df %>% 
+    select(x1998) %>% 
+    pull()
+  
+  df_index <- df %>%
+    mutate(
+      across(
+        starts_with("x"),
+        ~ (.x / base_values) * 100
+      )
+    )
+  
+  return(df_index)
+}
+
+gva_index <- calculate_index(gva)
+```
+
+## Make a Map
+
+First we read in the LSOA polygons and remove unwanted attributes. It is worth noting that the codes supplied on the GVA data are for the 2011 version of the codes! It would be fantastic if the formal code names were used on all government data, as you often have to discover this later when lots of matches fail!
+
+```{r messages=FALSE}
+# Download data
+
+lsoa_sf <- st_read("https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/LSOA_Dec_2011_Boundaries_Generalised_Clipped_BGC_EW_V3/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson")
+
+# Subset to England and remove unwanted columns
+
+lsoa_sf %<>%
+  filter(startsWith(LSOA11CD, "E")) %>%
+  select(LSOA11CD)
+```
+
+Next we can Join the GVA to the polygons.
+
+```{r message=FALSE}
+# Join
+lsoa_sf %<>%
+  left_join(gva_index, by = c("LSOA11CD" = "lsoa_code"))
+```
+
+```{r message=FALSE, echo=FALSE}
+st_write(lsoa_sf, "output_file.gpkg", driver = "GPKG", delete_dsn = TRUE)
+
+```
+
+And then create a map.
+
+```{r warning=FALSE}
+breaks <- c(-Inf, 27, 43, 60, 76, 92, 108, 124, 140, 157, 173, Inf)
+labels <- c("11 - 27", "27 - 43", "43 - 60", "60 - 76", 
+            "76 - 92", "92 - 108", "108 - 124", "124 - 140", 
+            "140 - 157", "157 - 173", "173 - 4845")
+
+# Create a categorized variables
+lsoa_sf$category <- cut(lsoa_sf$x2022,
+                        breaks = breaks,
+                        labels = labels,
+                        right = FALSE)  # left-inclusive intervals
+
+# Define colors corresponding to each range
+colors <- c(
+  "11 - 27" = "#d7191c",
+  "27 - 43" = "#e65538",
+  "43 - 60" = "#f59053",
+  "60 - 76" = "#fdbe74",
+  "76 - 92" = "#fedf99",
+  "92 - 108" = "#ffffbf",
+  "108 - 124" = "#ddf1b4",
+  "124 - 140" = "#bce4a9",
+  "140 - 157" = "#91cba8",
+  "157 - 173" = "#5ea7b1",
+  "173 - 4845" = "#2b83ba"
+)
+# Plot with manual colors
+ggplot(data = lsoa_sf) +
+  geom_sf(aes(fill = category), color = NA) +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  labs(
+    fill = "2022 Index (base 1998)"
+  ) +
+  labs(size = "Proximity") +  # Change "New Legend Title" to your desired title
+  coord_sf(crs = st_crs(27700)) +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank())
+```
+
+The patterns are quite noisy, and when you explore some of the more extreme patterns there are clearly areas where these may be statistical anomaly; which follows some of the warnings in how to use these data. However, in some areas this appears to not be the case. The following area shows negative GVA relative to 1998, and is the location of [Thoresby Colliery](https://en.wikipedia.org/wiki/Thoresby_Colliery) which closed in 2015, so within the comparison period.
+
+![](30.png)
+
+## GVA and Retail Centres
+
+Next I thought it would be interesting to use the GVA data to explore some aspects of retail. First we import the [CDRC Retail Centre definitions](https://data.cdrc.ac.uk/dataset/retail-centre-boundaries-and-open-indicators). This is all quite rough, so with more time I would do these analysis a little more thoroughly!
+
+```{r message=FALSE}
+# Get retail centres
+retail_sf <- st_read("Retail_Boundaries_UK.gpkg")
+```
+
+Then we use a spatial join to look at the intersection of retail centres and the LSOA.
+
+```{r}
+# Ensure both are in the same coordinate reference system (CRS)
+lsoa_sf <- st_transform(lsoa_sf, st_crs(retail_sf))
+# Join
+points_with_retail <- st_join(retail_sf,lsoa_sf, join =st_intersects)
+
+# Filter to England
+points_with_retail %<>% filter(Country=="England")
+```
+
+```{r warning=FALSE}
+# Perform spatial intersection to get overlapping areas
+overlap_sf <- st_intersection(retail_sf, lsoa_sf %>% st_make_valid())
+
+# Calculate the area of the intersected geometries
+overlap_sf$overlap_area <- st_area(overlap_sf)
+
+
+```
+
+We can then analyse the changes in GVA by retail center type to identify which types have experienced the most growth since 1999. Because our classification segments by more traditional types of retail agglomeration and those which are designed to be concentrated, such as within a retail park or shopping centre, these are reflected in the statistics and represent a general evolution in retail since 1999.
+
+```{r}
+overlap_sf %>%
+  filter(!is.na(Classification)) %>%  # Remove rows with NA
+  group_by(Classification) %>%
+  summarise(
+    Weighted_Average_Index = as.numeric(sum(x2022 * overlap_area, na.rm = TRUE) / sum(overlap_area), na.rm = TRUE)
+  ) %>%
+  arrange(desc(Weighted_Average_Index)) %>%
+  st_drop_geometry() %>%
+  kable(align = 'lcc') %>%
+  kable_styling(bootstrap_options = "responsive", full_width = FALSE)
+```
+
+We can then have a look at some of these patterns by retail centre. These were restricted to the two largest types of traditional retail centre. Some interesting patterns emerge.
+
+```{r}
+
+results <- overlap_sf %>%
+            filter(!is.na(RC_Name)) %>%  # Remove rows with NA
+            filter(Classification %in% c("Regional Centre","Major Town Centre")) %>%
+            group_by(RC_Name) %>%
+            summarise(
+              Weighted_Average_Index = as.numeric(sum(x2022 * overlap_area, na.rm = TRUE) / sum(overlap_area), na.rm = TRUE)
+            ) %>%
+            arrange(desc(Weighted_Average_Index)) 
+            
+  #Display the table
+  results %>%
+  st_drop_geometry() %>%
+            kable(align = 'lcc') %>%
+            kable_styling(bootstrap_options = "responsive", full_width = F) %>%
+            scroll_box(height = "300px")
+```
+
+We can also map these index values. My takeaway from these data are that they are potentially very interesting and I suspect after this fairly rough and ready exploration may well make their way into a retail paper over the next couple of months!
+
+```{r}
+
+# Calculate centroids of the polygons
+results$centroid <- st_centroid(results$geom)
+
+# Extract the coordinates of centroids into separate columns
+results <- results %>%
+  mutate(
+    centroid_x = st_coordinates(centroid)[, 1],
+    centroid_y = st_coordinates(centroid)[, 2]
+  )
+
+# Create a ggplot map with a combined legend
+ggplot() +
+  # Plot the polygons
+  geom_sf(data = lsoa_sf, fill = "lightgray", color = NA) +
+  # Plot the centroids with combined size and color
+  geom_point(
+    data = results,
+    aes(
+      x = centroid_x, 
+      y = centroid_y, 
+      size = Weighted_Average_Index, 
+      color = Weighted_Average_Index
+    )
+  ) +
+  # Apply a combined scale for color and size with a unified legend
+  scale_size_continuous(range = c(1, 8)) +
+  scale_color_viridis_c() +
+  guides(
+    color = guide_legend(
+      title = "Weighted Average Index",
+      override.aes = list(size = 5)
+    )
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.spacing = unit(0, "mm"),
+    plot.margin = unit(rep(0, 4), "mm"),
+    legend.position = "right"
+  )
+
+  
+```
