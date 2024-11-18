@@ -24,7 +24,6 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 ```
 
-
 ```{r}
 # Load world map data using rnaturalearth package
 world <- ne_countries(scale = "medium", returnclass = "sf")
@@ -34,31 +33,33 @@ world <- ne_countries(scale = "medium", returnclass = "sf")
 
 Mercator is a very widely used map projection, and is notably used by Google Maps for its web mapping platform. A world map in a Mercator projection looks is shown below. Notice that there is a quite extreme size distortion near the poles.
 
-``` {r}
+```{r}
 ggplot(data = world) +
   geom_sf() +
-  coord_sf(crs = 4326) +
+  coord_sf(crs = 3857) +
   theme_minimal() 
 ```
-The Mercator projection is a [conformal projection] (https://en.wikipedia.org/wiki/Conformal_map_projection) meaning that it is angle-preserving. This makes it very useful for navigation (see this article about[Rhumb Lines](https://en.wikipedia.org/wiki/Rhumb_line)). As noted above, it does have quite severe distortion of areas that are near the poles. Visually, Greenland is represented as being almost as large as Africa (Africa is actually about [14 times larger](https://mortenjonassen.dk/maps/greenland-vs-africa-size-comparison!)
+
+The Mercator projection is a \[conformal projection\] (https://en.wikipedia.org/wiki/Conformal_map_projection) meaning that it is angle-preserving. This makes it very useful for navigation (see this article about[Rhumb Lines](https://en.wikipedia.org/wiki/Rhumb_line)). As noted above, it does have quite severe distortion of areas that are near the poles. Visually, Greenland is represented as being almost as large as Africa (Africa is actually about [14 times larger](https://mortenjonassen.dk/maps/greenland-vs-africa-size-comparison!)
 
 ## The Equal Earth Projection
 
-The [Equal Earth projection](https://en.wikipedia.org/wiki/Equal_Earth_projection) wascreated in 2018 and aimed to maintain relative size relationships while being visually pleasing.
+The [Equal Earth projection](https://en.wikipedia.org/wiki/Equal_Earth_projection) was created in 2018 and aimed to maintain relative size relationships while being visually pleasing.
 
-``` {r}
+```{r}
 ggplot(data = world) +
   geom_sf() +
    coord_sf(crs = 8857)  +
   theme_minimal() 
 ```
+
 The Equal Earth projection maintains accurate size relationships between landmasses, featuring curved parallels and meridians while keeping distortion minimal near the equator.
 
 ## Comparing Area Distortion
 
 The following function and map aim to visualize relative area distortion for Mertcator.
 
-``` {r}
+```{r}
 calculate_distortion <- function(world, projection) {
   # Project the data
   projected <- st_transform(world, projection)
@@ -84,10 +85,9 @@ ggplot(data = world) +
   scale_fill_viridis_c(name = "Area Distortion Ratio)", 
                        trans = "log",
                        labels = scales::number_format()) +
-  coord_sf(crs = 4326) +
+  coord_sf(crs = 3857) +
   theme_minimal() 
 
 ```
 
 This approach is fairly effective, but one of the best visual tools I've come across for exploring map projections is [The True Size Of](https://www.thetruesize.com/). For a full visual explanation of the issues with traditional maps, you can find a great write-up [here](https://www.visualcapitalist.com/problem-with-our-maps/).
-
